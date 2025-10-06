@@ -1,0 +1,97 @@
+﻿**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+**/.idea
+**/*.*proj.user
+**/*.dbmdl
+**/*.jfm
+**/azds.yaml
+**/bin
+**/charts
+**/docker-compose*
+**/Dockerfile*
+**/node_modules
+**/npm-debug.log
+**/obj
+**/secrets.dev.yaml
+**/values.dev.yaml
+
+# VCS
+.git
+.gitignore
+.gitattributes
+
+# IDE / Editor
+.vscode/
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.code-workspace
+App/App.sln.DotSettings.user
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+**/Debug/
+**/Release/
+**/TestResults/
+
+# Logs & coverage
+**/*.log
+logs/
+**/coverage/
+coverage/
+*.coverage
+*.coveragexml
+
+# NuGet packages
+**/packages/
+packages/
+*.nupkg
+*.snupkg
+
+# Node (nếu có)
+node_modules/
+**/node_modules/
+
+# Docker Compose & scripts (không cần trong image)
+App/docker-compose.yml
+App/docker-compose.dev.yml
+App/docker-compose.stag.yml
+App/docker-compose.prod.yml
+App/scripts/
+
+# Env & secrets
+.env
+.env.*
+App/.env
+App/.env.*
+!App/.env.example
+App/certs/
+certs/
+
+# DB dumps / local DB
+*.db
+*.sqlite
+*.sqlite3
+*.bak
+*.sql
+
+# Temp
+*.swp
+*.tmp
+*.temp

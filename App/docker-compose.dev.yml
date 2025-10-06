@@ -1,0 +1,44 @@
+services:
+  api:  
+    profiles:
+      - ${DOCKER_COMPOSE_PROFILE:-App}
+      - ${API_COMPOSE_PROFILE:-Api}
+    env_file:
+      - .env.dev
+    ports:
+      - "${API_HTTP_PORT:-5095}:${API_CONTAINER_HTTP_PORT:-8080}"
+      - "${API_HTTPS_PORT:-5096}:${API_CONTAINER_HTTPS_PORT:-8443}"
+    # Uncomment to live-reload if needed
+    # volumes:
+    #   - ../App:/src/App:rw
+    #   - ./certs:/https:ro
+
+  mysql:
+    env_file:
+      - .env.dev
+    ports:
+      - "${MYSQL_HTTP_PORT:-3308}:${MYSQL_CONTAINER_HTTP_PORT:-3306}"
+
+  redis:
+    env_file:
+      - .env.dev
+    ports:
+      - "${REDIS_HTTP_PORT:-6380}:${REDIS_CONTAINER_HTTP_PORT:-6379}"
+
+  rabbitmq:
+    image: ${RABBITMQ_IMAGE_NAME:-rabbitmq}:${RABBITMQ_IMAGE_TAG:-management}
+    env_file:
+      - .env.dev
+    ports:
+      - "${RABBITMQ_HTTP_PORT:-5673}:${RABBITMQ_CONTAINER_HTTP_PORT:-5672}"
+      - "${RABBITMQ_MGMT_HTTP_PORT:-15672}:${RABBITMQ_CONTAINER_MGMT_HTTP_PORT:-15672}"
+
+  aspire-dashboard:
+    profiles:
+      - ${DOCKER_COMPOSE_PROFILE:-App}
+      - ${ASPIRE_COMPOSE_PROFILE:-Dashboard}
+    env_file:
+      - .env.dev
+    ports:
+      - "${ASPIRE_HTTP_PORT:-18888}:${ASPIRE_CONTAINER_HTTP_PORT:-18888}"
+

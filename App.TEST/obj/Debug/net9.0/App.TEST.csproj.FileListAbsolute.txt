@@ -1,0 +1,14 @@
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\bin\Debug\net9.0\App.TEST.exe
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\bin\Debug\net9.0\App.TEST.deps.json
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\bin\Debug\net9.0\App.TEST.runtimeconfig.json
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\bin\Debug\net9.0\App.TEST.dll
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\bin\Debug\net9.0\App.TEST.pdb
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\App.TEST.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\App.TEST.AssemblyInfoInputs.cache
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\App.TEST.AssemblyInfo.cs
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\App.TEST.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\App.TEST.dll
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\refint\App.TEST.dll
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\App.TEST.pdb
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\App.TEST.genruntimeconfig.cache
+C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App.TEST\obj\Debug\net9.0\ref\App.TEST.dll

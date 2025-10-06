@@ -1,0 +1,101 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2FE3209C-1289-46C2-B76E-930F2935723C}|..\\App.TEST\\App.TEST.csproj|c:\\users\\admin\\downloads\\webapi template for asp.net core\\app.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF67E7F7-63C2-4796-B8E6-E92594A8615B}|..\\App.DAL\\App.DAL.csproj|c:\\users\\admin\\downloads\\webapi template for asp.net core\\app.dal\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC58B3E4-44DA-477D-A5EF-6B28248D27BB}|..\\App.BLL\\App.BLL.csproj|c:\\users\\admin\\downloads\\webapi template for asp.net core\\app.bll\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B90A4F14-9F67-4BD8-A0EC-17E2F6CFDEAA}|..\\App.UTIL\\App.UTIL.csproj|c:\\users\\admin\\downloads\\webapi template for asp.net core\\app.util\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.TEST\\Program.cs",
+              "RelativeDocumentMoniker": "..\\App.TEST\\Program.cs",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.TEST\\Program.cs",
+              "RelativeToolTip": "..\\App.TEST\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T11:24:54.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.DAL\\Program.cs",
+              "RelativeDocumentMoniker": "..\\App.DAL\\Program.cs",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.DAL\\Program.cs",
+              "RelativeToolTip": "..\\App.DAL\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T11:24:27.048Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.BLL\\Program.cs",
+              "RelativeDocumentMoniker": "..\\App.BLL\\Program.cs",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.BLL\\Program.cs",
+              "RelativeToolTip": "..\\App.BLL\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T11:23:50.391Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.UTIL\\Program.cs",
+              "RelativeDocumentMoniker": "..\\App.UTIL\\Program.cs",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.UTIL\\Program.cs",
+              "RelativeToolTip": "..\\App.UTIL\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T11:23:23.035Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
