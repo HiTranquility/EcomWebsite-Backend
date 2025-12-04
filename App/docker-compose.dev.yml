@@ -1,44 +1,117 @@
+# ============================================
+# Development Environment Overrides
+# ============================================
+# This file overrides base configuration from docker-compose.yml
+# for development environment specific settings.
+
 services:
-  api:  
-    profiles:
-      - ${DOCKER_COMPOSE_PROFILE:-App}
-      - ${API_COMPOSE_PROFILE:-Api}
+  api:
     env_file:
       - .env.dev
+    
+    environment:
+      # Tất cả đã có trong .env.dev, chỉ override nếu cần
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS:-http://+:8080}
+
+      # Connection strings từ .env.dev
+      ConnectionStrings__MyUserSqlConn: ${ConnectionStrings__MyUserSqlConn}
+      ConnectionStrings__MyBlogSqlConn: ${ConnectionStrings__MyBlogSqlConn}
+      ConnectionStrings__MyProductSqlConn: ${ConnectionStrings__MyProductSqlConn}
+      ConnectionStrings__MyOrderSqlConn: ${ConnectionStrings__MyOrderSqlConn}
+    
+    # Expose ports for local development access
     ports:
       - "${API_HTTP_PORT:-5095}:${API_CONTAINER_HTTP_PORT:-8080}"
-      - "${API_HTTPS_PORT:-5096}:${API_CONTAINER_HTTPS_PORT:-8443}"
-    # Uncomment to live-reload if needed
+    
+    # Mount development certificates
+    # volumes:
+    #   - ./certs/dev:/https:ro
+    
+    # Uncomment for live-reload during development (hot reload)
     # volumes:
     #   - ../App:/src/App:rw
     #   - ./certs:/https:ro
 
+  # ============================================
+  # MySQL Service - Dev Overrides
+  # ============================================
   mysql:
+    # Development environment file
     env_file:
       - .env.dev
+    
+    # MySQL environment variables (override from .env.dev if needed)
+    # Note: MYSQL_USER và MYSQL_PASSWORD chỉ dùng cho user thường, KHÔNG dùng cho root
+    # Để login từ máy ngoài qua port 3308, chỉ cần dùng: mysql -h 127.0.0.1 -P 3308 -uroot -pCaVN2004
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-CaVN2004}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-EcomWebsite}
+      MYSQL_USER: ${MYSQL_USER:-user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+    
+    # Expose MySQL port for local development access
     ports:
       - "${MYSQL_HTTP_PORT:-3308}:${MYSQL_CONTAINER_HTTP_PORT:-3306}"
 
+  # ============================================
+  # Redis Service - Dev Overrides
+  # ============================================
   redis:
+    # Development environment file
     env_file:
       - .env.dev
+    
+    # Expose Redis port for local development access
     ports:
       - "${REDIS_HTTP_PORT:-6380}:${REDIS_CONTAINER_HTTP_PORT:-6379}"
 
+  # ============================================
+  # RabbitMQ Service - Dev Overrides
+  # ============================================
   rabbitmq:
-    image: ${RABBITMQ_IMAGE_NAME:-rabbitmq}:${RABBITMQ_IMAGE_TAG:-management}
+    # Development environment file
     env_file:
       - .env.dev
+    
+    # Expose RabbitMQ ports for local development access
+    # Port 5672: AMQP protocol
+    # Port 15672: Management UI (only in dev)
     ports:
       - "${RABBITMQ_HTTP_PORT:-5673}:${RABBITMQ_CONTAINER_HTTP_PORT:-5672}"
       - "${RABBITMQ_MGMT_HTTP_PORT:-15672}:${RABBITMQ_CONTAINER_MGMT_HTTP_PORT:-15672}"
 
-  aspire-dashboard:
-    profiles:
-      - ${DOCKER_COMPOSE_PROFILE:-App}
-      - ${ASPIRE_COMPOSE_PROFILE:-Dashboard}
+  # ============================================
+  # RedisInsight Service - Dev Overrides
+  # ============================================
+  redisinsight:
+    # Development environment file
     env_file:
       - .env.dev
+    
+    # Expose RedisInsight UI port for local development access
+    # Access at http://localhost:8001
+    ports:
+      - "${REDISINSIGHT_HTTP_PORT:-8001}:${REDISINSIGHT_CONTAINER_HTTP_PORT:-8001}"
+    
+    # Optional: Mount volume để persist RedisInsight data
+    # volumes:
+    #   - redisinsight-data:/data
+
+  # ============================================
+  # Aspire Dashboard Service - Dev Overrides
+  # ============================================
+  aspire-dashboard:
+    env_file:
+      - .env.dev
+    
+    environment:
+      # Override với prefix riêng cho Aspire Dashboard
+      ASPNETCORE_URLS: ${ASPIRE_ASPNETCORE_URLS:-http://+:18888}
+      # ASPNETCORE_Kestrel__Endpoints__Https__Url: ${ASPIRE_ASPNETCORE_Kestrel__Endpoints__Https__Url:-}
+      # ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path: ${ASPIRE_ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path:-}
+      # ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password: ${ASPIRE_ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password:-}
+    
     ports:
       - "${ASPIRE_HTTP_PORT:-18888}:${ASPIRE_CONTAINER_HTTP_PORT:-18888}"
 

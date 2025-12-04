@@ -1,5 +1,5 @@
-using App.DAL.BlogModels;
 using Bogus;
+using App.UTIL.Extensions;
 
 namespace App.DAL.DataSeedings.BlogExtensions;
 
@@ -12,8 +12,8 @@ public static class BlogExtension
             var now = DateTime.UtcNow;
             var faker = new Faker<BlogModels.Blog>()
                 .RuleFor(b => b.Title, f => f.Lorem.Sentence(6))
+                .RuleFor(b => b.Slug, (f, b) => SlugServiceExtensions.ToSlug(b.Title ?? f.Lorem.Sentence(6)))
                 .RuleFor(b => b.Content, f => f.Lorem.Paragraphs(2))
-                .RuleFor(b => b.ImageUrl, f => f.Image.PicsumUrl())
                 .RuleFor(b => b.Author, f => f.Person.FullName)
                 .RuleFor(b => b.QuoteId, f => quotes.Count == 0 ? (int?)null : quotes[f.Random.Int(0, quotes.Count - 1)].Id)
                 .RuleFor(b => b.CommentCount, _ => 0)

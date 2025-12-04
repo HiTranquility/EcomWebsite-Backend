@@ -1,23 +1,27 @@
 ﻿## Compose scripts usage (Dev / Staging / Prod)
 
+> 📖 **For detailed documentation**, see [DOCKER_COMPOSE.md](./App/DOCKER_COMPOSE.md)
+
 ### Prerequisites
 - Docker Desktop (or Docker Engine)
 - PowerShell 7+ on Windows, or Bash on WSL/macOS/Linux
 
 ### Environment files
-1) Copy the example to each environment file under `App/`:
+1) Copy the samples to each environment file under `App/`:
 ```bash
 cd App
-cp .env.example .env.dev
-cp .env.example .env.stag
-cp .env.example .env.prod
+cp env.sample .env
+cp env.dev.sample .env.dev
+cp env.sample .env.stag
+cp env.sample .env.prod
 ```
 2) Edit values per environment:
-- `ConnectionStrings__MyUserSqlConn`, `ConnectionStrings__MyBlogSqlConn`
+- Connection strings (`ConnectionStrings__*`) pointing to DB hosts
 - `JwtSettings__SecretKey`, `Cors__AllowedOrigins`
-- Staging/Prod: set `ASPNETCORE_HTTPS_PASSWORD` and place PFX certs:
-  - `App/certs/staging/stagingcert.pfx`
-  - `App/certs/prod/prodcert.pfx`
+- HTTPS certificate & password:
+  - Dev: place `App/certs/dev/devcert.pfx` (set `ASPNETCORE_HTTPS_PASSWORD` if the PFX is protected)
+  - Staging: `App/certs/staging/stagingcert.pfx`
+  - Prod: `App/certs/prod/prodcert.pfx`
 
 ### Windows (PowerShell)
 Run from the `App/` directory:
@@ -93,3 +97,16 @@ chmod +x ./scripts/compose-*.sh
 - Ensure the correct working directory: run scripts from `App/`
 - Make sure `.env.dev` / `.env.stag` / `.env.prod` exist
 - If ports are busy, change the host ports in the corresponding env file (`API_HTTP_PORT`, `API_HTTPS_PORT`, etc.)
+
+### Development Database .ENV (Not used for Docker)
+    "MyUserSqlConn": "Server=localhost;Port=3306;Database=ecom_users;User=root;Password=CaVN2004",
+    "MyBlogSqlConn": "Server=localhost;Port=3306;Database=ecom_blogs;User=root;Password=CaVN2004",
+    "MyProductSqlConn": "Server=localhost;Port=3306;Database=ecom_products;User=root;Password=CaVN2004",
+    "MyOrderSqlConn": "Server=localhost;Port=3306;Database=ecom_orders;User=root;Password=CaVN2004"
+
+    //Down
+  docker compose --profile App --env-file .env.dev -f docker-compose.yml -f docker-compose.dev.yml down -v
+
+    //Up
+    docker compose --profile App --env-file .env.dev -f docker-compose.yml -f docker-compose.dev.yml build --no-cache api
+    docker compose --profile App --env-file .env.dev -f docker-compose.yml -f docker-compose.dev.yml up --build -d

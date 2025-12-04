@@ -1,7 +1,7 @@
 using App.DAL.UserModels;
 using Bogus;
 
-namespace App.DAL.DataSeedings.ModelExtensions;
+namespace App.DAL.DataSeedings.UserExtensions;
 
 public static class WishlistExtension
 {

@@ -9,9 +9,9 @@ public partial class Blog
 
     public string? Title { get; set; }
 
-    public string? Content { get; set; }
+    public string? Slug { get; set; }
 
-    public string? ImageUrl { get; set; }
+    public string? Content { get; set; }
 
     public string? Author { get; set; }
 
@@ -32,6 +32,8 @@ public partial class Blog
     public virtual ICollection<BlogComment> BlogComments { get; set; } = new List<BlogComment>();
 
     public virtual ICollection<BlogTagJoin> BlogTagJoins { get; set; } = new List<BlogTagJoin>();
+
+    public virtual ICollection<BlogVariant> BlogVariants { get; set; } = new List<BlogVariant>();
 
     public virtual Quote? Quote { get; set; }
 }

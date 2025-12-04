@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using App.UTIL.Abstractions.DAL;
+using AutoMapper;
 
 namespace App.UTIL.Abstractions.BLL;
 
@@ -8,12 +9,15 @@ public class GenericSvc<D, T> : IGenericSvc<T>
     where D : IGenericRepo<T>
 {
     protected readonly D _repo;
+    protected readonly IMapper _mapper;
+    
 
-    public GenericSvc(D repo)
+    // Constructor với IMapper (recommended)
+    public GenericSvc(D repo, IMapper mapper)
     {
         _repo = repo;
+        _mapper = mapper;
     }
-
     public virtual async Task<T?> CreateAsync(T m, CancellationToken ct = default)
     {
         await _repo.CreateAsync(m, ct);

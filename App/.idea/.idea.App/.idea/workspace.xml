@@ -6,6 +6,10 @@
     <projectFile>../App.TEST/App.TEST.csproj</projectFile>
     <projectFile>../App.UTIL/App.UTIL.csproj</projectFile>
     <projectFile kind="Docker">App.csproj</projectFile>
+    <projectFile profileName="Dev (http)">App.csproj</projectFile>
+    <projectFile profileName="Dev (https)">App.csproj</projectFile>
+    <projectFile profileName="Production">App.csproj</projectFile>
+    <projectFile profileName="Staging">App.csproj</projectFile>
     <projectFile profileName="http">App.csproj</projectFile>
     <projectFile profileName="https">App.csproj</projectFile>
   </component>
@@ -13,7 +17,296 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab24c6cd-9b31-42c0-a43b-978d0462069d" name="Changes" comment="" />
+    <list default="true" id="ab24c6cd-9b31-42c0-a43b-978d0462069d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Google/CallbackReq.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Google/IdTokenReq.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/ForgotPasswordReq.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/LoginReq.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/RefreshTokenReq.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/RegisterReq.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/VerifyEmailReq.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Results/AuthSessionRes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Shares/UserInfoItem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/ProductFilter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Requests/CreateReviewReq.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Results/ProductDescriptionRes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Results/ProductListRes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Results/ProductReviewRes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Shares/ProductItems.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Mappers/ProductProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Services/BlogCommentSvc.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.BLL/Services/ProductReviewSvc.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogSchema.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/ProductExtensions/ProductExtension.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.DAL/Repositories/ProductRepo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.DAL/Repositories/RefreshTokenRepo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.DAL/Repositories/RoleRepo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.DAL/Repositories/SocialAccountRepo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/ISeedSchema.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/SeedSchema.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/CacheServiceExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/MessageServiceExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/PasswordHasherExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/SlugServiceExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/HybridCacheService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Facebook/FacebookService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Facebook/IFacebookService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Google/GoogleService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Token/ITokenService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Token/JwtTokenService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controllers/OrderController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/App.BLL.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/App.BLL.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/ForgotPasswordReq.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/LoginReq.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/RegisterReq.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/ResetPasswordReq.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Results/ProfileRes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/BlogFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/BlogFilter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/Results/BlogListRes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/Results/BlogListRes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Mappers/AuthProfile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Mappers/BlogProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Mappers/BlogProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Services/AuthSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Services/AuthSvc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Services/BlogSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Services/BlogSvc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/AutoMapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/AutoMapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/App.BLL.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/App.BLL.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/ref/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/ref/App.BLL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/refint/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/refint/App.BLL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/App.DAL.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/App.DAL.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/BlogModels/Blog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/BlogModels/Blog.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/BlogModels/BlogComment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/BlogModels/BlogComment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/BlogModels/EcomBlogsContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/BlogModels/EcomBlogsContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogCategoryExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogCategoryExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogCommentExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogCommentExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/ModelBuilderExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/ModelBuilderExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/AddressBookExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/AddressBookExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/AuditLogExtension.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/CartExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/CartExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/ContactExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/ContactExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/NewsletterExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/NewsletterExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/UserExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/UserExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/UserTagExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/UserTagExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/WishlistExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/WishlistExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/Repositories/BlogRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/Repositories/BlogRepo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/Repositories/UserRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/Repositories/UserRepo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/UserModels/AuditLog.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/UserModels/EcomUsersContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/UserModels/EcomUsersContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/UserModels/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/UserModels/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/System.CodeDom.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/System.CodeDom.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/App.DAL.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/App.DAL.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/ref/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/ref/App.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/refint/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/refint/App.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/App.TEST.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/App.TEST.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/App.TEST.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/App.TEST.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/ref/App.TEST.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/ref/App.TEST.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/refint/App.TEST.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/refint/App.TEST.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/BLL/GenericSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/BLL/GenericSvc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/GenericRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/GenericRepo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/IGenericRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/IGenericRepo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Filter/BaseFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Filter/BaseFilter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Filter/IFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Filter/IFilter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/App.UTIL.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/App.UTIL.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Extensions/ClaimsPrincipalExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/ClaimsPrincipalExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/DistributedCacheAdapter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/DistributedCacheService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/HybridCacheAdapter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/ICacheService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/ICacheService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/MemoryCacheAdapter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/MemoryCacheService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Jwt/IJwtService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Jwt/JwtAdapter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Message/IMessageService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Message/KafkaAdapter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Message/RabbitMqAdapter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/App.UTIL.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/App.UTIL.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/App.UTIL.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/App.UTIL.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/ref/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/ref/App.UTIL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/refint/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/refint/App.UTIL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.dev" beforeDir="false" afterPath="$PROJECT_DIR$/.env.dev" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.prod" beforeDir="false" afterPath="$PROJECT_DIR$/.env.prod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.stag" beforeDir="false" afterPath="$PROJECT_DIR$/.env.stag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.App/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.App/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/App.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configurations/ApplicationConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/ApplicationConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configurations/AuthenticationConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/AuthenticationConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configurations/AuthorizationConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/AuthorizationConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configurations/CachingConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/CachingConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configurations/DatabaseConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/DatabaseConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configurations/ObservabilityConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/ObservabilityConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configurations/OtherConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/OtherConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configurations/SwaggerConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/SwaggerConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/BlogController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/BlogController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Middlewares/ExceptionMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Middlewares/ExceptionMiddleware.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appsettings.Production.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.Production.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appsettings.Staging.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.Staging.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/AutoMapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/AutoMapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Options.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Options.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/System.CodeDom.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/System.CodeDom.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Production.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Production.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Staging.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Staging.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.stag.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.stag.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/App.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/App.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/App.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/obj/App.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.MvcApplicationPartsAssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.MvcApplicationPartsAssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/ref/App.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/ref/App.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/refint/App.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/refint/App.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/compose-dev.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/compose-dev.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/compose-prod.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/compose-prod.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/compose-stag.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/compose-stag.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,33 +322,61 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;HiTranquility&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/HiTranquility/EcomWebsite-Backend&quot;,
+    &quot;accountId&quot;: &quot;1eed9d37-6e78-4d4b-aea2-15a693069390&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bd1d5c50194fea68ff3559c160230b0ab50f5acf4ce3061bffd6d62958e2182/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/BlogFilter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.BLL/Mappers/AuthProfile.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.BLL/Services/AuthSvc.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/ProductFilter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Requests/CreateReviewReq.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Results/ProductListRes.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.BLL/Mappers/BlogCommentProfile.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.BLL/Mappers/ProductProfile.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.BLL/Mappers/ProductReviewSvc.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.BLL/Services/BlogCommentSvc.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.BLL/Services/BlogSvc.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.BLL/Services/ProductReviewSvc.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.DAL/DataSeedings/BlogSchema.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.DAL/DataSeedings/ProductExtensions/ProductExtension.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.DAL/Repositories/BlogCommentRepo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.DAL/Repositories/BlogRepo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.DAL/Repositories/ProductRepo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.DAL/Repositories/RefreshTokenRepo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.DAL/Repositories/UserRepo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/BLL/GenericSvc.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/BLL/IGenericSvc.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/GenericRepo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/IGenericRepo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/SeedSchema.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Request/BaseRequest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Request/IRequest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Response/BaseResponse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Response/IResponse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Result/BaseResult.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Result/IResult.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.UTIL/Extensions/CacheServiceExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Extensions/ClaimsPrincipalExtensions.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Cache/HybridCacheAdapter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.UTIL/Extensions/MessageServiceExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.UTIL/Extensions/PasswordHasherExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.UTIL/Extensions/SlugServiceExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Cache/ICacheService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Cache/MemoryCacheAdapter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Jwt/IJwtService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Jwt/JwtAdapter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Message/IMessageService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Message/KafkaAdapter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Message/RabbitMqAdapter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Google/GoogleService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Token/ITokenService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../App.UTIL/Helpers/Token/JwtTokenService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/.gitlab-ci.yml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Configurations/ApplicationConfig.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Configurations/AuthenticationConfig.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Configurations/AuthorizationConfig.cs" root0="FORCE_HIGHLIGHTING" />
@@ -64,13 +385,19 @@
     <setting file="file://$PROJECT_DIR$/Configurations/ObservabilityConfig.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Configurations/OtherConfig.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Configurations/SwaggerConfig.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Controllers/AuthController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Controllers/BlogController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Controllers/OrderController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Controllers/ProductController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Middlewares/CorrelationMiddleware.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Middlewares/ExceptionMiddleware.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/docker-compose.yml" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -82,19 +409,31 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.App: Dev (http).executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.App: Dev (https).executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.App: Staging.executor&quot;: &quot;Run&quot;,
     &quot;.NET Launch Settings Profile.App: http.executor&quot;: &quot;Run&quot;,
     &quot;.NET Launch Settings Profile.App: https.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.App: http">
+  <component name="RunManager" selected=".NET Launch Settings Profile.App: Dev (http)">
     <configuration name="App.BLL" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -187,10 +526,10 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="App: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+    <configuration name="App: Dev (http)" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/App.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="http" />
+      <option name="LAUNCH_PROFILE_NAME" value="Dev (http)" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
@@ -203,10 +542,10 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="App: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+    <configuration name="App: Dev (https)" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/App.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="https" />
+      <option name="LAUNCH_PROFILE_NAME" value="Dev (https)" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
@@ -219,29 +558,37 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
-      <deployment type="dockerfile">
-        <settings>
-          <option name="containerName" value="app" />
-          <option name="contextFolderPath" value="C:\Users\Admin\Downloads\WebAPI Template for ASP.NET Core\App" />
-          <option name="envVars">
-            <list>
-              <DockerEnvVarImpl>
-                <option name="name" value="ASPNETCORE_HTTPS_PORTS" />
-                <option name="value" value="8081" />
-              </DockerEnvVarImpl>
-              <DockerEnvVarImpl>
-                <option name="name" value="ASPNETCORE_HTTP_PORTS" />
-                <option name="value" value="8080" />
-              </DockerEnvVarImpl>
-            </list>
-          </option>
-          <option name="publishAllPorts" value="true" />
-          <option name="sourceFilePath" value="Dockerfile" />
-        </settings>
-      </deployment>
-      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="true" />
-      <method v="2" />
+    <configuration name="App: Production" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/App.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="Production" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="App: Staging" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/App.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="Staging" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
@@ -253,15 +600,6 @@
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
         <settings />
-      </deployment>
-      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
-      <method v="2" />
-    </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
       </deployment>
       <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
@@ -286,12 +624,72 @@
       <workItem from="1759640337590" duration="20410000" />
       <workItem from="1759710734855" duration="6737000" />
       <workItem from="1759726649748" duration="1378000" />
+      <workItem from="1759819389933" duration="4555000" />
+      <workItem from="1760197380776" duration="1440000" />
+      <workItem from="1760198850788" duration="110000" />
+      <workItem from="1760198985339" duration="67000" />
+      <workItem from="1760199074269" duration="3362000" />
+      <workItem from="1760544539645" duration="179000" />
+      <workItem from="1760629568741" duration="5086000" />
+      <workItem from="1760639134883" duration="1572000" />
+      <workItem from="1760680145260" duration="12629000" />
+      <workItem from="1760874446559" duration="2158000" />
+      <workItem from="1760937702170" duration="8918000" />
+      <workItem from="1760966516567" duration="7084000" />
+      <workItem from="1760978346604" duration="4720000" />
+      <workItem from="1761193596524" duration="4926000" />
+      <workItem from="1761275063397" duration="9719000" />
+      <workItem from="1761370000089" duration="5470000" />
+      <workItem from="1761473488070" duration="670000" />
+      <workItem from="1761666388690" duration="7783000" />
+      <workItem from="1761800726377" duration="3310000" />
+      <workItem from="1761842106999" duration="6639000" />
+      <workItem from="1761904297514" duration="1789000" />
+      <workItem from="1761962073293" duration="13638000" />
+      <workItem from="1762063702226" duration="11736000" />
+      <workItem from="1762137758549" duration="997000" />
+      <workItem from="1762140403667" duration="24000" />
+      <workItem from="1762140536278" duration="7897000" />
+      <workItem from="1762156384754" duration="737000" />
+      <workItem from="1762581437061" duration="7186000" />
+      <workItem from="1762652245455" duration="608000" />
+      <workItem from="1762667540320" duration="383000" />
+      <workItem from="1762684753771" duration="1424000" />
+      <workItem from="1762735993606" duration="3281000" />
+      <workItem from="1762760614187" duration="851000" />
+      <workItem from="1762822779029" duration="1097000" />
+      <workItem from="1762833258932" duration="7858000" />
+      <workItem from="1762919934435" duration="15339000" />
+      <workItem from="1763010800355" duration="8698000" />
+      <workItem from="1763099936095" duration="2845000" />
+      <workItem from="1763182312328" duration="9022000" />
+      <workItem from="1763289061978" duration="3552000" />
+      <workItem from="1763351421437" duration="158000" />
+      <workItem from="1763364299638" duration="719000" />
+      <workItem from="1763440771896" duration="7127000" />
+      <workItem from="1763522172458" duration="3092000" />
+      <workItem from="1763703402391" duration="876000" />
+      <workItem from="1763704857634" duration="5724000" />
+      <workItem from="1763711339042" duration="3155000" />
+      <workItem from="1763716906979" duration="2189000" />
+      <workItem from="1763815512982" duration="1058000" />
+      <workItem from="1763891541144" duration="15469000" />
+      <workItem from="1764082826061" duration="6784000" />
+      <workItem from="1764174487320" duration="3323000" />
+      <workItem from="1764218802916" duration="2077000" />
+      <workItem from="1764298129308" duration="187000" />
+      <workItem from="1764492158325" duration="8981000" />
+      <workItem from="1764643010441" duration="4436000" />
+      <workItem from="1764685915494" duration="6692000" />
+      <workItem from="1764748791144" duration="6649000" />
+      <workItem from="1764826406038" duration="2578000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
@@ -311,6 +709,19 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/../App.DAL/Repositories/SocialAccountRepo.cs</url>
+          <line>30</line>
+          <properties documentPath="C:\Users\Admin\Downloads\EcomWebsitev5\EcomWebsite-Backend\App.DAL\Repositories\SocialAccountRepo.cs" containingFunctionPresentation="Lambda expression inside Method 'GetByUserIdAsync'">
+            <startOffsets>
+              <option value="1019" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1062" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

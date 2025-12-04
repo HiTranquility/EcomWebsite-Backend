@@ -1,6 +1,6 @@
 ﻿using OpenTelemetry.Exporter;
 using OpenTelemetry.Resources;
-using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.HttpLogging; 
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -9,7 +9,7 @@ namespace App.Configurations;
 
 public static class ObservabilityConfig
 {
-// --- HTTP Logging ---
+    // --- HTTP Logging ---
     public static IServiceCollection ConfigureHttpLogging(this IServiceCollection services, IConfiguration configuration)
     {
         var httpLogSection = configuration.GetSection("HttpLogging");
@@ -95,8 +95,7 @@ public static class ObservabilityConfig
             {
                 t.AddAspNetCoreInstrumentation();
                 t.AddHttpClientInstrumentation();
-                t.AddSource("App.Cache");
-                //t.AddEntityFrameworkCoreInstrumentation();
+                t.AddSource("App.Cache"); 
 
                 t.AddOtlpExporter(o =>
                 {

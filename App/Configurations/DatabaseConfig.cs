@@ -1,30 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using App.DAL.BlogModels;
 using App.DAL.UserModels;
 using App.DAL.DataSeedings;
+using App.UTIL.Abstractions.DAL;
+using App.DAL.ProductModels;
+using App.DAL.OrderModels;
 
 namespace App.Configurations;
 
 public static class DatabaseConfig
 {
-    private enum DbInitStrategy
-    {
-        Auto,
-        Migrate,
-        Model
-    }
-
     /// <summary>
     /// Đăng ký DbContext với connection string từ configuration
     /// </summary>
     public static IServiceCollection ConfigurePersistence(this IServiceCollection services, IConfiguration configuration)
     {
         //Tương lai, nếu chỉ có 1 cái thi xoa bot
+        var dbSection = configuration.GetSection("Database");
         services.AddDbContext<EcomUsersContext>(options =>
         {
             var conn = configuration.GetConnectionString("MyUserSqlConn");
-            var maxBatch = configuration.GetSection("Database").GetValue<int>("BatchSizeUsers", 1000);
+            // Read from UserSchema.BatchSize first, fallback to BatchSizeUsers, then default
+            var maxBatch = dbSection.GetSection("UserSchema").GetValue<int?>("BatchSize")
+                ?? dbSection.GetValue<int?>("BatchSizeUsers")
+                ?? 1000;
             options.UseMySql(conn, ServerVersion.AutoDetect(conn), o => o.MaxBatchSize(maxBatch))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
@@ -33,13 +34,43 @@ public static class DatabaseConfig
         services.AddDbContext<EcomBlogsContext>(options =>
         {
             var conn = configuration.GetConnectionString("MyBlogSqlConn");
-            var maxBatch = configuration.GetSection("Database").GetValue<int>("BatchSizeBlogs", 1000);
+            // Read from BlogSchema.BatchSize first, fallback to BatchSizeBlogs, then default
+            var maxBatch = dbSection.GetSection("BlogSchema").GetValue<int?>("BatchSize")
+                ?? dbSection.GetValue<int?>("BatchSizeBlogs")
+                ?? 1000;
+            options.UseMySql(conn, ServerVersion.AutoDetect(conn), o => o.MaxBatchSize(maxBatch))
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
+        services.AddDbContext<EcomProductsContext>(options =>
+        {
+            var conn = configuration.GetConnectionString("MyProductSqlConn");
+            // Read from ProductSchema.BatchSize first, fallback to BatchSizeProducts, then default
+            var maxBatch = dbSection.GetSection("ProductSchema").GetValue<int?>("BatchSize")
+                ?? dbSection.GetValue<int?>("BatchSizeProducts")
+                ?? 500;
+            options.UseMySql(conn, ServerVersion.AutoDetect(conn), o => o.MaxBatchSize(maxBatch))
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
+        services.AddDbContext<EcomOrdersContext>(options =>
+        {
+            var conn = configuration.GetConnectionString("MyOrderSqlConn");
+            var maxBatch = dbSection.GetSection("OrderSchema").GetValue<int?>("BatchSize")
+                ?? dbSection.GetValue<int?>("BatchSizeOrders")
+                ?? 500;
             options.UseMySql(conn, ServerVersion.AutoDetect(conn), o => o.MaxBatchSize(maxBatch))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
         services.AddHostedService<DatabaseInitializerHostedService>();
+        services.AddTransient<BlogSchema>();
+        services.AddTransient<UserSchema>();
+        services.AddTransient<ProductSchema>();
+        services.AddTransient<OrderSchema>();
         return services;
     }
 
@@ -63,145 +94,165 @@ public static class DatabaseConfig
 
             var config = services.GetRequiredService<IConfiguration>();
             var envHost = services.GetRequiredService<IHostEnvironment>();
-            var db = services.GetRequiredService<EcomUsersContext>();
-            var blogDb = services.GetRequiredService<EcomBlogsContext>();
 
-            var dbSection = config.GetSection("Database");
-            var defaultRecreate = envHost.IsDevelopment();
-            var autoMigrate = dbSection.GetValue<bool>("AutoMigrate", true);
-            var autoSeed = dbSection.GetValue<bool>("AutoSeed", false);
-            var recreate = dbSection.GetValue<bool>("Recreate", defaultRecreate);
-
-            var defaultStrategyName = envHost.IsDevelopment() ? nameof(DbInitStrategy.Model) : nameof(DbInitStrategy.Migrate);
-            var strategyStr = dbSection.GetValue<string>("Strategy", defaultStrategyName);
-            Enum.TryParse<DbInitStrategy>(strategyStr, ignoreCase: true, out var strategy);
+			var dbSection = config.GetSection("Database");
+			var seedEnabled = dbSection.GetValue<bool>("SeedEnabled", false);
+			var recreateOnStart = dbSection.GetValue<bool>("RecreateOnStart", false);
+			var schemaMode = dbSection.GetValue<string>("SchemaMode")?.Trim() ?? "None";
 
             const int maxRetries = 10;
             for (var attempt = 1; attempt <= maxRetries; attempt++)
             {
                 try
                 {
-                    if (recreate)
+					if (recreateOnStart)
                     {
-                        _logger.LogWarning("Recreating database schema (users + blogs)...");
+                        _logger.LogWarning("Recreating database schema (users + blogs + products)...");
+                        var db = services.GetRequiredService<EcomUsersContext>();
+                        var blogDb = services.GetRequiredService<EcomBlogsContext>();
+                        var productDb = services.GetRequiredService<EcomProductsContext>();
                         db.Database.EnsureDeleted();
                         blogDb.Database.EnsureDeleted();
+                        productDb.Database.EnsureDeleted();
                     }
 
-                    if (autoMigrate)
+					if (!string.Equals(schemaMode, "None", StringComparison.OrdinalIgnoreCase))
                     {
-                        // Users DB
-                        switch (strategy)
+                        var db = services.GetRequiredService<EcomUsersContext>();
+						// Users DB
+						if (string.Equals(schemaMode, "Migrate", StringComparison.OrdinalIgnoreCase))
                         {
-                            case DbInitStrategy.Migrate:
-                                _logger.LogInformation("Users DB: Applying migrations...");
-                                db.Database.Migrate();
-                                break;
-                            case DbInitStrategy.Model:
-                                _logger.LogInformation("Users DB: Ensuring created from model...");
-                                db.Database.EnsureCreated();
-                                break;
-                            default:
-                                var hasMigrationsUsers = db.Database.GetMigrations().Any();
-                                if (hasMigrationsUsers)
-                                {
-                                    _logger.LogInformation("Users DB: Migrations found. Applying...");
-                                    db.Database.Migrate();
-                                }
-                                else
-                                {
-                                    _logger.LogInformation("Users DB: No migrations. Ensuring created from model...");
-                                    db.Database.EnsureCreated();
-                                }
-                                break;
+                            _logger.LogInformation("Users DB: Applying migrations...");
+                            db.Database.Migrate();
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Users DB: Ensuring created from model...");
+                            db.Database.EnsureCreated();
                         }
 
                         // Blogs DB
-                        switch (strategy)
+                        var blogDb = services.GetRequiredService<EcomBlogsContext>();
+						if (string.Equals(schemaMode, "Migrate", StringComparison.OrdinalIgnoreCase))
                         {
-                            case DbInitStrategy.Migrate:
-                                _logger.LogInformation("Blogs DB: Applying migrations...");
-                                blogDb.Database.Migrate();
-                                break;
-                            case DbInitStrategy.Model:
-                                _logger.LogInformation("Blogs DB: Ensuring created from model...");
-                                blogDb.Database.EnsureCreated();
-                                break;
-                            default:
-                                var hasMigrationsBlogs = blogDb.Database.GetMigrations().Any();
-                                if (hasMigrationsBlogs)
-                                {
-                                    _logger.LogInformation("Blogs DB: Migrations found. Applying...");
-                                    blogDb.Database.Migrate();
-                                }
-                                else
-                                {
-                                    _logger.LogInformation("Blogs DB: No migrations. Ensuring created from model...");
-                                    blogDb.Database.EnsureCreated();
-                                }
-                                break;
+                            _logger.LogInformation("Blogs DB: Applying migrations...");
+                            blogDb.Database.Migrate();
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Blogs DB: Ensuring created from model...");
+                            blogDb.Database.EnsureCreated();
+                        }
+
+                        // Products DB
+                        var productDb = services.GetRequiredService<EcomProductsContext>();
+                        if (string.Equals(schemaMode, "Migrate", StringComparison.OrdinalIgnoreCase))
+                        {
+                            _logger.LogInformation("Products DB: Applying migrations...");
+                            productDb.Database.Migrate();
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Products DB: Ensuring created from model...");
+                            productDb.Database.EnsureCreated();
                         }
                     }
 
-                    if (autoSeed)
+					if (seedEnabled)
                     {
-                        _logger.LogInformation("Seeding sample data via ModelBuilderExtensions...");
-                        var include = dbSection.GetValue<string>("SeedInclude");
-                        if (string.IsNullOrWhiteSpace(include) || include.Contains("Users", StringComparison.OrdinalIgnoreCase))
+                        _logger.LogInformation("Seeding sample data via schemas...");
+                        // Build include set from array or fallback string
+                        var includeSection = dbSection.GetSection("SeedInclude");
+                        HashSet<string>? includeSet = null;
+                        if (includeSection.Exists() && includeSection.GetChildren().Any())
                         {
-                        var usersCount = dbSection.GetValue<int>("UsersCount", 200);
-                            var abPerUser = dbSection.GetValue<int>("AddressBooksPerUser", 2);
-                            var auditPerUser = dbSection.GetValue<int>("AuditLogsPerUser", 5);
-                            var cartsPerUser = dbSection.GetValue<int>("CartsPerUser", 3);
-                            var contactsCount = dbSection.GetValue<int>("ContactsCount", 50);
-                            var newsletterP = dbSection.GetValue<float>("NewslettersProbabilityPerUser", 0.3f);
-                            var tagsPerUser = dbSection.GetValue<int>("UserTagsPerUser", 4);
-                            var wishlistsPerUser = dbSection.GetValue<int>("WishlistsPerUser", 5);
-                        var batchSizeUsers = dbSection.GetValue<int>("BatchSizeUsers", 1000);
-                        var perBatchTx = dbSection.GetValue<bool>("PerBatchTransaction", true);
+                            var arr = includeSection.Get<string[]>() ?? Array.Empty<string>();
+                            includeSet = arr.Length == 0 ? null : new HashSet<string>(arr, StringComparer.OrdinalIgnoreCase);
+                        }
+                        else
+                        {
+                            var includeStr = dbSection.GetValue<string>("SeedInclude");
+                            includeSet = string.IsNullOrWhiteSpace(includeStr) ? null
+                                : new HashSet<string>(includeStr.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries), StringComparer.OrdinalIgnoreCase);
+                        }
+                        var isDev = services.GetRequiredService<IHostEnvironment>().IsDevelopment();
+                        var perBatchTransaction = dbSection.GetValue<bool>("PerBatchTransaction", true);
 
-                            await ModelBuilderExtensions.SeedUserTablesAsync(
-                                db,
-                                usersCount,
-                                abPerUser,
-                                auditPerUser,
-                                cartsPerUser,
-                                contactsCount,
-                                newsletterP,
-                                tagsPerUser,
-                                wishlistsPerUser,
-                                batchSizeUsers,
-                                perBatchTx,
-                                cancellationToken
-                            );
+                        // Helper method to bind and run schema
+                        async Task BindAndRunSchema<TContext, TSchema>(
+                            string schemaKey,
+                            string configSectionName,
+                            Func<IServiceProvider, TContext> getContext,
+                            Func<TContext, TSchema> createSchema)
+                            where TContext : DbContext
+                            where TSchema : SeedSchema<TContext>
+                        {
+                            if (includeSet != null && !includeSet.Contains(schemaKey))
+                            {
+                                _logger.LogInformation("Skipping {SchemaKey} schema (not in SeedInclude)", schemaKey);
+                                return;
+                            }
+
+                            _logger.LogInformation("Seeding {SchemaKey} schema...", schemaKey);
+                            try
+                            {
+                                var context = getContext(services);
+                                var schema = createSchema(context);
+                                var schemaSection = dbSection.GetSection(configSectionName);
+                                
+                                // Bind configuration to schema object
+                                if (schemaSection.Exists() && schemaSection.GetChildren().Any())
+                                {
+                                    schemaSection.Bind(schema);
+                                    _logger.LogInformation("{SchemaKey} schema configuration bound from {Section}", schemaKey, configSectionName);
+                                }
+                                else
+                                {
+                                    _logger.LogWarning("{Section} section not found in configuration, using defaults", configSectionName);
+                                }
+                                
+                                // Set common properties
+                                schema.PerBatchTransaction = perBatchTransaction;
+                                schema.Include = includeSet;
+                                schema.EnableDiagnostics = isDev;
+
+                                await schema.RunAsync(cancellationToken);
+                                _logger.LogInformation("{SchemaKey} schema seeding completed successfully", schemaKey);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, "Error seeding {SchemaKey} schema", schemaKey);
+                                throw;
+                            }
                         }
 
-                        if (string.IsNullOrWhiteSpace(include) || include.Contains("Blogs", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var blogsCount = dbSection.GetValue<int>("BlogsCount", 50);
-                            var blogCategoriesCount = dbSection.GetValue<int>("BlogCategoriesCount", 10);
-                            var blogTagsCount = dbSection.GetValue<int>("BlogTagsCount", 15);
-                            var commentsPerBlog = dbSection.GetValue<int>("CommentsPerBlog", 5);
-                            var categoriesPerBlog = dbSection.GetValue<int>("CategoriesPerBlog", 2);
-                            var tagsPerBlog = dbSection.GetValue<int>("TagsPerBlog", 3);
-                            var quotesCount = dbSection.GetValue<int>("QuotesCount", 10);
-                            var batchSizeBlogs = dbSection.GetValue<int>("BatchSizeBlogs", 1000);
-                            var perBatchTx = dbSection.GetValue<bool>("PerBatchTransaction", true);
+                        // Seed Users Schema
+                        await BindAndRunSchema<EcomUsersContext, UserSchema>(
+                            "Users",
+                            "UserSchema",
+                            s => s.GetRequiredService<EcomUsersContext>(),
+                            db => new UserSchema(db));
 
-                            await ModelBuilderExtensions.SeedBlogTablesAsync(
-                                blogDb,
-                                blogsCount,
-                                blogCategoriesCount,
-                                blogTagsCount,
-                                commentsPerBlog,
-                                categoriesPerBlog,
-                                tagsPerBlog,
-                                quotesCount,
-                                batchSizeBlogs,
-                                perBatchTx,
-                                cancellationToken
-                            );
-                        }
+                        // Seed Blogs Schema
+                        await BindAndRunSchema<EcomBlogsContext, BlogSchema>(
+                            "Blogs",
+                            "BlogSchema",
+                            s => s.GetRequiredService<EcomBlogsContext>(),
+                            db => new BlogSchema(db));
+
+                        // Seed Products Schema
+                        await BindAndRunSchema<EcomProductsContext, ProductSchema>(
+                            "Products",
+                            "ProductSchema",
+                            s => s.GetRequiredService<EcomProductsContext>(),
+                            db => new ProductSchema(db));
+
+                        // Seed Orders Schema
+                        await BindAndRunSchema<EcomOrdersContext, OrderSchema>(
+                            "Orders",
+                            "OrderSchema",
+                            s => s.GetRequiredService<EcomOrdersContext>(),
+                            db => new OrderSchema(db));
                     }
                     break;
                 }

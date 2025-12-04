@@ -42,6 +42,7 @@ public static class SwaggerConfig
         // --- 4. SwaggerGen cơ bản ---
         services.AddSwaggerGen(c =>
         {
+            c.DescribeAllParametersInCamelCase();
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
@@ -85,7 +86,7 @@ public static class SwaggerConfig
                 {
                     options.SwaggerDoc(desc.GroupName, new OpenApiInfo
                     {
-                        Title = "App",
+                        Title = "EcomWebsite",
                         Version = desc.GroupName
                     });
                 }

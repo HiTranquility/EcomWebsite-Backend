@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace App.DAL.UserModels;
 
@@ -15,13 +18,19 @@ public partial class EcomUsersContext : DbContext
 
     public virtual DbSet<AddressBook> AddressBooks { get; set; }
 
-    public virtual DbSet<AuditLog> AuditLogs { get; set; }
-
     public virtual DbSet<Cart> Carts { get; set; }
 
     public virtual DbSet<Contact> Contacts { get; set; }
 
     public virtual DbSet<Newsletter> Newsletters { get; set; }
+
+    public virtual DbSet<Permission> Permissions { get; set; }
+
+    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+
+    public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<SocialAccount> SocialAccounts { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -29,15 +38,17 @@ public partial class EcomUsersContext : DbContext
 
     public virtual DbSet<Wishlist> Wishlists { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql(
-            "Server=localhost;Port=3306;Database=ecom_users;User=root;Password=CaVN2004",
-            new MySqlServerVersion(new Version(8, 0, 33)) // phiên bản MySQL của bạn
-        );
+    // OnConfiguring đã được xóa - connection string được config trong DatabaseConfig.cs
+    // Khi chạy trong Docker, environment variables từ docker-compose.dev.yml sẽ override
+    // Local dev: appsettings.Development.json (Server=localhost)
+    // Docker: Environment variables (Server=mysql) sẽ override
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder
+            .UseCollation("utf8mb4_0900_ai_ci")
+            .HasCharSet("utf8mb4");
+
         modelBuilder.Entity<AddressBook>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -82,47 +93,6 @@ public partial class EcomUsersContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.AddressBooks)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("fk_user_id_address_books");
-        });
-
-        modelBuilder.Entity<AuditLog>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.ToTable("audit_logs");
-
-            entity.HasIndex(e => e.UserId, "fk_user_id_login_history");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.DeletedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("deleted_at");
-            entity.Property(e => e.DeviceInfo)
-                .HasMaxLength(255)
-                .HasColumnName("device_info");
-            entity.Property(e => e.IpAddress)
-                .HasMaxLength(100)
-                .HasColumnName("ip_address");
-            entity.Property(e => e.IsSuccess)
-                .HasDefaultValueSql("'1'")
-                .HasColumnName("is_success");
-            entity.Property(e => e.Location)
-                .HasMaxLength(255)
-                .HasColumnName("location");
-            entity.Property(e => e.UpdatedAt)
-                .ValueGeneratedOnAddOrUpdate()
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("datetime")
-                .HasColumnName("updated_at");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.User).WithMany(p => p.AuditLogs)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_user_id_login_history");
         });
 
         modelBuilder.Entity<Cart>(entity =>
@@ -217,6 +187,99 @@ public partial class EcomUsersContext : DbContext
                 .HasConstraintName("fk_user_id_newsletters");
         });
 
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("permissions");
+
+            entity.HasIndex(e => e.Key, "uq_permissions_key").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
+            entity.Property(e => e.Key)
+                .HasMaxLength(100)
+                .HasColumnName("key");
+        });
+
+        modelBuilder.Entity<RefreshToken>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("refresh_tokens");
+
+            entity.HasIndex(e => e.TokenHash, "idx_token_hash");
+
+            entity.HasIndex(e => e.UserId, "idx_user_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.CreatedByIp)
+                .HasMaxLength(45)
+                .HasColumnName("created_by_ip");
+            entity.Property(e => e.ExpiresAt)
+                .HasColumnType("datetime")
+                .HasColumnName("expires_at");
+            entity.Property(e => e.ReplacedByTokenHash)
+                .HasMaxLength(255)
+                .HasColumnName("replaced_by_token_hash");
+            entity.Property(e => e.RevokedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("revoked_at");
+            entity.Property(e => e.RevokedByIp)
+                .HasMaxLength(45)
+                .HasColumnName("revoked_by_ip");
+            entity.Property(e => e.TokenHash).HasColumnName("token_hash");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.RefreshTokens)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("fk_refresh_tokens_users");
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("roles");
+
+            entity.HasIndex(e => e.Name, "uq_roles_name").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .HasColumnName("name");
+
+            entity.HasMany(d => d.Permissions).WithMany(p => p.Roles)
+                .UsingEntity<Dictionary<string, object>>(
+                    "RolePermission",
+                    r => r.HasOne<Permission>().WithMany()
+                        .HasForeignKey("PermissionId")
+                        .HasConstraintName("fk_role_permissions_permissions"),
+                    l => l.HasOne<Role>().WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_role_permissions_roles"),
+                    j =>
+                    {
+                        j.HasKey("RoleId", "PermissionId")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("role_permissions");
+                        j.HasIndex(new[] { "PermissionId" }, "idx_permission_id");
+                        j.HasIndex(new[] { "RoleId" }, "idx_role_id");
+                        j.IndexerProperty<int>("RoleId").HasColumnName("role_id");
+                        j.IndexerProperty<int>("PermissionId").HasColumnName("permission_id");
+                    });
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -245,6 +308,9 @@ public partial class EcomUsersContext : DbContext
             entity.Property(e => e.Gender)
                 .HasMaxLength(255)
                 .HasColumnName("gender");
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(255)
+                .HasColumnName("image_url");
             entity.Property(e => e.IsActive)
                 .HasDefaultValueSql("'1'")
                 .HasColumnName("is_active");
@@ -263,14 +329,32 @@ public partial class EcomUsersContext : DbContext
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(255)
                 .HasColumnName("phone_number");
-            entity.Property(e => e.Role)
-                .HasMaxLength(255)
-                .HasColumnName("role");
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+
+            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "UserRole",
+                    r => r.HasOne<Role>().WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_user_roles_roles"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_roles_users"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "RoleId")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("user_roles");
+                        j.HasIndex(new[] { "RoleId" }, "idx_user_roles_role_id");
+                        j.HasIndex(new[] { "UserId" }, "idx_user_roles_user_id");
+                        j.IndexerProperty<int>("UserId").HasColumnName("user_id");
+                        j.IndexerProperty<int>("RoleId").HasColumnName("role_id");
+                    });
         });
 
         modelBuilder.Entity<UserTag>(entity =>
@@ -332,6 +416,58 @@ public partial class EcomUsersContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Wishlists)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("fk_user_id_wishlists");
+        });
+
+        modelBuilder.Entity<SocialAccount>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("social_accounts");
+
+            entity.HasIndex(e => new { e.Provider, e.ProviderUserId }, "idx_provider_user_id").IsUnique();
+
+            entity.HasIndex(e => e.UserId, "idx_user_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.Provider)
+                .HasMaxLength(50)
+                .HasColumnName("provider");
+            entity.Property(e => e.ProviderUserId)
+                .HasMaxLength(255)
+                .HasColumnName("provider_user_id");
+            entity.Property(e => e.Email)
+                .HasMaxLength(500)
+                .HasColumnName("email");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .HasColumnName("name");
+            entity.Property(e => e.PictureUrl)
+                .HasMaxLength(500)
+                .HasColumnName("picture_url");
+            entity.Property(e => e.AccessToken)
+                .HasMaxLength(2000)
+                .HasColumnName("access_token");
+            entity.Property(e => e.AccessTokenExpiresAt)
+                .HasColumnType("datetime")
+                .HasColumnName("access_token_expires_at");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.UpdatedAt)
+                .ValueGeneratedOnAddOrUpdate()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("deleted_at");
+
+            entity.HasOne(d => d.User).WithMany(p => p.SocialAccounts)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_social_accounts_users");
         });
 
         OnModelCreatingPartial(modelBuilder);

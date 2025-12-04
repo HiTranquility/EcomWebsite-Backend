@@ -8,12 +8,13 @@ namespace App.UTIL.Abstractions.DAL
         where C : DbContext
     {
         protected readonly C _context;
-        
+
         public GenericRepo(C context)
         {
             _context = context;
         }
 
+        // CREATE
         public virtual async Task CreateAsync(T entity, CancellationToken ct = default)
         {
             await _context.Set<T>().AddAsync(entity, ct);
@@ -26,23 +27,19 @@ namespace App.UTIL.Abstractions.DAL
             await _context.SaveChangesAsync(ct);
         }
 
+        // READ
         public IQueryable<T> Read(Expression<Func<T, bool>> predicate)
-        {
-            return _context.Set<T>().Where(predicate);
-        }
+            => _context.Set<T>().Where(predicate);
 
-        // Find by primary key (int) — override nếu cần logic riêng
         public virtual async Task<T?> ReadAsync(int id, CancellationToken ct = default)
-        {
-            return await _context.Set<T>().FindAsync([id], ct);
-        }
+            => await _context.Set<T>().FindAsync([id], ct);
 
-        // Find by business key (string) — override ở repo con nếu dùng
         public virtual Task<T?> ReadAsync(string code, CancellationToken ct = default)
-        {
-            return Task.FromResult<T?>(null);
-        }
+            => Task.FromResult<T?>(null); // override ở repo con nếu dùng business code
 
+        public IQueryable<T> All => _context.Set<T>();
+
+        // UPDATE
         public virtual async Task UpdateAsync(T entity, CancellationToken ct = default)
         {
             _context.Set<T>().Update(entity);
@@ -55,12 +52,28 @@ namespace App.UTIL.Abstractions.DAL
             await _context.SaveChangesAsync(ct);
         }
 
+        // DELETE
         public virtual async Task DeleteAsync(T entity, CancellationToken ct = default)
         {
             _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync(ct);
         }
 
-        public IQueryable<T> All => _context.Set<T>();
+        // DELETE RANGE
+        public virtual async Task DeleteAsync(List<T> entities, CancellationToken ct = default)
+        {
+            _context.Set<T>().RemoveRange(entities);
+            await _context.SaveChangesAsync(ct);
+        }
+
+        // EXISTS
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default)
+            => await _context.Set<T>().AnyAsync(predicate, ct);
+
+        // COUNT
+        public async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken ct = default)
+            => predicate == null
+                ? await _context.Set<T>().CountAsync(ct)
+                : await _context.Set<T>().CountAsync(predicate, ct);
     }
 }

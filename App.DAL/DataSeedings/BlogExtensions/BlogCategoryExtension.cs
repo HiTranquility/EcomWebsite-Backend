@@ -7,14 +7,30 @@ public static class BlogCategoryExtension
 {
     public static class BlogCategory
     {
-        public static List<BlogModels.BlogCategory> GetSeedData(int count)
+        public static List<BlogModels.BlogCategory> GetSeedData(int count, IReadOnlyList<BlogModels.Blog> blogs)
         {
             var now = DateTime.UtcNow;
-            var faker = new Faker<BlogModels.BlogCategory>()
-                .RuleFor(c => c.Title, f => f.Commerce.Categories(1)[0])
-                .RuleFor(c => c.CreatedAt, _ => now)
-                .RuleFor(c => c.UpdatedAt, _ => now);
-            return faker.Generate(count);
+            var faker = new Faker();
+            var results = new List<BlogModels.BlogCategory>();
+            
+            for (var i = 0; i < count; i++)
+            {
+                int? blogId = null;
+                if (blogs.Count > 0)
+                {
+                    blogId = blogs[faker.Random.Int(0, blogs.Count - 1)].Id;
+                }
+                
+                results.Add(new BlogModels.BlogCategory
+                {
+                    Title = faker.Commerce.Categories(1)[0],
+                    BlogId = blogId,
+                    CreatedAt = now,
+                    UpdatedAt = now
+                });
+            }
+            
+            return results;
         }
     }
 }

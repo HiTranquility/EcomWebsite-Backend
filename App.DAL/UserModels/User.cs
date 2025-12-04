@@ -13,6 +13,8 @@ public partial class User
 
     public string? PasswordHash { get; set; }
 
+    public string? ImageUrl { get; set; }
+
     public string Email { get; set; } = null!;
 
     public DateTime? Birthday { get; set; }
@@ -20,8 +22,6 @@ public partial class User
     public string? PhoneNumber { get; set; }
 
     public string? Gender { get; set; }
-
-    public string? Role { get; set; }
 
     public bool? IsSubscribe { get; set; }
 
@@ -37,13 +37,17 @@ public partial class User
 
     public virtual ICollection<AddressBook> AddressBooks { get; set; } = new List<AddressBook>();
 
-    public virtual ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();
-
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual Newsletter? Newsletter { get; set; }
 
+    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+
     public virtual ICollection<UserTag> UserTags { get; set; } = new List<UserTag>();
 
     public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
+
+    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
+
+    public virtual ICollection<SocialAccount> SocialAccounts { get; set; } = new List<SocialAccount>();
 }

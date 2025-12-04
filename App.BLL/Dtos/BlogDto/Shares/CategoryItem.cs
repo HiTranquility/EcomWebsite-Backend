@@ -1,0 +1,9 @@
+namespace App.BLL.Dtos.BlogDto.Shares;
+
+public sealed class CategoryItem
+{
+    public int Id { get; init; }
+    public string Title { get; init; } = string.Empty;
+}
+
+

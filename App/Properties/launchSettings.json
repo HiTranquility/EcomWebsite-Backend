@@ -3,7 +3,7 @@
     "Dev (http)": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5062",
+      "applicationUrl": "http://localhost:8080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -11,25 +11,31 @@
     "Dev (https)": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7292;http://localhost:5062",
+      "applicationUrl": "https://localhost:8443;http://localhost:8080",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path": "./certs/dev/devcert.pfx",
+        "ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password": "devpass"
       }
     },
-    "Staging": {
-      "commandName": "Project",
+      "Staging": {
+        "commandName": "Project",
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5063",
+        "applicationUrl": "https://localhost:8443;http://localhost:8080",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Staging"
+        "ASPNETCORE_ENVIRONMENT": "Staging",
+        "ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path": "./certs/stag/stagcert.pfx",
+        "ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password": "stagpass"
       }
     },
     "Production": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5064",
+      "applicationUrl": "https://localhost:8443",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path": "./certs/prod/prodcert.pfx",
+        "ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password": "prodpass"
       }
     }
   },

@@ -17,15 +17,29 @@ public static class OtherConfig
 
         services.AddCors(options =>
         {
-            // Dev-open policy
             options.AddPolicy("CorsDevPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
+                if (!string.IsNullOrWhiteSpace(allowedOrigins))
+                {
+                    var origins = allowedOrigins
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+                    builder.WithOrigins(origins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+
+                    if (allowCredentials)
+                        builder.AllowCredentials();
+                }
+                else
+                {
+                    // No configured origins: allow any origin but DO NOT allow credentials
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                }
             });
 
-            // Restricted policy by config
             options.AddPolicy("CorsRestrictedPolicy", builder =>
             {
                 if (!string.IsNullOrWhiteSpace(allowedOrigins))
@@ -42,6 +56,7 @@ public static class OtherConfig
                 }
                 else
                 {
+                    // Fallback: no origins configured → allow any origin without credentials
                     builder.AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();

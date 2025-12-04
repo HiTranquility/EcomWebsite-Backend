@@ -28,11 +28,14 @@ public partial class EcomBlogsContext : DbContext
 
     public virtual DbSet<BlogTagJoin> BlogTagJoins { get; set; }
 
+    public virtual DbSet<BlogVariant> BlogVariants { get; set; }
+
     public virtual DbSet<Quote> Quotes { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;port=3306;database=ecom_blogs;user=root;password=CaVN2004", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.40-mysql"));
+    // OnConfiguring đã được xóa - connection string được config trong DatabaseConfig.cs
+    // Khi chạy trong Docker, environment variables từ docker-compose.dev.yml sẽ override
+    // Local dev: appsettings.Development.json (Server=localhost)
+    // Docker: Environment variables (Server=mysql) sẽ override
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -63,10 +66,10 @@ public partial class EcomBlogsContext : DbContext
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
-            entity.Property(e => e.ImageUrl)
-                .HasMaxLength(255)
-                .HasColumnName("image_url");
             entity.Property(e => e.QuoteId).HasColumnName("quote_id");
+            entity.Property(e => e.Slug)
+                .HasMaxLength(150)
+                .HasColumnName("slug");
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
                 .HasColumnName("title");
@@ -168,12 +171,6 @@ public partial class EcomBlogsContext : DbContext
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
-            entity.Property(e => e.Email)
-                .HasMaxLength(255)
-                .HasColumnName("email");
-            entity.Property(e => e.FullName)
-                .HasMaxLength(255)
-                .HasColumnName("full_name");
             entity.Property(e => e.Parent).HasColumnName("parent");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -247,6 +244,37 @@ public partial class EcomBlogsContext : DbContext
                 .HasForeignKey(d => d.BlogTagId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_blog_tag_id_blog_tag_joins");
+        });
+
+        modelBuilder.Entity<BlogVariant>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("blog_variants");
+
+            entity.HasIndex(e => e.BlogId, "blog_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.BlogId).HasColumnName("blog_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Type)
+                .HasColumnType("enum('image','gallery','video','youtube','soundcloud','audio')")
+                .HasColumnName("type");
+            entity.Property(e => e.UpdatedAt)
+                .ValueGeneratedOnAddOrUpdate()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.Url)
+                .HasColumnType("text")
+                .HasColumnName("url");
+
+            entity.HasOne(d => d.Blog).WithMany(p => p.BlogVariants)
+                .HasForeignKey(d => d.BlogId)
+                .HasConstraintName("blog_variants_ibfk_1");
         });
 
         modelBuilder.Entity<Quote>(entity =>

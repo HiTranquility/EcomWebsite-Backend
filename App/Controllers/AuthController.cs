@@ -1,9 +1,11 @@
-﻿using App.BLL.Dtos.AuthDto.Requests;
-using App.BLL.Services;
-using App.UTIL.Extensions;
-using Microsoft.AspNetCore.Mvc;
+﻿using App.BLL.Services;
 using Asp.Versioning;
+using App.BLL.Dtos.AuthDto.Requests.Google;
+using App.BLL.Dtos.AuthDto.Requests.Facebook;
+using App.BLL.Dtos.AuthDto.Requests.Jwt;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using App.UTIL.Extensions;
 
 namespace App.Controllers;
 [ApiController]
@@ -17,61 +19,60 @@ public class AuthController : ControllerBase
     {
         _authSvc = authSvc;
     }
+
+    [AllowAnonymous]    
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginReq request, CancellationToken ct)
+    {
+        var rsp = await _authSvc.LoginAsync(request, HttpContext.GetClientIp(), ct);
+        return StatusCode(rsp.Status, rsp);
+    }
+
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterReq request, CancellationToken ct)
     {
-        var rsp = await _authSvc.RegisterAsync(request, ct);
-        return Ok(rsp);
-    }
-    
-    /*[HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterReq request)
-    {
-        var res = await _authSvc.RegisterAsync(request);
-        if (!res.Success)
-        {
-            return res.Status switch
-            {
-                400 => BadRequest(res),
-                409 => Conflict(res),
-                500 => StatusCode(500, res),
-                _   => StatusCode(res.Status, res) // fallback cho an toàn
-            };
-        }
-        return Ok(res);
-    }*/
-    
-    [AllowAnonymous]
-    [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginReq request, CancellationToken ct)
-    {
-        var rsp = await _authSvc.LoginAsync(request, ct);
-        return Ok(rsp);
+        var rsp = await _authSvc.RegisterAsync(request, HttpContext.GetClientIp(), ct);
+        return StatusCode(rsp.Status, rsp);
     }
 
     [AllowAnonymous]
-    [HttpPost("reset-password")]
-    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordReq request, CancellationToken ct)
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout([FromBody] LogoutReq? request, CancellationToken ct)
     {
-        var rsp = await _authSvc.ResetPasswordAsync(request, ct);
-        return Ok(rsp);
+        var rsp = await _authSvc.LogoutAsync(request, HttpContext.GetRefreshToken(), HttpContext.GetClientIp(), ct);
+        return StatusCode(rsp.Status, rsp);
     }
 
     [AllowAnonymous]
-    [HttpPost("forgot-password")]
-    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordReq request, CancellationToken ct)
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenReq request, CancellationToken ct)
     {
-        var rsp = await _authSvc.ForgotPasswordAsync(request, ct);
-        return Ok(rsp);
+        var rsp = await _authSvc.RefreshTokenAsync(request, HttpContext.GetClientIp(), ct);
+        return StatusCode(rsp.Status, rsp);
     }
 
-    [Authorize(Roles = "user")]
-    [HttpGet("profile")]
-    public async Task<IActionResult> GetProfile(CancellationToken ct)
+    [AllowAnonymous]
+    [HttpPost("google/callback")]
+    public async Task<IActionResult> GoogleCallback([FromQuery] CallbackReq request, CancellationToken ct)
     {
-        var rsp = await _authSvc.GetProfileAsync(User.GetUserId()!.Value, User.GetUserRole()!, ct);
-        return Ok(rsp);
+        var rsp = await _authSvc.GoogleCallbackAsync(request, HttpContext.GetClientIp(), ct);
+        return StatusCode(rsp.Status, rsp);
     }
-    
+
+    [AllowAnonymous]
+    [HttpPost("google/id-token")]
+    public async Task<IActionResult> GoogleIdToken([FromBody] IdTokenReq request, CancellationToken ct)
+    {
+        var rsp = await _authSvc.GoogleIdTokenAsync(request, HttpContext.GetClientIp(), ct);
+        return StatusCode(rsp.Status, rsp);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("facebook/access-token")]
+    public async Task<IActionResult> FacebookAsync([FromBody] AccessTokenReq request, CancellationToken ct)
+    {
+        var rsp = await _authSvc.FacebookAsync(request, HttpContext.GetClientIp(), ct);
+        return StatusCode(rsp.Status, rsp);
+    }
 }

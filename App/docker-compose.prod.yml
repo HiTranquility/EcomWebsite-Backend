@@ -1,40 +1,94 @@
+# ============================================
+# Production Environment Overrides
+# ============================================
+# This file overrides base configuration from docker-compose.yml
+# for production environment specific settings.
+# Production includes security hardening and resource limits.
+
 services:
+  # ============================================
+  # API Service - Production Overrides
+  # ============================================
   api:
-    restart: unless-stopped
+    # Production environment file
     env_file:
       - .env.prod
+    
+    # Production-specific environment variables
     environment:
       ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path: /https/prodcert.pfx
-    volumes:
-      - ./certs/prod:/https:ro
+    
+    # Standard HTTP/HTTPS ports for production
     ports:
       - "${API_HTTP_PORT:-80}:${API_CONTAINER_HTTP_PORT:-8080}"
       - "${API_HTTPS_PORT:-443}:${API_CONTAINER_HTTPS_PORT:-8443}"
+    
+    # Mount production certificates
+    volumes:
+      - ./certs/prod:/https:ro
+    
+    # Production security hardening
+    security_opt:
+      - no-new-privileges:true
+    
+    # Read-only root filesystem (security best practice)
+    read_only: true
+    
+    # Resource limits for production
     deploy:
       resources:
         limits:
           cpus: '1.0'
           memory: 512M
-    security_opt:
-      - no-new-privileges:true
-    read_only: true
+        reservations:
+          cpus: '0.5'
+          memory: 256M
 
+  # ============================================
+  # MySQL Service - Production Overrides
+  # ============================================
   mysql:
+    # Production environment file
     env_file:
       - .env.prod
+    
+    # Do not expose MySQL port externally (security best practice)
+    # Services communicate via internal Docker network
+    # External access should be through VPN or bastion host
     ports: []
 
+  # ============================================
+  # Redis Service - Production Overrides
+  # ============================================
   redis:
+    # Production environment file
     env_file:
       - .env.prod
+    
+    # Do not expose Redis port externally (security best practice)
+    # Services communicate via internal Docker network
+    # External access should be through VPN or bastion host
     ports: []
 
+  # ============================================
+  # RabbitMQ Service - Production Overrides
+  # ============================================
   rabbitmq:
+    # Production environment file
     env_file:
       - .env.prod
+    
+    # Do not expose RabbitMQ ports externally (security best practice)
+    # Services communicate via internal Docker network
+    # External access should be through VPN or bastion host
     ports: []
 
+  # ============================================
+  # Aspire Dashboard Service - Production Overrides
+  # ============================================
   aspire-dashboard:
+    # Disable Aspire Dashboard in production (security best practice)
+    # Use external monitoring tools instead
     profiles:
       - never
 

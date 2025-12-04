@@ -1,66 +1,101 @@
-﻿name: ${DOCKER_PROJECT_NAME:-AppName}
+﻿# ============================================
+# Base Docker Compose Configuration
+# ============================================
+# This is the base configuration file shared across all environments.
+# Environment-specific overrides are in:
+#   - docker-compose.dev.yml (Development)
+#   - docker-compose.stag.yml (Staging)
+#   - docker-compose.prod.yml (Production)
+
+name: ${DOCKER_PROJECT_NAME:-AppName}
 
 services:
+  # ============================================
+  # API Service
+  # ============================================
   api:
-    profiles: 
+    profiles:
       - ${DOCKER_COMPOSE_PROFILE:-App}
       - ${API_COMPOSE_PROFILE:-Api}
     container_name: ${API_CONTAINER_NAME:-Api}
     image: ${API_IMAGE_NAME:-ApiName}:${API_IMAGE_TAG:-latest}
     pull_policy: ${API_IMAGE_PULL_POLICY:-if_not_present}
     restart: unless-stopped
-    ports:
-      - "${API_HTTP_PORT:-5095}:${API_CONTAINER_HTTP_PORT:-8080}"
-      - "${API_HTTPS_PORT:-5096}:${API_CONTAINER_HTTPS_PORT:-8443}"
-    env_file:
-      - .env
+
+    # Build configuration (shared across all environments)
     build:
       context: ..
       dockerfile: App/Dockerfile
-    #volumes:
-    #  - ./certs:/https:ro
+
+    # Dependencies - wait for services to be healthy
     depends_on:
-      mysql: 
+      mysql:
         condition: service_healthy
       redis:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+
+    # Network configuration
+    # Note: Reference the network by its key (AppNetwork), not by its name
+    # The actual network name is set via 'name' property in network definition
     networks:
-      - ${DOCKER_COMPOSE_NETWORK:-AppNetwork}
+      - AppNetwork
+
+    # Healthcheck configuration
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:${API_CONTAINER_HTTP_PORT:-8080}/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://localhost:${API_CONTAINER_HTTP_PORT:-8080}/health || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 10s
-    
-      
+
+    # Note: env_file, ports, volumes, and environment variables are overridden
+    # in environment-specific compose files (dev/stag/prod)
+
+  # ============================================
+  # MySQL Database Service
+  # ============================================
   mysql:
-    profiles: 
+    profiles:
       - ${DOCKER_COMPOSE_PROFILE:-App}
       - ${MYSQL_COMPOSE_PROFILE:-Database}
     container_name: ${MYSQL_CONTAINER_NAME:-MySQL}
     image: ${MYSQL_IMAGE_NAME:-mysql}:${MYSQL_IMAGE_TAG:-8.4}
     pull_policy: ${MYSQL_IMAGE_PULL_POLICY:-if_not_present}
     restart: unless-stopped
-    #expose: // Staging and Production
-    #  - "${MYSQL_EXPOSE_PORT:-3308}"
-    ports:
-      - "${MYSQL_HTTP_PORT:-3308}:${MYSQL_CONTAINER_HTTP_PORT:-3306}"
-    env_file:
-      - .env
+
+    # Persistent data storage
     volumes:
       - mysql-data:/var/lib/mysql
+
+    # Healthcheck configuration
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$${MYSQL_ROOT_PASSWORD} || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -p$${MYSQL_ROOT_PASSWORD} || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 10s
+
+    # Network configuration
+    # Note: Reference the network by its key (AppNetwork), not by its name
+    # The actual network name is set via 'name' property in network definition
     networks:
-      - ${DOCKER_COMPOSE_NETWORK:-AppNetwork}
-  
+      - AppNetwork
+
+    # Note: env_file and ports are overridden in environment-specific compose files
+
+  # ============================================
+  # Redis Cache Service
+  # ============================================
   redis:
     profiles:
       - ${DOCKER_COMPOSE_PROFILE:-App}
@@ -69,23 +104,90 @@ services:
     image: ${REDIS_IMAGE_NAME:-redis}:${REDIS_IMAGE_TAG:-latest}
     pull_policy: ${REDIS_IMAGE_PULL_POLICY:-if_not_present}
     restart: unless-stopped
-    #expose: // Staging and Production
-    #  - "${REDIS_EXPOSE_PORT:-6380}"
-    ports:
-      - "${REDIS_HTTP_PORT:-6380}:${REDIS_CONTAINER_HTTP_PORT:-6379}"
-    env_file:
-      - .env
+
+    # Persistent data storage
     volumes:
       - redis-data:/data
+
+    # Healthcheck configuration
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 5s
+
+    # Network configuration
+    # Note: Reference the network by its key (AppNetwork), not by its name
+    # The actual network name is set via 'name' property in network definition
     networks:
-      - ${DOCKER_COMPOSE_NETWORK:-AppNetwork}
-    
+      - AppNetwork
+
+    # Note: env_file and ports are overridden in environment-specific compose files
+
+  # ============================================
+  # RabbitMQ Message Broker Service
+  # ============================================
+  rabbitmq:
+    profiles:
+      - ${DOCKER_COMPOSE_PROFILE:-App}
+      - ${RABBITMQ_COMPOSE_PROFILE:-Message}
+    container_name: ${RABBITMQ_CONTAINER_NAME:-RabbitMQ}
+    image: ${RABBITMQ_IMAGE_NAME:-rabbitmq}:${RABBITMQ_IMAGE_TAG:-management}
+    pull_policy: ${RABBITMQ_IMAGE_PULL_POLICY:-if_not_present}
+    restart: unless-stopped
+
+    # Persistent data storage
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      - rabbitmq-logs:/var/log/rabbitmq
+
+    # Healthcheck configuration
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+    # Network configuration
+    # Note: Reference the network by its key (AppNetwork), not by its name
+    # The actual network name is set via 'name' property in network definition
+    networks:
+      - AppNetwork
+
+    # Note: env_file and ports are overridden in environment-specific compose files
+
+  # ============================================
+  # RedisInsight Service (Optional - Redis UI)
+  # ============================================
+  # RedisInsight là UI chính thức của Redis để monitor và quản lý Redis
+  # Có thể bỏ nếu không cần, hoặc dùng thay thế cho OpenTelemetry Redis instrumentation
+  redisinsight:
+    profiles:
+      - ${DOCKER_COMPOSE_PROFILE:-App}
+      - ${REDISINSIGHT_COMPOSE_PROFILE:-RedisUI}
+    container_name: ${REDISINSIGHT_CONTAINER_NAME:-RedisInsight}
+    image: ${REDISINSIGHT_IMAGE_NAME:-redis/redisinsight}:${REDISINSIGHT_IMAGE_TAG:-latest}
+    pull_policy: ${REDISINSIGHT_IMAGE_PULL_POLICY:-if_not_present}
+    restart: unless-stopped
+
+    # Healthcheck configuration
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8001/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+    # Network configuration
+    networks:
+      - AppNetwork
+
+    # Note: env_file and ports are overridden in environment-specific compose files
+    # Typically only enabled in dev environment
+
+  # ============================================
+  # Aspire Dashboard Service
+  # ============================================
   aspire-dashboard:
     profiles:
       - ${DOCKER_COMPOSE_PROFILE:-App}
@@ -94,46 +196,40 @@ services:
     image: ${ASPIRE_IMAGE_NAME:-mcr.microsoft.com/dotnet/nightly/aspire-dashboard}:${ASPIRE_IMAGE_TAG:-latest}
     pull_policy: ${ASPIRE_IMAGE_PULL_POLICY:-if_not_present}
     restart: unless-stopped
-    ports:
-      - "${ASPIRE_HTTP_PORT:-18888}:${ASPIRE_CONTAINER_HTTP_PORT:-18888}"
-    env_file:
-      - .env
-    restart: unless-stopped
+
+    # Healthcheck configuration
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:18888/health || exit 1" ]
+      test: ["CMD-SHELL", "curl -f http://localhost:18888/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
+    # volumes:
+    #- ./certs/dev:/https:ro
+    # Note: Reference the network by its key (AppNetwork), not by its name
+    # The actual network name is set via 'name' property in network definition
     networks:
-      - ${DOCKER_COMPOSE_NETWORK:-AppNetwork}
-    
-  rabbitmq:
-    profiles:
-      - ${DOCKER_COMPOSE_PROFILE:-App}
-      - ${RABBITMQ_COMPOSE_PROFILE:-Message}
-    container_name: ${RABBITMQ_CONTAINER_NAME:-RabbitMQ}
-    image: ${RABBITMQ_IMAGE_NAME:-rabbitmq}:${RABBITMQ_IMAGE_TAG:-latest}
-    pull_policy: ${RABBITMQ_IMAGE_PULL_POLICY:-if_not_present}
-    restart: unless-stopped
-    #expose: // Staging and Production
-    #  - "${RABBITMQ_EXPOSE_PORT:-5673}"
-    ports:
-      - "${RABBITMQ_HTTP_PORT:-5673}:${RABBITMQ_CONTAINER_HTTP_PORT:-5672}"
-    env_file:
-      - .env
-    volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
-      - rabbitmq-logs:/var/log/rabbitmq
-    healthcheck:
-      test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5   
-    networks:
-      - ${DOCKER_COMPOSE_NETWORK:-AppNetwork}
-  
+      - AppNetwork
+
+    # Note: env_file and ports are overridden in environment-specific compose files
+    # Production typically disables this service via profile: never
+
+# ============================================
+# Networks Configuration
+# ============================================
+# Note: Network key must be a fixed name (AppNetwork) - Docker Compose doesn't support variables as keys
+# The actual network name is set via 'name' property from .env file (DOCKER_COMPOSE_NETWORK)
+# Services reference the network by its actual name using ${DOCKER_COMPOSE_NETWORK:-AppNetwork}
 networks:
-  ${DOCKER_COMPOSE_NETWORK}:
+  AppNetwork:
+    name: ${DOCKER_COMPOSE_NETWORK:-AppNetwork}
     driver: bridge
 
-
+# ============================================
+# Volumes Configuration
+# ============================================
+volumes:
+  https-data:
+  mysql-data:
+  redis-data:
+  rabbitmq-data:
+  rabbitmq-logs:

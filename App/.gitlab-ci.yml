@@ -1,0 +1,141 @@
+﻿# =============================
+# 🟦 C# .NET DevSecOps Pipeline
+# =============================
+
+stages:
+  - ci
+  - lint
+  - security
+  - docker
+  - deploy
+  - dast
+  - docs
+  - schedule
+  - notify
+
+variables:
+  DOTNET_VERSION: "8.0"
+
+# -----------------------------------
+# 1️⃣ CI - Build & Test + Coverage
+# -----------------------------------
+ci:
+  stage: ci
+  image: mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - ~/.nuget/packages/
+  script:
+    - dotnet restore
+    - dotnet build --configuration Release
+    - dotnet test --collect:"XPlat Code Coverage"
+  artifacts:
+    paths:
+      - **/TestResults/
+    expire_in: 7 days
+
+# -----------------------------------
+# 2️⃣ Lint - Code Style & Static Check
+# -----------------------------------
+lint:
+  stage: lint
+  image: mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
+  script:
+    - dotnet tool install -g dotnet-format
+    - dotnet format --verify-no-changes
+  needs: ["ci"]
+
+# -----------------------------------
+# 3️⃣ Security Scan (SAST + Dependencies)
+# -----------------------------------
+security_scan:
+  stage: security
+  image: mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
+  script:
+    - dotnet tool install -g security-scan
+    - security-scan analyze .
+    - dotnet list package --vulnerable
+  allow_failure: true
+  needs: ["lint"]
+
+# -----------------------------------
+# 4️⃣ Docker Build & Image Scan
+# -----------------------------------
+docker_build_scan:
+  stage: docker
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - docker build -t myapp:${CI_COMMIT_SHORT_SHA} .
+    - docker scan myapp:${CI_COMMIT_SHORT_SHA} || true
+  needs: ["security_scan"]
+
+# -----------------------------------
+# 5️⃣ Deploy
+# -----------------------------------
+deploy:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - ./scripts/deploy.sh
+  environment:
+    name: production
+    url: https://myapp-production.com
+  needs: ["docker_build_scan"]
+
+# -----------------------------------
+# 6️⃣ DAST
+# -----------------------------------
+dast:
+  stage: dast
+  image: owasp/zap2docker-stable
+  script:
+    - zap-baseline.py -t https://myapp-production.com -r zap-report.html || true
+  artifacts:
+    paths:
+      - zap-report.html
+  needs: ["deploy"]
+
+# -----------------------------------
+# 7️⃣ Docs Build
+# -----------------------------------
+docs:
+  stage: docs
+  image: mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
+  script:
+    - dotnet tool install -g docfx
+    - docfx docs/docfx.json
+  artifacts:
+    paths:
+      - docs/_site
+  rules:
+    - changes:
+        - docs/**/*
+  needs: []
+
+# -----------------------------------
+# 8️⃣ Schedule
+# -----------------------------------
+schedule:
+  stage: schedule
+  script:
+    - ./scripts/cleanup.sh
+  only:
+    - schedules
+
+# -----------------------------------
+# 9️⃣ Notify (Slack/Discord)
+# -----------------------------------
+notify:
+  stage: notify
+  image: curlimages/curl:latest
+  script:
+    - |
+      STATUS=${CI_JOB_STATUS}
+      MSG="*C# Pipeline:* ${CI_PROJECT_NAME}\n*Status:* ${STATUS}\n*Commit:* ${CI_COMMIT_SHORT_SHA}\n*User:* ${GITLAB_USER_NAME}"
+      curl -X POST -H "Content-Type: application/json" \
+           -d "{\"text\": \"${MSG}\"}" \
+           $SLACK_WEBHOOK_URL
+  when: always

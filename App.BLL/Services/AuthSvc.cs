@@ -1,121 +1,486 @@
-﻿using App.BLL.Dtos.AuthDto;
-using App.BLL.Dtos.AuthDto.Results;
-using App.BLL.Dtos.AuthDto.Requests;
-using App.DAL.UserModels;
+﻿using App.UTIL.Abstractions.BLL;
 using App.DAL.Repositories;
-using App.UTIL.Abstractions.BLL;
-using App.UTIL.Abstractions.DTO.Response;
-using App.UTIL.Helpers.Jwt;
-
+using App.DAL.UserModels;
+using App.UTIL.Abstractions.DAL;
 using AutoMapper;
+using App.BLL.Dtos.AuthDto.Requests.Jwt;
+using GoogleReq = App.BLL.Dtos.AuthDto.Requests.Google;
+using FacebookReq = App.BLL.Dtos.AuthDto.Requests.Facebook;
+using App.BLL.Dtos.AuthDto.Results;
+using App.BLL.Dtos.AuthDto.Shares;
+using App.UTIL.Abstractions.DTO.Response;
+using App.UTIL.Extensions;
+using App.UTIL.Helpers.Token;
+using App.UTIL.Helpers.Google;
+using App.UTIL.Helpers.Facebook;
 
 namespace App.BLL.Services;
 
 public class AuthSvc : GenericSvc<UserRepo, User>
 {
-    private readonly IMapper _mapper;
-    private readonly IJwtService _jwtService;
-    
-    public AuthSvc(UserRepo repo, IMapper mapper, IJwtService jwtService) : base(repo)
+    private readonly ITokenService _tokenService;
+    private readonly IGoogleService _googleService;
+    private readonly IFacebookService _facebookService;
+    private readonly SocialAccountRepo _socialAccountRepo;
+    private readonly RefreshTokenRepo _refreshTokenRepo;
+
+    public AuthSvc(
+        UserRepo repo,
+        ITokenService tokenService,
+        IGoogleService googleService,
+        IFacebookService facebookService,
+        SocialAccountRepo socialAccountRepo,
+        RefreshTokenRepo refreshTokenRepo,
+        IMapper mapper) : base(repo, mapper)
     {
-        _mapper = mapper;
-        _jwtService = jwtService;
+        _tokenService = tokenService;
+        _googleService = googleService;
+        _facebookService = facebookService;
+        _socialAccountRepo = socialAccountRepo;
+        _refreshTokenRepo = refreshTokenRepo;
     }
 
-    public async Task<BaseResponse> RegisterAsync(RegisterReq request, CancellationToken ct = default)
+
+    public async Task<BaseResponse> LoginAsync(LoginReq request, string? clientIp = null, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
-        if (await _repo.ExistsByEmailAsync(request.Email, ct))
-        {
-            rsp.SetError("EMAIL_EXISTS", "Email already exists", "BUSINESS_ERROR", 400);
-            return rsp;
-        }
 
-        var user = _mapper.Map<User>(request);
-        await _repo.CreateAsync(user);
-        rsp.SetData(user, "Register successfully", 201);
-        return rsp;
-    }
-
-    public async Task<BaseResponse> LoginAsync(LoginReq request, CancellationToken ct = default)
-    {
-        var rsp = new BaseResponse();
         if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
         {
-            rsp.SetError("INVALID_CREDENTIALS", "Email and password are required", "Validation failed", 400);
+            rsp.SetError("INVALID_REQUEST", "Email and password are required", "Invalid request", 400);
             return rsp;
         }
 
-        var email = request.Email.Trim();
-        var user = await _repo.FindByEmailAsync(email, ct);
-        if (user == null)
+        var user = await _repo.FindByEmailAsync(request.Email, ct);
+        if (user == null || !PasswordHasherExtensions.Verify(request.Password, user.PasswordHash ?? string.Empty))
         {
-            rsp.SetError("USER_NOT_FOUND", "User not found", "Authentication failed", 401);
+            rsp.SetError("INVALID_CREDENTIALS", "Invalid credentials", "Authentication failed", 401);
             return rsp;
         }
 
-        // NOTE: Demo only. In production, verify hashed password.
-        if (!string.Equals(user.PasswordHash, request.Password))
+        if (user.IsActive != true)
         {
-            rsp.SetError("INVALID_PASSWORD", "Invalid password", "Authentication failed", 401);
+            rsp.SetError("EMAIL_NOT_VERIFIED", "Email address is not verified", "Email verification required", 403);
             return rsp;
         }
 
-        var token = _jwtService.GenerateToken(user.Id.ToString(), user.Role ?? "user", TimeSpan.FromHours(2));
-        rsp.SetData(new { token }, "Login Successfully", 200);
+        if (user.IsRemember != request.RememberMe)
+        {
+            await _repo.UpdateRememberPreferenceAsync(user.Id, request.RememberMe, ct);
+        }
+
+        var roles = user.Roles?.Select(r => r.Name).Where(n => !string.IsNullOrWhiteSpace(n)).ToList() ?? new List<string>();
+        var permissions = user.Roles?
+            .SelectMany(r => r.Permissions ?? Enumerable.Empty<Permission>())
+            .Select(p => p.Key)
+            .Where(k => !string.IsNullOrWhiteSpace(k))
+            .Distinct()
+            .ToList() ?? new List<string>();
+
+        var accessToken = _tokenService.GenerateAccessToken(
+            user.Id.ToString(),
+            roles,
+            permissions
+        );
+
+        var (refreshToken, _, expiresAt) = _tokenService.GenerateRefreshToken(user.Id.ToString(), request.RememberMe);
+        var tokenHash = TokenHasherExtensions.HashToken(refreshToken);
+
+        var refreshTokenEntity = new RefreshToken
+        {
+            UserId = user.Id,
+            TokenHash = tokenHash,
+            ExpiresAt = expiresAt.UtcDateTime,
+            CreatedAt = DateTime.UtcNow,
+            CreatedByIp = clientIp
+        };
+
+        await _refreshTokenRepo.CreateAsync(refreshTokenEntity, ct);
+
+        var userInfo = _mapper?.Map<UserInfoItem>(user);
+
+        var session = new AuthSessionRes
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
+            TokenType = "Bearer",
+            User = userInfo ?? new UserInfoItem(),
+            Roles = roles,
+            Permissions = permissions
+        };
+        rsp.SetData(session, "Login successful", 200);
         return rsp;
     }
 
-    public async Task<BaseResponse> ForgotPasswordAsync(ForgotPasswordReq request, CancellationToken ct = default)
+    public async Task<BaseResponse> RegisterAsync(RegisterReq request, string? clientIp = null, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
 
-        if (string.IsNullOrWhiteSpace(request.Email))
+        if (string.IsNullOrWhiteSpace(request.Email)
+            || string.IsNullOrWhiteSpace(request.Password)
+            || string.IsNullOrWhiteSpace(request.FirstName)
+            || string.IsNullOrWhiteSpace(request.LastName))
         {
-            rsp.SetError("EMAIL_REQUIRED", "Email is required", "Validation failed", 400);
+            rsp.SetError("INVALID_REQUEST", "Missing required fields", "Invalid request", 400);
             return rsp;
         }
 
         var email = request.Email.Trim();
-        var _ = await _repo.FindByEmailAsync(email, ct); // optional existence check
+        if (await _repo.ExistsByEmailAsync(email, ct))
+        {
+            rsp.SetError("EMAIL_EXISTS", "Email is already registered", "Email already exists", 409);
+            return rsp;
+        }
 
-        // Không tiết lộ thông tin tồn tại của email
-        rsp.SetMessage("If the email exists, reset instructions have been sent.", 200, success: true);
+        var newUser = new User
+        {
+            Email = email,
+            FirstName = request.FirstName.Trim(),
+            LastName = request.LastName.Trim(),
+            PhoneNumber = request.PhoneNumber?.Trim(),
+            Gender = request.Gender,
+            Birthday = request.Birthday,
+            PasswordHash = PasswordHasherExtensions.Hash(request.Password),
+            IsActive = true,
+            IsSubscribe = request.IsSubscribe ?? false,
+            IsRemember = false,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        var defaultRole = await _repo.GetRoleByNameAsync("Customer", ct);
+        if (defaultRole != null)
+        {
+            newUser.Roles.Add(defaultRole);
+        }
+
+        await _repo.CreateAsync(newUser, ct);
+        var user = await _repo.ReadAsync(newUser.Id, ct) ?? newUser;
+
+        var roles = user.Roles?.Select(r => r.Name).Where(n => !string.IsNullOrWhiteSpace(n)).ToList() ?? new List<string>();
+        var permissions = user.Roles?
+            .SelectMany(r => r.Permissions ?? Enumerable.Empty<Permission>())
+            .Select(p => p.Key)
+            .Where(k => !string.IsNullOrWhiteSpace(k))
+            .Distinct()
+            .ToList() ?? new List<string>();
+
+        var accessToken = _tokenService.GenerateAccessToken(
+            user.Id.ToString(),
+            roles,
+            permissions
+        );
+
+        var (refreshToken, _, expiresAt) = _tokenService.GenerateRefreshToken(user.Id.ToString(), false);
+        var tokenHash = TokenHasherExtensions.HashToken(refreshToken);
+
+        var refreshTokenEntity = new RefreshToken
+        {
+            UserId = user.Id,
+            TokenHash = tokenHash,
+            ExpiresAt = expiresAt.UtcDateTime,
+            CreatedAt = DateTime.UtcNow,
+            CreatedByIp = clientIp
+        };
+
+        await _refreshTokenRepo.CreateAsync(refreshTokenEntity, ct);
+
+        var userInfo = _mapper?.Map<UserInfoItem>(user);
+
+        var session = new AuthSessionRes
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
+            TokenType = "Bearer",
+            User = userInfo ?? new UserInfoItem(),
+            Roles = roles,
+            Permissions = permissions
+        };
+
+        rsp.SetData(session, "Registration successful", 200);
         return rsp;
     }
 
-    public async Task<BaseResponse> ResetPasswordAsync(ResetPasswordReq request, CancellationToken ct = default)
+    public async Task<BaseResponse> LogoutAsync(LogoutReq? request = null, string? refreshToken = null, string? clientIp = null, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
 
-        //TODO: Nghiên cứu lại, vì ở đây request.Email đã đc validation từ DataAnnotations
-        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Token) || string.IsNullOrWhiteSpace(request.NewPassword))
+        // Get refresh token from parameter or request body
+        var token = refreshToken ?? request?.RefreshToken;
+
+        if (!string.IsNullOrWhiteSpace(token))
         {
-            rsp.SetError("INVALID_INPUT", "Email, token and new password are required", "Validation failed", 400);
-            return rsp;
+            var tokenHash = TokenHasherExtensions.HashToken(token);
+            var tokenEntity = await _refreshTokenRepo.FindByHashAsync(tokenHash, ct);
+
+            if (tokenEntity != null && tokenEntity.RevokedAt == null)
+            {
+                tokenEntity.RevokedAt = DateTime.UtcNow;
+                tokenEntity.RevokedByIp = clientIp;
+                await _refreshTokenRepo.UpdateAsync(tokenEntity, ct);
+            }
         }
 
-        var email = request.Email.Trim();
-        var user = await _repo.FindByEmailAsync(email, ct);
-        if (user == null)
-        {
-            // Không tiết lộ thông tin người dùng
-            rsp.SetMessage("Password reset successfully", 200, success: true);
-            return rsp;
-        }
-
-        // Demo only: chưa xác thực token và hashing password
-        // user.PasswordHash = _passwordHasher.Hash(request.NewPassword);
-        await _repo.UpdateAsync(user, ct);
-
-        rsp.SetMessage("Password reset successfully", 200, success: true);
+        rsp.SetData(null, "Logout successful", 200);
         return rsp;
     }
 
-    public async Task<BaseResponse> GetProfileAsync(int userId, string role, CancellationToken ct = default)
+    public async Task<BaseResponse> RefreshTokenAsync(RefreshTokenReq request, string? clientIp = null, CancellationToken ct = default)
     {
-        var user = await _repo.ReadAsync(userId);
-        var payload = _mapper.Map<ProfileRes>(user);
-        return new BaseResponse(payload, "Get profile successfully", 200);
+        var rsp = new BaseResponse();
+
+        if (string.IsNullOrWhiteSpace(request.RefreshToken))
+        {
+            rsp.SetError("INVALID_REQUEST", "Refresh token is required", "Invalid request", 400);
+            return rsp;
+        }
+
+        var tokenHash = TokenHasherExtensions.HashToken(request.RefreshToken);
+        var tokenEntity = await _refreshTokenRepo.FindByHashAsync(tokenHash, ct);
+
+        if (tokenEntity == null)
+        {
+            rsp.SetError("INVALID_TOKEN", "Invalid refresh token", "Token not found", 401);
+            return rsp;
+        }
+
+        if (tokenEntity.RevokedAt != null)
+        {
+            rsp.SetError("TOKEN_REVOKED", "Refresh token has been revoked", "Token revoked", 401);
+            return rsp;
+        }
+
+        if (tokenEntity.ExpiresAt < DateTime.UtcNow)
+        {
+            rsp.SetError("TOKEN_EXPIRED", "Refresh token has expired", "Token expired", 401);
+            return rsp;
+        }
+
+        var user = tokenEntity.User;
+        if (user == null || user.IsActive != true)
+        {
+            rsp.SetError("USER_INACTIVE", "User is inactive", "User account is inactive", 403);
+            return rsp;
+        }
+
+        // Revoke old token
+        tokenEntity.RevokedAt = DateTime.UtcNow;
+                tokenEntity.RevokedByIp = clientIp;
+        tokenEntity.ReplacedByTokenHash = null; // Will be set after creating new token
+        await _refreshTokenRepo.UpdateAsync(tokenEntity, ct);
+
+        var rememberMe = user.IsRemember ?? false;
+        var roles = user.Roles?.Select(r => r.Name).Where(n => !string.IsNullOrWhiteSpace(n)).ToList() ?? new List<string>();
+        var permissions = user.Roles?
+            .SelectMany(r => r.Permissions ?? Enumerable.Empty<Permission>())
+            .Select(p => p.Key)
+            .Where(k => !string.IsNullOrWhiteSpace(k))
+            .Distinct()
+            .ToList() ?? new List<string>();
+
+        var accessToken = _tokenService.GenerateAccessToken(
+            user.Id.ToString(),
+            roles,
+            permissions
+        );
+
+        var (newRefreshToken, _, expiresAt) = _tokenService.GenerateRefreshToken(user.Id.ToString(), rememberMe);
+        var newTokenHash = TokenHasherExtensions.HashToken(newRefreshToken);
+
+        var refreshTokenEntity = new RefreshToken
+        {
+            UserId = user.Id,
+            TokenHash = newTokenHash,
+            ExpiresAt = expiresAt.UtcDateTime,
+            CreatedAt = DateTime.UtcNow,
+            CreatedByIp = clientIp
+        };
+
+        await _refreshTokenRepo.CreateAsync(refreshTokenEntity, ct);
+
+        var userInfo = _mapper?.Map<UserInfoItem>(user);
+
+        var session = new AuthSessionRes
+        {
+            AccessToken = accessToken,
+            RefreshToken = newRefreshToken,
+            TokenType = "Bearer",
+            User = userInfo ?? new UserInfoItem(),
+            Roles = roles,
+            Permissions = permissions
+        };
+
+        // Update old token with new token hash
+        tokenEntity.ReplacedByTokenHash = newTokenHash;
+        await _refreshTokenRepo.UpdateAsync(tokenEntity, ct);
+
+        rsp.SetData(session, "Token refreshed successfully", 200);
+        return rsp;
+    }
+
+    private async Task<AuthSessionRes> CreateSessionAsync(User user, string? clientIp = null, CancellationToken ct = default)
+    {
+        var roles = user.Roles?.Select(r => r.Name).Where(n => !string.IsNullOrWhiteSpace(n)).ToList() ?? new List<string>();
+        var permissions = user.Roles?
+            .SelectMany(r => r.Permissions ?? Enumerable.Empty<Permission>())
+            .Select(p => p.Key)
+            .Where(k => !string.IsNullOrWhiteSpace(k))
+            .Distinct()
+            .ToList() ?? new List<string>();
+
+        var accessToken = _tokenService.GenerateAccessToken(
+            user.Id.ToString(),
+            roles,
+            permissions
+        );
+
+        var (refreshToken, _, expiresAt) = _tokenService.GenerateRefreshToken(user.Id.ToString(), false);
+        var tokenHash = TokenHasherExtensions.HashToken(refreshToken);
+
+        var refreshTokenEntity = new RefreshToken
+        {
+            UserId = user.Id,
+            TokenHash = tokenHash,
+            ExpiresAt = expiresAt.UtcDateTime,
+            CreatedAt = DateTime.UtcNow,
+            CreatedByIp = clientIp
+        };
+
+        await _refreshTokenRepo.CreateAsync(refreshTokenEntity, ct);
+
+        var userInfo = _mapper?.Map<UserInfoItem>(user);
+
+        return new AuthSessionRes
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
+            TokenType = "Bearer",
+            User = userInfo ?? new UserInfoItem(),
+            Roles = roles,
+            Permissions = permissions
+        };
+    }
+
+    public async Task<BaseResponse> GoogleCallbackAsync(GoogleReq.CallbackReq request, string? clientIp = null, CancellationToken ct = default)
+    {
+        var rsp = new BaseResponse();
+
+        if (string.IsNullOrWhiteSpace(request.Code))
+        {
+            rsp.SetError("INVALID_REQUEST", "Authorization code is required", "Invalid request", 400);
+            return rsp;
+        }
+
+        var (success, email, name, picture, _) = await _googleService.ExchangeCodeAsync(request.Code, ct);
+
+        if (!success || string.IsNullOrWhiteSpace(email))
+        {
+            rsp.SetError("GOOGLE_AUTH_FAILED", "Failed to authenticate with Google", "Google authentication failed", 401);
+            return rsp;
+        }
+
+        // Lấy Google User ID từ token (cần parse từ id_token)
+        // Tạm thời dùng email làm providerUserId, nhưng tốt hơn là lấy từ token
+        var providerUserId = email; // TODO: Extract actual Google sub from token
+        
+        var user = await _repo.GetOrCreateSocialUserAsync(
+            _socialAccountRepo,
+            provider: "Google",
+            providerUserId: providerUserId,
+            email: email,
+            name: name,
+            pictureUrl: picture,
+            ct: ct);
+
+        if (user == null || user.IsActive != true)
+        {
+            rsp.SetError("USER_INACTIVE", "User is inactive", "User account is inactive", 403);
+            return rsp;
+        }
+
+        var session = await CreateSessionAsync(user, clientIp, ct);
+        rsp.SetData(session, "Google authentication successful", 200);
+        return rsp;
+    }
+
+    public async Task<BaseResponse> GoogleIdTokenAsync(GoogleReq.IdTokenReq request, string? clientIp = null, CancellationToken ct = default)
+    {
+        var rsp = new BaseResponse();
+
+        if (string.IsNullOrWhiteSpace(request.IdToken))
+        {
+            rsp.SetError("INVALID_REQUEST", "ID token is required", "Invalid request", 400);
+            return rsp;
+        }
+
+        var (success, email, name, picture, _) = await _googleService.ValidateIdTokenAsync(request.IdToken, ct);
+
+        if (!success || string.IsNullOrWhiteSpace(email))
+        {
+            rsp.SetError("GOOGLE_AUTH_FAILED", "Failed to validate Google ID token", "Google token validation failed", 401);
+            return rsp;
+        }
+
+        // Lấy Google User ID từ token (cần parse từ id_token)
+        // Tạm thời dùng email làm providerUserId, nhưng tốt hơn là lấy từ token
+        var providerUserId = email; // TODO: Extract actual Google sub from token
+        
+        var user = await _repo.GetOrCreateSocialUserAsync(
+            _socialAccountRepo,
+            provider: "Google",
+            providerUserId: providerUserId,
+            email: email,
+            name: name,
+            pictureUrl: picture,
+            ct: ct);
+
+        if (user == null || user.IsActive != true)
+        {
+            rsp.SetError("USER_INACTIVE", "User is inactive", "User account is inactive", 403);
+            return rsp;
+        }
+
+        var session = await CreateSessionAsync(user, clientIp, ct);
+        rsp.SetData(session, "Google authentication successful", 200);
+        return rsp;
+    }
+
+    public async Task<BaseResponse> FacebookAsync(FacebookReq.AccessTokenReq request, string? clientIp = null, CancellationToken ct = default)
+    {
+        var rsp = new BaseResponse();
+
+        if (string.IsNullOrWhiteSpace(request.AccessToken))
+        {
+            rsp.SetError("INVALID_REQUEST", "Access token is required", "Invalid request", 400);
+            return rsp;
+        }
+
+        var userInfo = await _facebookService.GetUserInfoAsync(request.AccessToken, ct);
+
+        if (userInfo == null || string.IsNullOrWhiteSpace(userInfo.Email))
+        {
+            rsp.SetError("FACEBOOK_AUTH_FAILED", "Failed to authenticate with Facebook", "Facebook authentication failed", 401);
+            return rsp;
+        }
+
+        var user = await _repo.GetOrCreateSocialUserAsync(
+            _socialAccountRepo,
+            provider: "Facebook",
+            providerUserId: userInfo.Id,
+            email: userInfo.Email,
+            name: userInfo.Name,
+            pictureUrl: userInfo.PictureUrl,
+            accessToken: request.AccessToken,
+            ct: ct);
+
+        if (user == null || user.IsActive != true)
+        {
+            rsp.SetError("USER_INACTIVE", "User is inactive", "User account is inactive", 403);
+            return rsp;
+        }
+
+        var session = await CreateSessionAsync(user, clientIp, ct);
+        rsp.SetData(session, "Facebook authentication successful", 200);
+        return rsp;
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.DAL\\App.DAL.csproj": {}
+    "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.DAL\\App.DAL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.DAL\\App.DAL.csproj": {
+    "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.DAL\\App.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.DAL\\App.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.DAL\\App.DAL.csproj",
         "projectName": "App.DAL",
-        "projectPath": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.DAL\\App.DAL.csproj",
+        "projectPath": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.DAL\\App.DAL.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.DAL\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.UTIL\\App.UTIL.csproj": {
-                "projectPath": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.UTIL\\App.UTIL.csproj"
+              "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj": {
+                "projectPath": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj"
               }
             }
           }
@@ -94,14 +94,14 @@
         }
       }
     },
-    "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.UTIL\\App.UTIL.csproj": {
+    "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.UTIL\\App.UTIL.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj",
         "projectName": "App.UTIL",
-        "projectPath": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.UTIL\\App.UTIL.csproj",
+        "projectPath": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Downloads\\WebAPI Template for ASP.NET Core\\App.UTIL\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -141,6 +141,18 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[15.1.0, )"
+            },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Google.Apis.Auth": {
+              "target": "Package",
+              "version": "[1.69.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[9.0.9, )"
@@ -152,6 +164,14 @@
             "Microsoft.Extensions.Caching.Hybrid": {
               "target": "Package",
               "version": "[9.9.0, )"
+            },
+            "RabbitMQ.Client": {
+              "target": "Package",
+              "version": "[6.8.1, )"
+            },
+            "Slugify.Core": {
+              "target": "Package",
+              "version": "[5.1.1, )"
             }
           },
           "imports": [

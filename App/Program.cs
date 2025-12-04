@@ -4,14 +4,12 @@ using App.Configurations;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 #region --- Dependency Injection ---
 
-builder.Services.ConfigureService();
+builder.Services.ConfigureService(configuration);
 
 #endregion
 
@@ -22,7 +20,6 @@ builder.Services.ConfigureSwagger();
 #endregion
 
 #region --- Observability Configuration ---
-
 
 // OpenTelemetry Configuration
 builder.Services.ConfigureOpenTelemetry(configuration);
@@ -42,9 +39,21 @@ builder.Services.ConfigurePersistence(configuration);
 builder.Services.ConfigureHybridCache(configuration);
 #endregion
 
+#region --- Session Configuration ---
+
+builder.Services.ConfigureSession(configuration);
+
+#endregion
+
 #region --- Security Configuration ---
 builder.Services.ConfigureJwt(configuration);
-builder.Services.AddAuthorization();
+builder.Services.ConfigureGoogle(configuration);
+builder.Services.ConfigureFacebook(configuration);
+builder.Services.ConfigureAuthorizationPolicies();
+#endregion
+
+#region --- Validation Configuration ---
+builder.Services.ConfigureFluentValidation();
 #endregion
 
 #region --- Other Configuration ---
@@ -80,10 +89,13 @@ else
 
 //app.UseMiddleware<ValidationMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
-//app.UseMiddleware<AuthenticationMiddleware>();
+/*app.UseMiddleware<ClientInfoMiddleware>();
+app.UseMiddleware<UserAgentMiddleware>();*/
 
-app.UseHttpsRedirection();
+//app.UseMiddleware<AuthenticationMiddleware>();
+app.UseCookiePolicy();
 app.UseRouting();
+app.UseSession();
 app.UseCors(app.Environment.IsDevelopment() ? "CorsDevPolicy" : "CorsRestrictedPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
