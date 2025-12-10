@@ -22,7 +22,7 @@ public class AddressBookController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> GetAddresses(CancellationToken ct = default)
+    public async Task<IActionResult> GetAddressList(CancellationToken ct = default)
     {
         int? userId = User.GetUserId();
         if (!userId.HasValue)

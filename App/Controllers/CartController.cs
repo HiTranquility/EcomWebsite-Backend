@@ -45,16 +45,8 @@ public class CartController : ControllerBase
             return Unauthorized();
         }
 
-        if (request.ProductId <= 0)
-        {
-            return BadRequest("PRODUCT_ID_INVALID|ProductId must be greater than 0");
-        }
-
+        // Validation moved to service layer
         int quantity = request.Quantity.GetValueOrDefault(1);
-        if (quantity <= 0) quantity = 1;
-        if (quantity > 1000) quantity = 1000; // Max quantity limit
-
-        // Price will be fetched from product if not provided (price = 0)
         BaseResponse rsp = await _cartSvc.AddItemAsync(userId.Value, request.ProductId, request.VariantId, quantity, 0, ct);
         return StatusCode(rsp.Status, rsp);
     }
@@ -71,17 +63,8 @@ public class CartController : ControllerBase
             return Unauthorized();
         }
 
-        int quantity = request.Quantity;
-        if (quantity <= 0)
-        {
-            return BadRequest("QUANTITY_INVALID|Quantity must be greater than 0");
-        }
-        if (quantity > 1000)
-        {
-            return BadRequest("QUANTITY_INVALID|Quantity cannot exceed 1000");
-        }
-
-        BaseResponse rsp = await _cartSvc.UpdateItemQuantityAsync(userId.Value, id, quantity, ct);
+        // Validation moved to service layer
+        BaseResponse rsp = await _cartSvc.UpdateItemQuantityAsync(userId.Value, id, request.Quantity, ct);
         return StatusCode(rsp.Status, rsp);
     }
 
@@ -101,7 +84,7 @@ public class CartController : ControllerBase
 
     [HttpDelete("items")]
     [Authorize]
-    public async Task<IActionResult> ClearItems(CancellationToken ct)
+    public async Task<IActionResult> ClearCart(CancellationToken ct)
     {
         int? userId = User.GetUserId();
         if (!userId.HasValue)

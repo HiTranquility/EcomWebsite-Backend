@@ -30,6 +30,7 @@ public class PaymentSvc : GenericSvc<TransactionRepo, Transaction>
 
         var order = await _orderRepo.All
             .AsNoTracking()
+            .TagWith("PaymentSvc.CreatePaymentAsync.GetOrder")
             .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId, ct);
 
         if (order == null)

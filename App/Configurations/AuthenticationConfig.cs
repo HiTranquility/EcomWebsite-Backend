@@ -88,6 +88,7 @@ public static class AuthenticationConfig
         return services;
     }
 
+    /*
     public static IServiceCollection ConfigureFacebook(this IServiceCollection services, IConfiguration configuration)
     {
         // Tương tự Google: optional external login, không đụng tới JWT default scheme
@@ -116,6 +117,7 @@ public static class AuthenticationConfig
 
         return services;
     }
+    */
 
     public static IServiceCollection ConfigureApikey(this IServiceCollection services, IConfiguration configuration)
     {

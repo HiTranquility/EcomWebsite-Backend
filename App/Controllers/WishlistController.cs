@@ -57,7 +57,7 @@ public class WishlistController : ControllerBase
 
     [HttpDelete("{id:int}")]
     [Authorize]
-    public async Task<IActionResult> RemoveFromWishlist(int id, CancellationToken ct)
+    public async Task<IActionResult> DeleteWishlistItem(int id, CancellationToken ct)
     {
         int? userId = User.GetUserId();
         if (!userId.HasValue)

@@ -86,7 +86,7 @@ LABEL version="1.0"
 
 # Environment variables
 ENV ASPNETCORE_URLS=http://+:8080
-ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_ENVIRONMENT=Development
 ENV DOTNET_RUNNING_IN_CONTAINER=true
 
 # Healthcheck (sẽ được override bởi docker-compose nếu cần)

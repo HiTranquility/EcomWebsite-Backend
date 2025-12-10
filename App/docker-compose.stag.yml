@@ -13,19 +13,15 @@ services:
     # Staging environment file
     env_file:
       - .env.stag
-    
-    # Staging-specific environment variables
-    environment:
-      ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path: /https/stagingcert.pfx
-    
+
     # Expose ports for staging access (typically behind load balancer)
     ports:
       - "${API_HTTP_PORT:-5095}:${API_CONTAINER_HTTP_PORT:-8080}"
-      - "${API_HTTPS_PORT:-5096}:${API_CONTAINER_HTTPS_PORT:-8443}"
+      # - "${API_HTTPS_PORT:-5096}:${API_CONTAINER_HTTPS_PORT:-8443}"
     
     # Mount staging certificates
-    volumes:
-      - ./certs/staging:/https:ro
+    # volumes:
+    #  - ./certs/staging:/https:ro
 
   # ============================================
   # MySQL Service - Staging Overrides
@@ -37,7 +33,8 @@ services:
     
     # Do not expose MySQL port externally (security best practice)
     # Services communicate via internal Docker network
-    ports: []
+    ports: 
+      - "${MYSQL_HTTP_PORT:-3308}:${MYSQL_CONTAINER_HTTP_PORT:-3306}"
 
   # ============================================
   # Redis Service - Staging Overrides
@@ -49,7 +46,8 @@ services:
     
     # Do not expose Redis port externally (security best practice)
     # Services communicate via internal Docker network
-    ports: []
+    ports:
+      - "${REDIS_HTTP_PORT:-6380}:${REDIS_CONTAINER_HTTP_PORT:-6379}"
 
   # ============================================
   # RabbitMQ Service - Staging Overrides
@@ -61,7 +59,8 @@ services:
     
     # Do not expose RabbitMQ ports externally (security best practice)
     # Services communicate via internal Docker network
-    ports: []
+    ports:
+      - "${RABBITMQ_HTTP_PORT:-5673}:${RABBITMQ_CONTAINER_HTTP_PORT:-5672}"
 
   # ============================================
   # Aspire Dashboard Service - Staging Overrides

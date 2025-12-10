@@ -21,13 +21,6 @@ services:
     image: ${API_IMAGE_NAME:-ApiName}:${API_IMAGE_TAG:-latest}
     pull_policy: ${API_IMAGE_PULL_POLICY:-if_not_present}
     restart: unless-stopped
-
-    # Build configuration (shared across all environments)
-    build:
-      context: ..
-      dockerfile: App/Dockerfile
-
-    # Dependencies - wait for services to be healthy
     depends_on:
       mysql:
         condition: service_healthy
@@ -35,14 +28,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-
-    # Network configuration
-    # Note: Reference the network by its key (AppNetwork), not by its name
-    # The actual network name is set via 'name' property in network definition
     networks:
       - AppNetwork
-
-    # Healthcheck configuration
     healthcheck:
       test:
         [

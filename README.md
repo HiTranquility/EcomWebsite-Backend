@@ -105,8 +105,64 @@ chmod +x ./scripts/compose-*.sh
     "MyOrderSqlConn": "Server=localhost;Port=3306;Database=ecom_orders;User=root;Password=CaVN2004"
 
     //Down
-  docker compose --profile App --env-file .env.dev -f docker-compose.yml -f docker-compose.dev.yml down -v
+    docker compose --profile App --env-file .env.dev -f docker-compose.yml -f docker-compose.dev.yml down -v
 
     //Up
     docker compose --profile App --env-file .env.dev -f docker-compose.yml -f docker-compose.dev.yml build --no-cache api
+
+  # Từ PowerShell, ở thư mục EcomWebsite-Backend/
+  cd C:\Users\Admin\Downloads\EcomWebsitev5\EcomWebsite-Backend
+
+  # Build image
+  docker build -t ghcr.io/hitranquility/ecom-website-api:v1 -f App/Dockerfile .
+
+  # Hoặc nếu muốn tag staging
+  docker build -t ghcr.io/hitranquility/ecom-website-api:staging -f App/Dockerfile .
+
+  # Login vào GHCR
+  echo $env:GITHUB_TOKEN | docker login ghcr.io -u $env:GITHUB_USERNAME --password-stdin
+
+  # Push image
+  docker push ghcr.io/hitranquility/ecom-website-api:v1
+  docker push ghcr.io/hitranquility/ecom-website-api:staging
+
+  # or docker push tag only
+
+  # 1. Login vào Docker Hub
+  docker login -u hitranquility
+  # Nhập password khi được hỏi
+
+  # Hoặc dùng token (nếu có)
+  $env:DOCKERHUB_TOKEN = "dckr_pat_xxxxxxxxxxxxx"
+  echo $env:DOCKERHUB_TOKEN | docker login -u hitranquility --password-stdin
+
+  # 2. Tag lại image với tên Docker Hub (format: username/repo:tag)
+  docker tag hitranquility/ecom-api:v1 hitranquility/ecom-api:v1
+  docker tag hitranquility/ecom-api:v1 hitranquility/ecom-api:staging
+  docker tag hitranquility/ecom-api:v1 hitranquility/ecom-api:staging-latest
+
+  # 3. Push lên Docker Hub
+  docker push hitranquility/ecom-api:v1
+  docker push hitranquility/ecom-api:staging
+  docker push hitranquility/ecom-api:staging-latest
+
     docker compose --profile App --env-file .env.dev -f docker-compose.yml -f docker-compose.dev.yml up --build -d
+    or (nếu đã xây rồi)
+    docker compose --profile App --env-file .env.dev -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+
+# Trên EC2
+cd ~/EcomWebsite-Backend/App
+
+# Pull images mới
+docker compose --profile App -f docker-compose.yml -f docker-compose.stag.yml --env-file .env.stag pull
+
+# Stop containers cũ (nếu có)
+docker compose --profile App -f docker-compose.yml -f docker-compose.stag.yml --env-file .env.stag down
+
+# Start containers mới
+Cái này nhớ docker login và chỉnh tên iamge là hitranquility/ecom-api (ko nó lỗi liên tục)
+docker compose --profile App -f  docker-compose.yml -f docker-compose.stag.yml --env-file .env.stag up -d
+
+# Verify
+docker compose --profile App -f docker-compose.yml -f docker-compose.stag.yml --env-file .env.stag ps

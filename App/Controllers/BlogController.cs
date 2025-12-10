@@ -27,7 +27,7 @@ public class BlogController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> GetBlogLists([FromQuery] BlogFilter filter, CancellationToken ct)
+    public async Task<IActionResult> GetBlogList([FromQuery] BlogFilter filter, CancellationToken ct)
     {
         var rsp = await _blogSvc.GetBlogListAsync(filter, ct);
         return StatusCode(rsp.Status, rsp);

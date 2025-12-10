@@ -18,244 +18,105 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab24c6cd-9b31-42c0-a43b-978d0462069d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Google/CallbackReq.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Google/IdTokenReq.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/ForgotPasswordReq.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/LoginReq.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/RefreshTokenReq.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/RegisterReq.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/Jwt/VerifyEmailReq.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Results/AuthSessionRes.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Shares/UserInfoItem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/ProductFilter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Requests/CreateReviewReq.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Results/ProductDescriptionRes.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Results/ProductListRes.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Results/ProductReviewRes.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Dtos/ProductDto/Shares/ProductItems.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Mappers/ProductProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Services/BlogCommentSvc.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.BLL/Services/ProductReviewSvc.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogSchema.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/ProductExtensions/ProductExtension.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.DAL/Repositories/ProductRepo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.DAL/Repositories/RefreshTokenRepo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.DAL/Repositories/RoleRepo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.DAL/Repositories/SocialAccountRepo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/ISeedSchema.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/SeedSchema.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/CacheServiceExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/MessageServiceExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/PasswordHasherExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/SlugServiceExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/HybridCacheService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Facebook/FacebookService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Facebook/IFacebookService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Google/GoogleService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Token/ITokenService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Token/JwtTokenService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Controllers/OrderController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Controllers/ProductController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/App.BLL.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/App.BLL.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/ForgotPasswordReq.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/LoginReq.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/RegisterReq.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Requests/ResetPasswordReq.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/AuthDto/Results/ProfileRes.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/BlogFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/BlogFilter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/Results/BlogListRes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Dtos/BlogDto/Results/BlogListRes.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Mappers/AuthProfile.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Mappers/BlogProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Mappers/BlogProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Services/AuthSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Services/AuthSvc.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/Services/BlogSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Services/BlogSvc.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Services/CartSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Services/CartSvc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Services/OrderDeliverySvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Services/OrderDeliverySvc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Services/PaymentSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Services/PaymentSvc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/Services/WishlistSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/Services/WishlistSvc.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.BLL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/AutoMapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/AutoMapper.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/App.BLL.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/App.BLL.csproj.nuget.dgspec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/App.BLL.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/ref/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/ref/App.BLL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/refint/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/Debug/net9.0/refint/App.BLL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.BLL/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.BLL/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.BLL/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/App.DAL.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/App.DAL.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/BlogModels/Blog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/BlogModels/Blog.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/BlogModels/BlogComment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/BlogModels/BlogComment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/BlogModels/EcomBlogsContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/BlogModels/EcomBlogsContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogCategoryExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogCategoryExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogCommentExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogCommentExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/BlogExtensions/BlogExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/ModelBuilderExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/ModelBuilderExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/AddressBookExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/AddressBookExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/AuditLogExtension.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/CartExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/CartExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/ContactExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/ContactExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/NewsletterExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/NewsletterExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/UserExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/UserExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/UserTagExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/UserTagExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/WishlistExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/DataSeedings/UserExtensions/WishlistExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/Repositories/BlogRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/Repositories/BlogRepo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/Repositories/UserRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/Repositories/UserRepo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/UserModels/AuditLog.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/UserModels/EcomUsersContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/UserModels/EcomUsersContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/UserModels/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/UserModels/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/Repositories/CartRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/Repositories/CartRepo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/Repositories/OrderRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/Repositories/OrderRepo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/System.CodeDom.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/bin/Debug/net9.0/System.CodeDom.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/App.DAL.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/App.DAL.csproj.nuget.dgspec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/App.DAL.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/ref/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/ref/App.DAL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/refint/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/Debug/net9.0/refint/App.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.DAL/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.DAL/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.DAL/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/App.TEST.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/App.TEST.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/bin/Debug/net9.0/App.TEST.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/App.TEST.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/App.TEST.csproj.nuget.dgspec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/App.TEST.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/ref/App.TEST.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/ref/App.TEST.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/refint/App.TEST.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/Debug/net9.0/refint/App.TEST.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.TEST/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.TEST/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.TEST/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/BLL/GenericSvc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/BLL/GenericSvc.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/GenericRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/GenericRepo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/IGenericRepo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DAL/IGenericRepo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Filter/BaseFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Filter/BaseFilter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Filter/IFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Abstractions/DTO/Filter/IFilter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/App.UTIL.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/App.UTIL.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Extensions/ClaimsPrincipalExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Extensions/ClaimsPrincipalExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/DistributedCacheAdapter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/DistributedCacheService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/HybridCacheAdapter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/ICacheService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/ICacheService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/MemoryCacheAdapter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/Helpers/Cache/MemoryCacheService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Jwt/IJwtService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Jwt/JwtAdapter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Message/IMessageService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Message/KafkaAdapter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/Helpers/Message/RabbitMqAdapter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/App.UTIL.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/App.UTIL.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/App.UTIL.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/App.UTIL.csproj.nuget.g.targets" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/App.UTIL.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/ref/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/ref/App.UTIL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/refint/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/Debug/net9.0/refint/App.UTIL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App.UTIL/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../App.UTIL/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env.dev" beforeDir="false" afterPath="$PROJECT_DIR$/.env.dev" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.env.prod" beforeDir="false" afterPath="$PROJECT_DIR$/.env.prod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env.stag" beforeDir="false" afterPath="$PROJECT_DIR$/.env.stag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitlab-ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.gitlab-ci.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.App/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.App/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/App.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configurations/ApplicationConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/ApplicationConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Configurations/AuthenticationConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/AuthenticationConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configurations/AuthorizationConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/AuthorizationConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configurations/CachingConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/CachingConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configurations/DatabaseConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/DatabaseConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configurations/ObservabilityConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/ObservabilityConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Configurations/OtherConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/OtherConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Configurations/SwaggerConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configurations/SwaggerConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/AddressBookController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AddressBookController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/BlogController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/BlogController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/CartController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/CartController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/OrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/OrderController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/WishlistController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/WishlistController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ecom-Website.pem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Middlewares/CorrelationMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Middlewares/CorrelationMiddleware.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Middlewares/ExceptionMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Middlewares/ExceptionMiddleware.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Properties/launchSettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appsettings.Production.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.Production.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appsettings.Staging.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.Staging.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.BLL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.UTIL.pdb" afterDir="false" />
@@ -263,37 +124,21 @@
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/App.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/App.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/AutoMapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/AutoMapper.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Options.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Options.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/System.CodeDom.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/System.CodeDom.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Production.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Production.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Staging.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Staging.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.prod.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.stag.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.stag.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/App.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/App.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/App.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/obj/App.csproj.nuget.g.targets" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.MvcApplicationPartsAssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.MvcApplicationPartsAssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.AssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/App.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/App.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/ref/App.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/ref/App.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net9.0/refint/App.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net9.0/refint/App.dll" afterDir="false" />
@@ -302,9 +147,6 @@
       <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/compose-dev.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/compose-dev.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/compose-prod.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/compose-prod.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/compose-stag.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/compose-stag.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -682,7 +524,12 @@
       <workItem from="1764643010441" duration="4436000" />
       <workItem from="1764685915494" duration="6692000" />
       <workItem from="1764748791144" duration="6649000" />
-      <workItem from="1764826406038" duration="2578000" />
+      <workItem from="1764826406038" duration="3178000" />
+      <workItem from="1764840517908" duration="822000" />
+      <workItem from="1764861730126" duration="4524000" />
+      <workItem from="1765084718839" duration="9661000" />
+      <workItem from="1765120409065" duration="8450000" />
+      <workItem from="1765255428313" duration="881000" />
     </task>
     <servers />
   </component>

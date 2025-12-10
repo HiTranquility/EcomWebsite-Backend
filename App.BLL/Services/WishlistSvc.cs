@@ -22,11 +22,18 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
     {
         var rsp = new BaseResponse();
 
-        List<Wishlist> items = await _repo.All
+        var items = await _repo.All
             .AsNoTracking()
+            .TagWith("WishlistSvc.GetWishlistAsync")
             .Where(w => w.UserId == userId && w.DeletedAt == null)
             .OrderByDescending(w => w.CreatedAt)
             .ToListAsync(ct);
+
+        if (items.Count == 0)
+        {
+            rsp.SetData(new List<WishlistItemRes>(), "Wishlist is empty", 200);
+            return rsp;
+        }
 
         var productIds = items
             .Select(w => w.ProductId)
@@ -35,8 +42,9 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
             .Distinct()
             .ToList();
 
-        Dictionary<int, Product> products = await _productRepo.All
+        var products = await _productRepo.All
             .AsNoTracking()
+            .TagWith("WishlistSvc.GetWishlistAsync.GetProducts")
             .Where(p => productIds.Contains(p.Id) && p.DeletedAt == null)
             .ToDictionaryAsync(p => p.Id, ct);
 
@@ -60,7 +68,7 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
             })
             .ToList();
 
-        rsp.SetData(result);
+        rsp.SetData(result, "Get wishlist successfully", 200);
         return rsp;
     }
 
@@ -68,27 +76,47 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
     {
         var rsp = new BaseResponse();
 
-        bool exists = await _repo.All
+        // Validation
+        if (productId <= 0)
+        {
+            rsp.SetError("PRODUCT_ID_INVALID", "Invalid Product ID", "ProductId must be greater than 0", 400);
+            return rsp;
+        }
+
+        // Check if product exists
+        var productExists = await _productRepo.All
             .AsNoTracking()
+            .TagWith("WishlistSvc.AddAsync.CheckProduct")
+            .AnyAsync(p => p.Id == productId && p.DeletedAt == null, ct);
+
+        if (!productExists)
+        {
+            rsp.SetError("PRODUCT_NOT_FOUND", "Product Not Found", "The product you are trying to add does not exist", 404);
+            return rsp;
+        }
+
+        // Check if already in wishlist
+        var exists = await _repo.All
+            .AsNoTracking()
+            .TagWith("WishlistSvc.AddAsync.CheckExists")
             .AnyAsync(w => w.UserId == userId && w.ProductId == productId && w.DeletedAt == null, ct);
 
         if (exists)
         {
-            rsp.SetData(null);
+            rsp.SetData(null, "Item already in wishlist", 200);
             return rsp;
         }
 
-        var now = DateTime.UtcNow;
         var entity = new Wishlist
         {
             UserId = userId,
             ProductId = productId,
-            CreatedAt = now,
-            UpdatedAt = now
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
 
         await _repo.CreateAsync(entity, ct);
-        rsp.SetData(null, "Created", 201);
+        rsp.SetData(null, "Item added to wishlist successfully", 201);
         return rsp;
     }
 
@@ -96,9 +124,9 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
     {
         var rsp = new BaseResponse();
 
-        Wishlist? entity = await _repo.All
-            .Where(w => w.Id == id && w.UserId == userId && w.DeletedAt == null)
-            .FirstOrDefaultAsync(ct);
+        var entity = await _repo.All
+            .TagWith("WishlistSvc.RemoveAsync")
+            .FirstOrDefaultAsync(w => w.Id == id && w.UserId == userId && w.DeletedAt == null, ct);
 
         if (entity == null)
         {
@@ -108,7 +136,7 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
 
         entity.DeletedAt = DateTime.UtcNow;
         await _repo.UpdateAsync(entity, ct);
-        rsp.SetData(null);
+        rsp.SetData(null, "Item removed from wishlist successfully", 200);
         return rsp;
     }
 
@@ -116,24 +144,25 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
     {
         var rsp = new BaseResponse();
 
-        List<Wishlist> items = await _repo.All
+        var items = await _repo.All
+            .TagWith("WishlistSvc.ClearAsync")
             .Where(w => w.UserId == userId && w.DeletedAt == null)
             .ToListAsync(ct);
 
         if (items.Count == 0)
         {
-            rsp.SetData(null);
+            rsp.SetData(null, "Wishlist is already empty", 200);
             return rsp;
         }
 
         var now = DateTime.UtcNow;
-        foreach (var w in items)
+        foreach (var item in items)
         {
-            w.DeletedAt = now;
+            item.DeletedAt = now;
         }
 
         await _repo.UpdateAsync(items, ct);
-        rsp.SetData(null);
+        rsp.SetData(null, "Wishlist cleared successfully", 200);
         return rsp;
     }
 }

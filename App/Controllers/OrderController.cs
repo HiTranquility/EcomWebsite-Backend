@@ -56,7 +56,7 @@ public class OrderController : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetOrders([FromQuery] OrderFilter filter, CancellationToken ct)
+    public async Task<IActionResult> GetOrderList([FromQuery] OrderFilter filter, CancellationToken ct)
     {
         int? userId = User.GetUserId();
         if (!userId.HasValue)

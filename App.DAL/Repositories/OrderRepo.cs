@@ -39,6 +39,7 @@ public class OrderRepo : GenericRepo<EcomOrdersContext, Order>
             .Include(o => o.OrderItems)
             .Include(o => o.OrderDeliveries)
             .Include(o => o.Transactions)
+            .TagWith("OrderRepo.GetOrderWithDetailsAsync")
             .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId, ct);
     }
 }

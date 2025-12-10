@@ -22,11 +22,25 @@ public static class DatabaseConfig
         services.AddDbContext<EcomUsersContext>(options =>
         {
             var conn = configuration.GetConnectionString("MyUserSqlConn");
+            if (string.IsNullOrEmpty(conn))
+            {
+                throw new InvalidOperationException("MyUserSqlConn connection string is not configured");
+            }
             // Read from UserSchema.BatchSize first, fallback to BatchSizeUsers, then default
             var maxBatch = dbSection.GetSection("UserSchema").GetValue<int?>("BatchSize")
                 ?? dbSection.GetValue<int?>("BatchSizeUsers")
                 ?? 1000;
-            options.UseMySql(conn, ServerVersion.AutoDetect(conn), o => o.MaxBatchSize(maxBatch))
+            // Use MySQL 8.4 version (confirmed from EC2 docker ps: mysql:8.4)
+            // AutoDetect can fail during startup if DB is not ready, causing transient errors
+            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ??  ServerVersion.Parse("8.4.0-mysql"), o => 
+            {
+                o.MaxBatchSize(maxBatch);
+                // Enhanced retry configuration for EC2 transient failures
+                o.EnableRetryOnFailure(
+                    maxRetryCount: 10,
+                    maxRetryDelay: TimeSpan.FromSeconds(60),
+                    errorNumbersToAdd: null);
+            })
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -34,11 +48,25 @@ public static class DatabaseConfig
         services.AddDbContext<EcomBlogsContext>(options =>
         {
             var conn = configuration.GetConnectionString("MyBlogSqlConn");
+            if (string.IsNullOrEmpty(conn))
+            {
+                throw new InvalidOperationException("MyBlogSqlConn connection string is not configured");
+            }
             // Read from BlogSchema.BatchSize first, fallback to BatchSizeBlogs, then default
             var maxBatch = dbSection.GetSection("BlogSchema").GetValue<int?>("BatchSize")
                 ?? dbSection.GetValue<int?>("BatchSizeBlogs")
                 ?? 1000;
-            options.UseMySql(conn, ServerVersion.AutoDetect(conn), o => o.MaxBatchSize(maxBatch))
+            // Use MySQL 8.4 version (confirmed from EC2 docker ps: mysql:8.4)
+            // AutoDetect can fail during startup if DB is not ready, causing transient errors
+            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ??  ServerVersion.Parse("8.4.0-mysql"), o => 
+            {
+                o.MaxBatchSize(maxBatch);
+                // Enhanced retry configuration for EC2 transient failures
+                o.EnableRetryOnFailure(
+                    maxRetryCount: 10,
+                    maxRetryDelay: TimeSpan.FromSeconds(60),
+                    errorNumbersToAdd: null);
+            })
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -46,11 +74,25 @@ public static class DatabaseConfig
         services.AddDbContext<EcomProductsContext>(options =>
         {
             var conn = configuration.GetConnectionString("MyProductSqlConn");
+            if (string.IsNullOrEmpty(conn))
+            {
+                throw new InvalidOperationException("MyProductSqlConn connection string is not configured");
+            }
             // Read from ProductSchema.BatchSize first, fallback to BatchSizeProducts, then default
             var maxBatch = dbSection.GetSection("ProductSchema").GetValue<int?>("BatchSize")
                 ?? dbSection.GetValue<int?>("BatchSizeProducts")
                 ?? 500;
-            options.UseMySql(conn, ServerVersion.AutoDetect(conn), o => o.MaxBatchSize(maxBatch))
+            // Use MySQL 8.4 version (confirmed from EC2 docker ps: mysql:8.4)
+            // AutoDetect can fail during startup if DB is not ready, causing transient errors
+            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ??  ServerVersion.Parse("8.4.0-mysql"), o => 
+            {
+                o.MaxBatchSize(maxBatch);
+                // Enhanced retry configuration for EC2 transient failures
+                o.EnableRetryOnFailure(
+                    maxRetryCount: 10,
+                    maxRetryDelay: TimeSpan.FromSeconds(60),
+                    errorNumbersToAdd: null);
+            })
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -58,10 +100,24 @@ public static class DatabaseConfig
         services.AddDbContext<EcomOrdersContext>(options =>
         {
             var conn = configuration.GetConnectionString("MyOrderSqlConn");
+            if (string.IsNullOrEmpty(conn))
+            {
+                throw new InvalidOperationException("MyOrderSqlConn connection string is not configured");
+            }
             var maxBatch = dbSection.GetSection("OrderSchema").GetValue<int?>("BatchSize")
                 ?? dbSection.GetValue<int?>("BatchSizeOrders")
                 ?? 500;
-            options.UseMySql(conn, ServerVersion.AutoDetect(conn), o => o.MaxBatchSize(maxBatch))
+            // Use MySQL 8.4 version (confirmed from EC2 docker ps: mysql:8.4)
+            // AutoDetect can fail during startup if DB is not ready, causing transient errors
+            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ??  ServerVersion.Parse("8.4.0-mysql"), o => 
+            {
+                o.MaxBatchSize(maxBatch);
+                // Enhanced retry configuration for EC2 transient failures
+                o.EnableRetryOnFailure(
+                    maxRetryCount: 10,
+                    maxRetryDelay: TimeSpan.FromSeconds(60),
+                    errorNumbersToAdd: null);
+            })
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -107,28 +163,30 @@ public static class DatabaseConfig
                 {
 					if (recreateOnStart)
                     {
-                        _logger.LogWarning("Recreating database schema (users + blogs + products)...");
-                        var db = services.GetRequiredService<EcomUsersContext>();
+                        _logger.LogWarning("Recreating database schema (users + blogs + products + orders)...");
+                        var userDb = services.GetRequiredService<EcomUsersContext>();
                         var blogDb = services.GetRequiredService<EcomBlogsContext>();
                         var productDb = services.GetRequiredService<EcomProductsContext>();
-                        db.Database.EnsureDeleted();
+                        var orderDb = services.GetRequiredService<EcomOrdersContext>();
+                        userDb.Database.EnsureDeleted();
                         blogDb.Database.EnsureDeleted();
                         productDb.Database.EnsureDeleted();
+                        orderDb.Database.EnsureDeleted();
                     }
 
 					if (!string.Equals(schemaMode, "None", StringComparison.OrdinalIgnoreCase))
                     {
-                        var db = services.GetRequiredService<EcomUsersContext>();
+                        var userDb = services.GetRequiredService<EcomUsersContext>();
 						// Users DB
 						if (string.Equals(schemaMode, "Migrate", StringComparison.OrdinalIgnoreCase))
                         {
                             _logger.LogInformation("Users DB: Applying migrations...");
-                            db.Database.Migrate();
+                            userDb.Database.Migrate();
                         }
                         else
                         {
                             _logger.LogInformation("Users DB: Ensuring created from model...");
-                            db.Database.EnsureCreated();
+                            userDb.Database.EnsureCreated();
                         }
 
                         // Blogs DB
@@ -155,6 +213,19 @@ public static class DatabaseConfig
                         {
                             _logger.LogInformation("Products DB: Ensuring created from model...");
                             productDb.Database.EnsureCreated();
+                        }
+
+                        // Orders DB
+                        var ordersDb = services.GetRequiredService<EcomOrdersContext>();
+                        if (string.Equals(schemaMode, "Migrate", StringComparison.OrdinalIgnoreCase))
+                        {
+                            _logger.LogInformation("Orders DB: Applying migrations...");
+                            ordersDb.Database.Migrate();
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Orders DB: Ensuring created from model...");
+                            ordersDb.Database.EnsureCreated();
                         }
                     }
 

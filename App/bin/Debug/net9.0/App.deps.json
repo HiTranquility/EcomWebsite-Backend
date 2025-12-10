@@ -20,6 +20,7 @@
           "Microsoft.AspNetCore.Authentication.OAuth": "2.3.0",
           "Microsoft.AspNetCore.Authorization": "9.0.10",
           "Microsoft.AspNetCore.OpenApi": "9.0.4",
+          "Microsoft.AspNetCore.ResponseCompression": "2.3.0",
           "Microsoft.EntityFrameworkCore.Tools": "9.0.9",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "9.0.9",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.21.0",
@@ -356,6 +357,12 @@
             "assemblyVersion": "9.0.4.0",
             "fileVersion": "9.0.425.16403"
           }
+        }
+      },
+      "Microsoft.AspNetCore.ResponseCompression/2.3.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Extensions": "2.3.0",
+          "Microsoft.Extensions.Options": "9.0.10"
         }
       },
       "Microsoft.AspNetCore.WebUtilities/2.3.0": {
@@ -1670,6 +1677,13 @@
       "sha512": "sha512-GfZWPbZz1aAtEO3wGCkpeyRc0gzr/+VRHnUgY/YjqVPDlHbeKWCXw3IxKarQdo9myC2O1QBf652Mo50QqbXYRg==",
       "path": "microsoft.aspnetcore.openapi/9.0.4",
       "hashPath": "microsoft.aspnetcore.openapi.9.0.4.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.ResponseCompression/2.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rXV53hXICmm70Ib5ODvmlfL12ktNVD3ScosMa0mXOKe0j1jeR1Lxvuz8Ux4Kgn322GuJ4WmhK2t74s2EySY+sg==",
+      "path": "microsoft.aspnetcore.responsecompression/2.3.0",
+      "hashPath": "microsoft.aspnetcore.responsecompression.2.3.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.WebUtilities/2.3.0": {
       "type": "package",

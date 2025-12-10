@@ -15,6 +15,7 @@ public class CartRepo : GenericRepo<EcomOrdersContext, Cart>
         return _context.Carts
             .AsNoTracking()
             .Include(c => c.CartItems)
+            .TagWith("CartRepo.GetActiveCartWithItemsAsync")
             .FirstOrDefaultAsync(c =>
                 c.Id == cartId &&
                 c.UserId == userId &&
@@ -34,6 +35,7 @@ public class CartRepo : GenericRepo<EcomOrdersContext, Cart>
     {
         Cart? cart = await _context.Carts
             .Include(c => c.CartItems)
+            .TagWith("CartRepo.GetOrCreateActiveCartWithItemsAsync")
             .FirstOrDefaultAsync(c => c.UserId == userId && (c.Status == null || c.Status == "active"), ct);
 
         if (cart != null)
@@ -107,6 +109,7 @@ public class CartRepo : GenericRepo<EcomOrdersContext, Cart>
         CartItem? item = await _context.CartItems
             .Include(i => i.Cart)
             .ThenInclude(c => c.CartItems)
+            .TagWith("CartRepo.UpdateItemQuantityAsync")
             .FirstOrDefaultAsync(i => i.Id == cartItemId && i.Cart.UserId == userId && (i.Cart.Status == null || i.Cart.Status == "active"), ct);
 
         if (item == null)
@@ -145,6 +148,7 @@ public class CartRepo : GenericRepo<EcomOrdersContext, Cart>
         CartItem? item = await _context.CartItems
             .Include(i => i.Cart)
             .ThenInclude(c => c.CartItems)
+            .TagWith("CartRepo.RemoveItemAsync")
             .FirstOrDefaultAsync(i => i.Id == cartItemId && i.Cart.UserId == userId && (i.Cart.Status == null || i.Cart.Status == "active"), ct);
 
         if (item == null)
@@ -164,6 +168,7 @@ public class CartRepo : GenericRepo<EcomOrdersContext, Cart>
     {
         Cart? cart = await _context.Carts
             .Include(c => c.CartItems)
+            .TagWith("CartRepo.ClearCartAsync")
             .FirstOrDefaultAsync(c => c.UserId == userId && (c.Status == null || c.Status == "active"), ct);
 
         if (cart == null)
@@ -183,6 +188,7 @@ public class CartRepo : GenericRepo<EcomOrdersContext, Cart>
     {
         Cart? cart = await _context.Carts
             .Include(c => c.CartItems)
+            .TagWith("CartRepo.SyncCartItemPricesAsync")
             .FirstOrDefaultAsync(c => c.UserId == userId && (c.Status == null || c.Status == "active"), ct);
 
         if (cart == null || cart.CartItems.Count == 0)

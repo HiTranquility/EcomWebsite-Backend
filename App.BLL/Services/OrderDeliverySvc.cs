@@ -27,6 +27,7 @@ public class OrderDeliverySvc : GenericSvc<OrderDeliveryRepo, OrderDelivery>
         var order = await _orderRepo.All
             .AsNoTracking()
             .Include(o => o.OrderDeliveries)
+            .TagWith("OrderDeliverySvc.GetOrderDeliveryAsync")
             .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId, ct);
 
         if (order == null)

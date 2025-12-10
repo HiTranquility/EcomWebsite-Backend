@@ -1,0 +1,287 @@
+# ============================================
+# .NET Build Outputs
+# ============================================
+bin/
+obj/
+out/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.pch
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# ============================================
+# Visual Studio / Rider / VS Code
+# ============================================
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.code-workspace
+*.DotSettings.user
+*.sln.DotSettings.user
+*.swp
+*.swo
+*~
+
+# ============================================
+# Environment Variables & Secrets
+# ============================================
+.env
+.env.*
+!.env.*.example
+.env.dev
+.env.stag
+.env.prod
+.env.local
+.env.development
+.env.staging
+.env.production
+
+# ============================================
+# Certificates & Keys
+# ============================================
+certs/
+*.pfx
+*.p12
+*.key
+*.crt
+*.cer
+*.pem
+*.jks
+*.keystore
+*.cert
+
+# ============================================
+# Logs & Diagnostics
+# ============================================
+logs/
+*.log
+*.log.*
+*.txt
+*.csv
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ============================================
+# Test Results & Coverage
+# ============================================
+TestResults/
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+*.lcov
+.nyc_output/
+
+# ============================================
+# NuGet Packages
+# ============================================
+packages/
+*.nupkg
+*.snupkg
+*.nuspec
+project.lock.json
+project.fragment.lock.json
+artifacts/
+.nuget/
+
+# ============================================
+# Database Files
+# ============================================
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+*.ndf
+*.bak
+*.sql
+*.db-journal
+
+# ============================================
+# Docker (Optional - nếu không muốn commit)
+# ============================================
+# Uncomment nếu không muốn commit docker-compose files
+# docker-compose*.yml
+# Dockerfile*
+# .dockerignore
+
+# ============================================
+# OS Files
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.cache
+*.pid
+*.seed
+*.pid.lock
+
+# ============================================
+# Azure / Cloud
+# ============================================
+.azure/
+.azurefunctions/
+*.azurePubxml
+*.pubxml
+*.publishproj
+
+# ============================================
+# JetBrains Rider
+# ============================================
+.idea/
+*.sln.iml
+*.iml
+*.ipr
+*.iws
+out/
+
+# ============================================
+# Visual Studio Code
+# ============================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+
+# ============================================
+# ASP.NET Core
+# ============================================
+appsettings.*.json
+!appsettings.json
+!appsettings.*.example.json
+appsettings.Development.json
+appsettings.Staging.json
+appsettings.Production.json
+
+# ============================================
+# Node.js (nếu có frontend trong project)
+# ============================================
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# ============================================
+# Python (nếu có scripts Python)
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# ============================================
+# Backup Files
+# ============================================
+*.bak
+*.backup
+*.old
+*.orig
+*.save
+
+# ============================================
+# Archive Files
+# ============================================
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# ============================================
+# MacOS
+# ============================================
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# ============================================
+# Windows
+# ============================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# ============================================
+# Linux
+# ============================================
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# Project Specific
+# ============================================
+# Add any project-specific ignore patterns here
+# Ví dụ:
+# scripts/local/
+# data/
+# uploads/
+

@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetProductInformationById(int id, CancellationToken ct)
+    public async Task<IActionResult> GetProductDetail(int id, CancellationToken ct)
     {
         var result = await _productSvc.GetProductInformationByIdAsync(id, ct);
         return StatusCode(result.Status, result);
@@ -49,7 +49,7 @@ public class ProductController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet("{slug}")]
-    public async Task<IActionResult> GetProductInformationBySlug(string slug, CancellationToken ct)
+    public async Task<IActionResult> GetProductDetailBySlug(string slug, CancellationToken ct)
     {
         var result = await _productSvc.GetProductInformationBySlugAsync(slug, ct);
         return StatusCode(result.Status, result);
@@ -147,7 +147,7 @@ public class ProductController : ControllerBase
 
     [Authorize]
     [HttpPost("{productId:int}/tags")]
-    public async Task<IActionResult> AddProductTag(int productId, [FromBody] CreateProductTagReq request, CancellationToken ct = default)
+    public async Task<IActionResult> CreateProductTag(int productId, [FromBody] CreateProductTagReq request, CancellationToken ct = default)
     {
         int? userId = User.GetUserId();
         if (!userId.HasValue)

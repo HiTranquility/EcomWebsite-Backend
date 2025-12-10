@@ -1,12 +1,11 @@
 ﻿using System.Net;
 using System.Security;
-using System.Text.Json;
 using App.UTIL.Abstractions.DTO.Response;
 using Microsoft.EntityFrameworkCore; // nếu dùng EF
 
 namespace App.Middlewares;
 
-public class ExceptionMiddleware
+public class ExceptionMiddleware 
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
