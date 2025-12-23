@@ -1,10 +1,11 @@
+using App.DAL.Interfaces;
 using App.DAL.OrderModels;
 using App.UTIL.Abstractions.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.Repositories;
 
-public class CartRepo : GenericRepo<EcomOrdersContext, Cart>
+public class CartRepo : GenericRepo<EcomOrdersContext, Cart>, ICartRepo
 {
     public CartRepo(EcomOrdersContext context) : base(context)
     {

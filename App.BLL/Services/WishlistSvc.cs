@@ -7,9 +7,11 @@ using App.UTIL.Abstractions.DTO.Response;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
+public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>, IWishlistSvc
 {
     private readonly ProductRepo _productRepo;
 
@@ -18,7 +20,7 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
         _productRepo = productRepo;
     }
 
-    public async Task<BaseResponse> GetWishlistAsync(int userId, CancellationToken ct = default)
+    public async Task<BaseResponse> GetItemsAsync(int userId, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
 
@@ -61,7 +63,7 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
                     ProductId = pid,
                     Name = p?.Title ?? $"Product #{pid}",
                     Slug = p?.Slug,
-                    Price = p?.LastestPrice ?? p?.OriginalPrice,
+                    Price = p?.LatestPrice ?? p?.OriginalPrice,
                     ThumbnailUrl = p?.MainImageUrl,
                     CreatedAt = w.CreatedAt
                 };
@@ -72,7 +74,7 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
         return rsp;
     }
 
-    public async Task<BaseResponse> AddAsync(int userId, int productId, CancellationToken ct = default)
+    public async Task<BaseResponse> AddItemAsync(int userId, int productId, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
 
@@ -120,7 +122,7 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
         return rsp;
     }
 
-    public async Task<BaseResponse> RemoveAsync(int userId, int id, CancellationToken ct = default)
+    public async Task<BaseResponse> RemoveItemAsync(int userId, int id, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
 
@@ -140,7 +142,7 @@ public class WishlistSvc : GenericSvc<WishlistRepo, Wishlist>
         return rsp;
     }
 
-    public async Task<BaseResponse> ClearAsync(int userId, CancellationToken ct = default)
+    public async Task<BaseResponse> ClearAllAsync(int userId, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
 

@@ -6,9 +6,11 @@ using App.UTIL.Abstractions.DTO.Response;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class OrderDeliverySvc : GenericSvc<OrderDeliveryRepo, OrderDelivery>
+public class OrderDeliverySvc : GenericSvc<OrderDeliveryRepo, OrderDelivery>, IOrderDeliverySvc
 {
     private readonly OrderRepo _orderRepo;
 

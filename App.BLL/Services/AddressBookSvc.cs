@@ -7,9 +7,11 @@ using App.UTIL.Abstractions.DTO.Response;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class AddressBookSvc : GenericSvc<AddressBookRepo, AddressBook>
+public class AddressBookSvc : GenericSvc<AddressBookRepo, AddressBook>, IAddressBookSvc
 {
     public AddressBookSvc(AddressBookRepo repo, IMapper mapper) : base(repo, mapper)
     {

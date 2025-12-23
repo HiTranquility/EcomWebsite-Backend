@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using App.DAL.BlogModels;
@@ -17,117 +18,72 @@ public static class DatabaseConfig
     /// </summary>
     public static IServiceCollection ConfigurePersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        //Tương lai, nếu chỉ có 1 cái thi xoa bot
         var dbSection = configuration.GetSection("Database");
-        services.AddDbContext<EcomUsersContext>(options =>
-        {
-            var conn = configuration.GetConnectionString("MyUserSqlConn");
-            if (string.IsNullOrEmpty(conn))
-            {
-                throw new InvalidOperationException("MyUserSqlConn connection string is not configured");
-            }
-            // Read from UserSchema.BatchSize first, fallback to BatchSizeUsers, then default
-            var maxBatch = dbSection.GetSection("UserSchema").GetValue<int?>("BatchSize")
-                ?? dbSection.GetValue<int?>("BatchSizeUsers")
-                ?? 1000;
-            // Use MySQL 8.4 version (confirmed from EC2 docker ps: mysql:8.4)
-            // AutoDetect can fail during startup if DB is not ready, causing transient errors
-            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ??  ServerVersion.Parse("8.4.0-mysql"), o => 
-            {
-                o.MaxBatchSize(maxBatch);
-                // Enhanced retry configuration for EC2 transient failures
-                o.EnableRetryOnFailure(
-                    maxRetryCount: 10,
-                    maxRetryDelay: TimeSpan.FromSeconds(60),
-                    errorNumbersToAdd: null);
-            })
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
-            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        });
-        services.AddDbContext<EcomBlogsContext>(options =>
-        {
-            var conn = configuration.GetConnectionString("MyBlogSqlConn");
-            if (string.IsNullOrEmpty(conn))
-            {
-                throw new InvalidOperationException("MyBlogSqlConn connection string is not configured");
-            }
-            // Read from BlogSchema.BatchSize first, fallback to BatchSizeBlogs, then default
-            var maxBatch = dbSection.GetSection("BlogSchema").GetValue<int?>("BatchSize")
-                ?? dbSection.GetValue<int?>("BatchSizeBlogs")
-                ?? 1000;
-            // Use MySQL 8.4 version (confirmed from EC2 docker ps: mysql:8.4)
-            // AutoDetect can fail during startup if DB is not ready, causing transient errors
-            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ??  ServerVersion.Parse("8.4.0-mysql"), o => 
-            {
-                o.MaxBatchSize(maxBatch);
-                // Enhanced retry configuration for EC2 transient failures
-                o.EnableRetryOnFailure(
-                    maxRetryCount: 10,
-                    maxRetryDelay: TimeSpan.FromSeconds(60),
-                    errorNumbersToAdd: null);
-            })
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
-            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        });
-        services.AddDbContext<EcomProductsContext>(options =>
-        {
-            var conn = configuration.GetConnectionString("MyProductSqlConn");
-            if (string.IsNullOrEmpty(conn))
-            {
-                throw new InvalidOperationException("MyProductSqlConn connection string is not configured");
-            }
-            // Read from ProductSchema.BatchSize first, fallback to BatchSizeProducts, then default
-            var maxBatch = dbSection.GetSection("ProductSchema").GetValue<int?>("BatchSize")
-                ?? dbSection.GetValue<int?>("BatchSizeProducts")
-                ?? 500;
-            // Use MySQL 8.4 version (confirmed from EC2 docker ps: mysql:8.4)
-            // AutoDetect can fail during startup if DB is not ready, causing transient errors
-            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ??  ServerVersion.Parse("8.4.0-mysql"), o => 
-            {
-                o.MaxBatchSize(maxBatch);
-                // Enhanced retry configuration for EC2 transient failures
-                o.EnableRetryOnFailure(
-                    maxRetryCount: 10,
-                    maxRetryDelay: TimeSpan.FromSeconds(60),
-                    errorNumbersToAdd: null);
-            })
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
-            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        });
-        services.AddDbContext<EcomOrdersContext>(options =>
-        {
-            var conn = configuration.GetConnectionString("MyOrderSqlConn");
-            if (string.IsNullOrEmpty(conn))
-            {
-                throw new InvalidOperationException("MyOrderSqlConn connection string is not configured");
-            }
-            var maxBatch = dbSection.GetSection("OrderSchema").GetValue<int?>("BatchSize")
-                ?? dbSection.GetValue<int?>("BatchSizeOrders")
-                ?? 500;
-            // Use MySQL 8.4 version (confirmed from EC2 docker ps: mysql:8.4)
-            // AutoDetect can fail during startup if DB is not ready, causing transient errors
-            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ??  ServerVersion.Parse("8.4.0-mysql"), o => 
-            {
-                o.MaxBatchSize(maxBatch);
-                // Enhanced retry configuration for EC2 transient failures
-                o.EnableRetryOnFailure(
-                    maxRetryCount: 10,
-                    maxRetryDelay: TimeSpan.FromSeconds(60),
-                    errorNumbersToAdd: null);
-            })
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
-            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        });
+        
+        // Register all DbContexts with their respective connection strings
+        RegisterDbContext<EcomUsersContext>(services, configuration, dbSection, 
+            "MyUserSqlConn", "UserSchema", "BatchSizeUsers", 1000);
+        
+        RegisterDbContext<EcomBlogsContext>(services, configuration, dbSection, 
+            "MyBlogSqlConn", "BlogSchema", "BatchSizeBlogs", 1000);
+        
+        RegisterDbContext<EcomProductsContext>(services, configuration, dbSection, 
+            "MyProductSqlConn", "ProductSchema", "BatchSizeProducts", 500);
+        
+        RegisterDbContext<EcomOrdersContext>(services, configuration, dbSection, 
+            "MyOrderSqlConn", "OrderSchema", "BatchSizeOrders", 500);
+        
         services.AddHostedService<DatabaseInitializerHostedService>();
         services.AddTransient<BlogSchema>();
         services.AddTransient<UserSchema>();
         services.AddTransient<ProductSchema>();
         services.AddTransient<OrderSchema>();
         return services;
+    }
+
+    /// <summary>
+    /// Helper method to register a DbContext with proper connection string resolution.
+    /// </summary>
+    private static void RegisterDbContext<TContext>(
+        IServiceCollection services,
+        IConfiguration configuration,
+        IConfigurationSection dbSection,
+        string connStringName,
+        string schemaSection,
+        string batchSizeFallbackKey,
+        int defaultBatchSize) where TContext : DbContext
+    {
+        services.AddDbContext<TContext>(options =>
+        {
+            // Simple connection string retrieval
+            // ASP.NET Core automatically handles env vars mapped to ConnectionStrings
+            var conn = configuration.GetConnectionString(connStringName);
+            
+            if (string.IsNullOrEmpty(conn))
+            {
+                throw new InvalidOperationException(
+                    $"Connection string '{connStringName}' not found. " +
+                    $"Check appsettings.json or 'ConnectionStrings__{connStringName}' env var.");
+            }
+            
+            // Read batch size
+            var maxBatch = dbSection.GetSection(schemaSection).GetValue<int?>("BatchSize")
+                ?? dbSection.GetValue<int?>(batchSizeFallbackKey)
+                ?? defaultBatchSize;
+            
+            options.UseMySql(conn, ServerVersion.AutoDetect(conn) ?? ServerVersion.Parse("8.4.0-mysql"), o =>
+            {
+                o.MaxBatchSize(maxBatch);
+                o.EnableRetryOnFailure(
+                    maxRetryCount: 10,
+                    maxRetryDelay: TimeSpan.FromSeconds(60),
+                    errorNumbersToAdd: null);
+            })
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors();
+            
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
     }
 
     private sealed class DatabaseInitializerHostedService : IHostedService

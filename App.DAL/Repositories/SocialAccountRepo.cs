@@ -1,10 +1,11 @@
+using App.DAL.Interfaces;
 using App.DAL.UserModels;
 using App.UTIL.Abstractions.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.Repositories;
 
-public class SocialAccountRepo : GenericRepo<EcomUsersContext, SocialAccount>
+public class SocialAccountRepo : GenericRepo<EcomUsersContext, SocialAccount>, ISocialAccountRepo
 {
     public SocialAccountRepo(EcomUsersContext context) : base(context)
     {

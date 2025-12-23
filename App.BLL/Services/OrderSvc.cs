@@ -2,6 +2,7 @@ using App.BLL.Dtos.OrderDto;
 using App.BLL.Dtos.OrderDto.Requests;
 using App.BLL.Dtos.OrderDto.Results;
 using App.BLL.Dtos.OrderDto.Shares;
+using App.BLL.Interfaces;
 using App.DAL.OrderModels;
 using App.DAL.Repositories;
 using App.UTIL.Abstractions.BLL;
@@ -12,11 +13,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.BLL.Services;
 
-public class OrderSvc : GenericSvc<OrderRepo, Order>
+public class OrderSvc : GenericSvc<OrderRepo, Order>, IOrderSvc
 {
-    private readonly CartSvc _cartSvc;
+    private readonly ICartSvc _cartSvc;
 
-    public OrderSvc(OrderRepo repo, CartSvc cartSvc, IMapper mapper) : base(repo, mapper)
+    public OrderSvc(OrderRepo repo, ICartSvc cartSvc, IMapper mapper) : base(repo, mapper)
     {
         _cartSvc = cartSvc;
     }
@@ -75,7 +76,16 @@ public class OrderSvc : GenericSvc<OrderRepo, Order>
             UpdatedAt = DateTime.UtcNow
         }).ToList();
 
-        order = await _repo.CreateOrderWithItemsAsync(order, items, ct);
+        // Create OrderDelivery with delivery type
+        var delivery = new OrderDelivery
+        {
+            DeliveryType = string.IsNullOrWhiteSpace(request.DeliveryType) ? "standard" : request.DeliveryType.Trim().ToLowerInvariant(),
+            DeliveryStatus = "waiting_pickup",
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        order = await _repo.CreateOrderWithItemsAsync(order, items, delivery, ct);
         await _cartSvc.MarkCheckedOutAsync(cart.Id, ct);
 
         var detail = await _repo.GetOrderWithDetailsAsync(order.Id, userId, ct);

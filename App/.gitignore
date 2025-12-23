@@ -55,15 +55,15 @@ out/
 # ============================================
 # Environment Variables & Secrets
 # ============================================
-.env
-.env.*
+# .env
+# .env.*
 !.env.*.example
 .env.dev
-.env.stag
+# .env.stag
 .env.prod
 .env.local
 .env.development
-.env.staging
+.env.stag
 .env.production
 
 # ============================================
@@ -199,12 +199,12 @@ out/
 # ============================================
 # ASP.NET Core
 # ============================================
-appsettings.*.json
+# appsettings.*.json
 !appsettings.json
 !appsettings.*.example.json
-appsettings.Development.json
-appsettings.Staging.json
-appsettings.Production.json
+# appsettings.Development.json
+# appsettings.Staging.json
+# appsettings.Production.json
 
 # ============================================
 # Node.js (nếu có frontend trong project)

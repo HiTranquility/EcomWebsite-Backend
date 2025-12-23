@@ -7,9 +7,11 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class CartSvc : GenericSvc<CartRepo, Cart>
+public class CartSvc : GenericSvc<CartRepo, Cart>, ICartSvc
 {
     private readonly ProductRepo _productRepo;
     private readonly ILogger<CartSvc> _logger;
@@ -44,7 +46,7 @@ public class CartSvc : GenericSvc<CartRepo, Cart>
                 .FirstOrDefaultAsync(p => p.Id == productId && p.DeletedAt == null, ct);
             if (product != null)
             {
-                return product.LastestPrice ?? product.OriginalPrice;
+                return product.LatestPrice ?? product.OriginalPrice;
             }
             return null;
         }, ct);
@@ -108,7 +110,7 @@ public class CartSvc : GenericSvc<CartRepo, Cart>
                 rsp.SetError("PRODUCT_NOT_FOUND", "Product Not Found", "The product you are trying to add does not exist", 404);
                 return rsp;
             }
-            price = product.LastestPrice ?? product.OriginalPrice ?? 0m;
+            price = product.LatestPrice ?? product.OriginalPrice ?? 0m;
             if (price <= 0)
             {
                 rsp.SetError("PRODUCT_PRICE_INVALID", "Invalid Product Price", "Product price is not available", 400);
@@ -169,7 +171,7 @@ public class CartSvc : GenericSvc<CartRepo, Cart>
 
             if (product != null)
             {
-                var newPrice = product.LastestPrice ?? product.OriginalPrice ?? 0m;
+                var newPrice = product.LatestPrice ?? product.OriginalPrice ?? 0m;
                 if (newPrice > 0)
                 {
                     cartItem.PriceAtTime = newPrice;

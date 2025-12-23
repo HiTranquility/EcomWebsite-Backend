@@ -59,7 +59,7 @@ public class ProductProfile : Profile
             .ForMember(d => d.Name, o => o.MapFrom(s => s.Title))
             .ForMember(d => d.Slug, o => o.Ignore()) // Can be generated from Title if needed
             .ForMember(d => d.Description, o => o.MapFrom(s => s.ShortDescription))
-            .ForMember(d => d.Price, o => o.MapFrom(s => s.LastestPrice))
+            .ForMember(d => d.Price, o => o.MapFrom(s => s.LatestPrice))
             .ForMember(d => d.OriginalPrice, o => o.MapFrom(s => s.OriginalPrice))
             .ForMember(d => d.Currency, o => o.Ignore()) // Can be set to default currency if needed
             .ForMember(d => d.Rating, o => o.MapFrom(s => s.TotalStarRating))
@@ -95,8 +95,8 @@ public class ProductProfile : Profile
             .ForMember(d => d.IsToday, o => o.MapFrom(s => s.IsToday))
             .ForMember(d => d.IsDeal, o => o.MapFrom(s => s.IsDeal))
             .ForMember(d => d.DiscountPercent, o => o.MapFrom(s =>
-                s.OriginalPrice.HasValue && s.LastestPrice.HasValue && s.OriginalPrice.Value > 0m
-                    ? Math.Round((1m - s.LastestPrice.Value / s.OriginalPrice.Value) * 100m, 2, MidpointRounding.AwayFromZero)
+                s.OriginalPrice.HasValue && s.LatestPrice.HasValue && s.OriginalPrice.Value > 0m
+                    ? Math.Round((1m - s.LatestPrice.Value / s.OriginalPrice.Value) * 100m, 2, MidpointRounding.AwayFromZero)
                     : (decimal?)null));
 
         // Product -> ProductDetailRes
@@ -104,7 +104,7 @@ public class ProductProfile : Profile
             .ForMember(d => d.Id, o => o.MapFrom(s => s.Id.ToString()))
             .ForMember(d => d.Name, o => o.MapFrom(s => s.Title))
             .ForMember(d => d.Description, o => o.MapFrom(s => s.LongDescription ?? s.ShortDescription))
-            .ForMember(d => d.Price, o => o.MapFrom(s => s.LastestPrice))
+            .ForMember(d => d.Price, o => o.MapFrom(s => s.LatestPrice))
             .ForMember(d => d.OriginalPrice, o => o.MapFrom(s => s.OriginalPrice))
             .ForMember(d => d.Rating, o => o.MapFrom(s => s.TotalStarRating))
             .ForMember(d => d.ReviewCount, o => o.MapFrom(s => s.ReviewCount))
@@ -135,8 +135,8 @@ public class ProductProfile : Profile
             .ForMember(d => d.Categories, o => o.Ignore())
             .ForMember(d => d.Tags, o => o.Ignore())
             .ForMember(d => d.DiscountPercent, o => o.MapFrom(s =>
-                s.OriginalPrice.HasValue && s.LastestPrice.HasValue && s.OriginalPrice.Value > 0m
-                    ? Math.Round((1m - s.LastestPrice.Value / s.OriginalPrice.Value) * 100m, 2, MidpointRounding.AwayFromZero)
+                s.OriginalPrice.HasValue && s.LatestPrice.HasValue && s.OriginalPrice.Value > 0m
+                    ? Math.Round((1m - s.LatestPrice.Value / s.OriginalPrice.Value) * 100m, 2, MidpointRounding.AwayFromZero)
                     : (decimal?)null));
         
         

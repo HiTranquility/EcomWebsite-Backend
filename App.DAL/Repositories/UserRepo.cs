@@ -1,10 +1,11 @@
-﻿using App.DAL.UserModels;
+﻿using App.DAL.Interfaces;
+using App.DAL.UserModels;
 using App.UTIL.Abstractions.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.Repositories;
 
-public class UserRepo : GenericRepo<EcomUsersContext, User>
+public class UserRepo : GenericRepo<EcomUsersContext, User>, IUserRepo
 {
     public UserRepo(EcomUsersContext context) : base(context)
     {

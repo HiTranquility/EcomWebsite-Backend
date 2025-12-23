@@ -7,9 +7,11 @@ using App.UTIL.Abstractions.DTO.Response;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class PaymentSvc : GenericSvc<TransactionRepo, Transaction>
+public class PaymentSvc : GenericSvc<TransactionRepo, Transaction>, IPaymentSvc
 {
     private readonly OrderRepo _orderRepo;
     private readonly PaymentsLogRepo _paymentsLogRepo;

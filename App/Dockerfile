@@ -73,6 +73,11 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser \
 # Copy publish output sang final image
 COPY --from=publish /app/publish .
 
+# Xóa các file appsettings environment-specific (chỉ giữ appsettings.json)
+# Các file này có hardcoded values (localhost) không phù hợp cho Docker
+# Chỉ dùng env variables từ .env file thông qua docker-compose
+RUN rm -f appsettings.Development.json appsettings.Staging.json appsettings.Production.json 2>/dev/null || true
+
 # Set ownership cho app files
 RUN chown -R appuser:appuser /app
 
@@ -86,7 +91,6 @@ LABEL version="1.0"
 
 # Environment variables
 ENV ASPNETCORE_URLS=http://+:8080
-ENV ASPNETCORE_ENVIRONMENT=Development
 ENV DOTNET_RUNNING_IN_CONTAINER=true
 
 # Healthcheck (sẽ được override bởi docker-compose nếu cần)

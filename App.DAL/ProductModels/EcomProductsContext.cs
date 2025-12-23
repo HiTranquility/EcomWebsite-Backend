@@ -107,7 +107,7 @@ public partial class EcomProductsContext : DbContext
             entity.Property(e => e.IsWeekly)
                 .HasDefaultValueSql("'0'")
                 .HasColumnName("is_weekly");
-            entity.Property(e => e.LastestPrice)
+            entity.Property(e => e.LatestPrice)
                 .HasPrecision(10, 2)
                 .HasColumnName("lastest_price");
             entity.Property(e => e.LongDescription)

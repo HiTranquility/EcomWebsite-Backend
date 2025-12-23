@@ -23,7 +23,7 @@ public partial class Product
 
     public decimal? OriginalPrice { get; set; }
 
-    public decimal? LastestPrice { get; set; }
+    public decimal? LatestPrice { get; set; }
 
     public string? MainImageUrl { get; set; }
 

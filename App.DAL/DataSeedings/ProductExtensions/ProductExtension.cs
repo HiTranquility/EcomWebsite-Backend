@@ -21,7 +21,7 @@ public static class ProductExtension
                 .RuleFor(p => p.ShortDescription, f => f.Commerce.ProductDescription())
                 .RuleFor(p => p.LongDescription, f => f.Lorem.Paragraphs(3))
                 .RuleFor(p => p.OriginalPrice, f => f.Random.Decimal(10, 1000))
-                .RuleFor(p => p.LastestPrice, (f, p) => p.OriginalPrice.HasValue 
+                .RuleFor(p => p.LatestPrice, (f, p) => p.OriginalPrice.HasValue 
                     ? f.Random.Decimal(p.OriginalPrice.Value * 0.5m, p.OriginalPrice.Value) 
                     : f.Random.Decimal(10, 1000))
                 .RuleFor(p => p.MainImageUrl, f => f.Image.PicsumUrl())

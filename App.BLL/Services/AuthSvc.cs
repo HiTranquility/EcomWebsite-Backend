@@ -10,17 +10,19 @@ using App.BLL.Dtos.AuthDto.Results;
 using App.BLL.Dtos.AuthDto.Shares;
 using App.UTIL.Abstractions.DTO.Response;
 using App.UTIL.Extensions;
-using App.UTIL.Helpers.Token;
-using App.UTIL.Helpers.Google;
-using App.UTIL.Helpers.Facebook;
+using App.INFRA.Identity;
+using App.INFRA.ExternalAuth.Google;
+using App.INFRA.ExternalAuth.Facebook;
+
+using App.BLL.Interfaces;
 
 namespace App.BLL.Services;
 
-public class AuthSvc : GenericSvc<UserRepo, User>
+public class AuthSvc : GenericSvc<UserRepo, User>, IAuthSvc
 {
     private readonly ITokenService _tokenService;
     private readonly IGoogleService _googleService;
-    private readonly IFacebookService _facebookService;
+    private readonly IFacebookService? _facebookService; // Optional - may not be configured
     private readonly SocialAccountRepo _socialAccountRepo;
     private readonly RefreshTokenRepo _refreshTokenRepo;
 
@@ -28,7 +30,7 @@ public class AuthSvc : GenericSvc<UserRepo, User>
         UserRepo repo,
         ITokenService tokenService,
         IGoogleService googleService,
-        IFacebookService facebookService,
+        IFacebookService? facebookService, // Optional dependency
         SocialAccountRepo socialAccountRepo,
         RefreshTokenRepo refreshTokenRepo,
         IMapper mapper) : base(repo, mapper)
@@ -448,6 +450,13 @@ public class AuthSvc : GenericSvc<UserRepo, User>
     public async Task<BaseResponse> FacebookAsync(FacebookReq.AccessTokenReq request, string? clientIp = null, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
+
+        // Check if Facebook auth is configured
+        if (_facebookService == null)
+        {
+            rsp.SetError("FACEBOOK_NOT_CONFIGURED", "Facebook authentication is not configured", "Facebook auth unavailable", 503);
+            return rsp;
+        }
 
         if (string.IsNullOrWhiteSpace(request.AccessToken))
         {

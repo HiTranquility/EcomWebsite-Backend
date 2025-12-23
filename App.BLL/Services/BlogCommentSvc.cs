@@ -1,18 +1,20 @@
-﻿using App.BLL.Dtos.BlogDto.Requests;
+using App.BLL.Dtos.BlogDto.Requests;
 using App.BLL.Dtos.BlogDto.Results;
 using App.DAL.BlogModels;
 using App.DAL.Repositories;
 using App.DAL.UserModels;
 using App.UTIL.Abstractions.BLL;
 using App.UTIL.Abstractions.DTO.Response;
-using App.UTIL.Helpers.Cache;
+using App.INFRA.Caching;
 using App.UTIL.Helpers.Cache.Schemas;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class BlogCommentSvc : GenericSvc<BlogCommentRepo, BlogComment>
+public class BlogCommentSvc : GenericSvc<BlogCommentRepo, BlogComment>, IBlogCommentSvc
 {
     private readonly BlogRepo _blogRepo;
     private readonly UserRepo _userRepo;
@@ -199,12 +201,12 @@ public class BlogCommentSvc : GenericSvc<BlogCommentRepo, BlogComment>
 
         foreach (int userId in userIds)
         {
-            string cacheKey = UserCacheConfig.BuildCommentKey(userId);
+            string cacheKey = UserCacheSchema.BuildCommentKey(userId);
             User? cachedUser = await _cacheService.GetOrSetAsync<User?>(
                 cacheKey,
                 async token => await _userRepo.ReadAsync(userId, token),
-                UserCacheConfig.CommentTtl,
-                UserCacheConfig.CommentPrefix,
+                UserCacheSchema.CommentTtl,
+                UserCacheSchema.CommentPrefix,
                 ct);
 
             if (cachedUser != null)
@@ -225,12 +227,12 @@ public class BlogCommentSvc : GenericSvc<BlogCommentRepo, BlogComment>
             {
                 userDict[kvp.Key] = kvp.Value;
                 
-                string cacheKey = UserCacheConfig.BuildCommentKey(kvp.Key);
+                string cacheKey = UserCacheSchema.BuildCommentKey(kvp.Key);
                 await _cacheService.GetOrSetAsync<User>(
                     cacheKey,
                     token => Task.FromResult(kvp.Value),
-                    UserCacheConfig.CommentTtl,
-                    UserCacheConfig.CommentPrefix,
+                    UserCacheSchema.CommentTtl,
+                    UserCacheSchema.CommentPrefix,
                     ct);
             }
         }

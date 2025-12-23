@@ -1,0 +1,31 @@
+# ============================================
+# Build Configuration Only
+# ============================================
+# This file contains ONLY build configuration for creating Docker images.
+# It should NOT be used to run services - use environment-specific files for that.
+#
+# Usage:
+#   Build image:
+#     docker compose -f docker-compose.yml -f docker-compose.build.yml build api
+#
+#   Tag and push:
+#     docker tag apiname:latest ghcr.io/your-repo/ecom-api:v1.0.0
+#     docker push ghcr.io/your-repo/ecom-api:v1.0.0
+
+services:
+  # ============================================
+  # API Service - Build Configuration
+  # ============================================
+  api:
+    profiles:
+      - Build
+    # Override depends_on to remove dependencies when building
+    # (we don't need mysql/redis/rabbitmq running to build the image)
+    depends_on: []
+    build:
+      context: ..
+      dockerfile: App/Dockerfile
+      # Uncomment to add build arguments
+      # args:
+      #   BUILD_CONFIGURATION: Release
+      #   DOTNET_VERSION: 8.0

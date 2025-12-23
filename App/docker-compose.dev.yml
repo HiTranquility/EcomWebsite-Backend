@@ -8,10 +8,10 @@ services:
   api:
     env_file:
       - .env.dev
-      
-    build:
-      context: ..
-      dockerfile: App/Dockerfile
+    
+    # Set environment for .NET configuration loading
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     
     # Expose ports for local development access
     ports:

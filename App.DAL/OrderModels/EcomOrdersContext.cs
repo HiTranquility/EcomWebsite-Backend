@@ -30,9 +30,7 @@ public partial class EcomOrdersContext : DbContext
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;port=3306;database=ecom_orders;user=root;password=CaVN2004", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.40-mysql"));
+    // OnConfiguring đã được xóa - connection string được config trong DatabaseConfig.cs
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -265,6 +263,7 @@ public partial class EcomOrdersContext : DbContext
             entity.ToTable("transactions");
 
             entity.HasIndex(e => e.OrderId, "order_id");
+            entity.HasIndex(e => e.ProviderTransactionId, "idx_provider_transaction_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Amount)
@@ -283,13 +282,37 @@ public partial class EcomOrdersContext : DbContext
             entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.Status)
                 .HasDefaultValueSql("'pending'")
-                .HasColumnType("enum('pending','success','failed','expired')")
+                .HasColumnType("enum('pending','success','failed','expired','refunded','partially_refunded')")
                 .HasColumnName("status");
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+
+            // New fields for extended payment tracking
+            entity.Property(e => e.ProviderTransactionId)
+                .HasMaxLength(255)
+                .HasColumnName("provider_transaction_id");
+            entity.Property(e => e.ProviderRefundId)
+                .HasMaxLength(255)
+                .HasColumnName("provider_refund_id");
+            entity.Property(e => e.Currency)
+                .HasMaxLength(10)
+                .HasDefaultValue("VND")
+                .HasColumnName("currency");
+            entity.Property(e => e.FailureReason)
+                .HasMaxLength(500)
+                .HasColumnName("failure_reason");
+            entity.Property(e => e.PayerInfo)
+                .HasColumnType("json")
+                .HasColumnName("payer_info");
+            entity.Property(e => e.RefundAmount)
+                .HasPrecision(10, 2)
+                .HasColumnName("refund_amount");
+            entity.Property(e => e.RefundedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("refunded_at");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.OrderId)

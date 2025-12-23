@@ -18,7 +18,7 @@ services:
       - ${DOCKER_COMPOSE_PROFILE:-App}
       - ${API_COMPOSE_PROFILE:-Api}
     container_name: ${API_CONTAINER_NAME:-Api}
-    image: ${API_IMAGE_NAME:-ApiName}:${API_IMAGE_TAG:-latest}
+    image: ${API_IMAGE_NAME:-apiname}:${API_IMAGE_TAG:-latest}
     pull_policy: ${API_IMAGE_PULL_POLICY:-if_not_present}
     restart: unless-stopped
     depends_on:

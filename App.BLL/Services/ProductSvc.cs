@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,16 +11,18 @@ using App.DAL.ProductModels;
 using App.DAL.Repositories;
 using App.UTIL.Abstractions.BLL;
 using App.UTIL.Abstractions.DTO.Response;
-using App.UTIL.Helpers.Cache;
+using App.INFRA.Caching;
 using App.UTIL.Helpers.Cache.Schemas;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper.QueryableExtensions;
 using LinqKit;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class ProductSvc : GenericSvc<ProductRepo, Product>
+public class ProductSvc : GenericSvc<ProductRepo, Product>, IProductSvc
 {
 
     private readonly ICacheService _cacheService;
@@ -45,13 +47,14 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
     {
         var rsp = new BaseResponse();
         filter.Normalize();
-        var cachePrefix = ProductCacheConfig.ListPrefix;
-        var cacheKey = ProductCacheConfig.BuildListKey(
+        var cachePrefix = ProductCacheSchema.ListPrefix;
+        var cacheKey = ProductCacheSchema.BuildListKey(
             filter.Keyword,
             filter.Category,
             filter.Manufacturer,
             filter.ProductCategory,
             filter.ProductTag,
+            filter.Sort,
             filter.PriceMin,
             filter.PriceMax,
             filter.MinRating,
@@ -119,12 +122,12 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
             // PRICE RANGE
             if (filter.PriceMin.HasValue)
             {
-                query = query.Where(p => p.LastestPrice.HasValue && p.LastestPrice >= filter.PriceMin.Value);
+                query = query.Where(p => p.LatestPrice.HasValue && p.LatestPrice >= filter.PriceMin.Value);
             }
 
             if (filter.PriceMax.HasValue)
             {
-                query = query.Where(p => p.LastestPrice.HasValue && p.LastestPrice <= filter.PriceMax.Value);
+                query = query.Where(p => p.LatestPrice.HasValue && p.LatestPrice <= filter.PriceMax.Value);
             }
 
             // MIN RATING
@@ -203,7 +206,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
                 .ToListAsync(token);
 
             return (total, projectedItems);
-        }, ttl: ProductCacheConfig.ListTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: ProductCacheSchema.ListTtl, prefix: cachePrefix, cancellationToken: ct);
 
         rsp.SetData(new
         {
@@ -215,11 +218,11 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
         return rsp;
     }
 
-    public async Task<BaseResponse> GetProductInformationByIdAsync(int id, CancellationToken ct = default)
+    public async Task<BaseResponse> GetProductByIdAsync(int id, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
-        var cachePrefix = ProductCacheConfig.DetailPrefix;
-        var cacheKey = ProductCacheConfig.BuildDetailKeyById(id);
+        var cachePrefix = ProductCacheSchema.DetailPrefix;
+        var cacheKey = ProductCacheSchema.BuildDetailKeyById(id);
         var product = await _cacheService.GetOrSetAsync(cacheKey, async token =>
         {
             var products = await _repo.All
@@ -310,7 +313,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
                 });
             });
 
-        }, ttl: ProductCacheConfig.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: ProductCacheSchema.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
         if (product == null)
         {
             rsp.SetError("PRODUCT_NOT_FOUND", "Product not found", "Product not found", 404);
@@ -321,7 +324,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
         return rsp;
     }
 
-    public async Task<BaseResponse> GetProductInformationBySlugAsync(string slug, CancellationToken ct = default)
+    public async Task<BaseResponse> GetProductBySlugAsync(string slug, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
         if (string.IsNullOrWhiteSpace(slug))
@@ -330,8 +333,8 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
             return rsp;
         }
 
-        var cachePrefix = ProductCacheConfig.DetailPrefix;
-        var cacheKey = ProductCacheConfig.BuildDetailKeyBySlug(slug); // Use slug in cache key
+        var cachePrefix = ProductCacheSchema.DetailPrefix;
+        var cacheKey = ProductCacheSchema.BuildDetailKeyBySlug(slug); // Use slug in cache key
         var product = await _cacheService.GetOrSetAsync(cacheKey, async token =>
         {
             var detail = await _repo.All
@@ -420,7 +423,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
                 });
             });
 
-        }, ttl: ProductCacheConfig.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: ProductCacheSchema.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
 
         if (product == null)
         {
@@ -432,11 +435,56 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
         return rsp;
     }
 
-    public async Task<BaseResponse> GetProductFilterAsync(CancellationToken ct = default)
+    /// <summary>
+    /// Batch get products by IDs - reduces N+1 queries to a single query
+    /// Used by cart, wishlist, and other pages that need to fetch multiple products
+    /// </summary>
+    public async Task<BaseResponse> GetProductsByIdsAsync(IEnumerable<int> ids, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
-        var cachePrefix = ProductCacheConfig.FilterPrefix;
-        var cacheKey = ProductCacheConfig.BuildFilterKey();
+        var idList = ids?.Distinct().ToList() ?? new List<int>();
+        
+        if (idList.Count == 0)
+        {
+            rsp.SetData(new List<ProductListRes>(), "No IDs provided", 200);
+            return rsp;
+        }
+
+        // Limit to prevent abuse
+        const int MaxBatchSize = 50;
+        if (idList.Count > MaxBatchSize)
+        {
+            rsp.SetError("TOO_MANY_IDS", $"Maximum {MaxBatchSize} IDs allowed per request", "Too many IDs", 400);
+            return rsp;
+        }
+
+        var cachePrefix = ProductCacheSchema.ListPrefix;
+        var cacheKey = $"{ProductCacheSchema.ListPrefix}:batch:{string.Join(",", idList.OrderBy(id => id))}";
+        
+        var products = await _cacheService.GetOrSetAsync(cacheKey, async token =>
+        {
+            var items = await _repo.All
+                .AsNoTracking()
+                .Include(p => p.Manufacturer)
+                .Include(p => p.ProductCategory)
+                .Include(p => p.ProductImages)
+                .Where(p => idList.Contains(p.Id) && p.DeletedAt == null)
+                .TagWith("ProductSvc.GetProductsByIdsAsync")
+                .ProjectTo<ProductListRes>(_mapper.ConfigurationProvider)
+                .ToListAsync(token);
+            
+            return items;
+        }, ttl: ProductCacheSchema.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
+
+        rsp.SetData(products, "Get products by IDs successfully", 200);
+        return rsp;
+    }
+
+    public async Task<BaseResponse> GetFiltersAsync(CancellationToken ct = default)
+    {
+        var rsp = new BaseResponse();
+        var cachePrefix = ProductCacheSchema.FilterPrefix;
+        var cacheKey = ProductCacheSchema.BuildFilterKey();
         var filter = await _cacheService.GetOrSetAsync(cacheKey, async token =>
         {
             // Get Manufacturers with counts
@@ -545,7 +593,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
                 Ratings = ratings,
                 Sizes = sizes
             };
-        }, ttl: ProductCacheConfig.FilterTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: ProductCacheSchema.FilterTtl, prefix: cachePrefix, cancellationToken: ct);
         
         rsp.SetData(filter, "Get product filter successfully", 200);
         return rsp;
@@ -567,8 +615,8 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
             return rsp;
         }
 
-        var cachePrefix = ProductCacheConfig.ListPrefix;
-        var cacheKey = $"{ProductCacheConfig.ListPrefix}:related:{productId}:limit:{limit}";
+        var cachePrefix = ProductCacheSchema.ListPrefix;
+        var cacheKey = $"{ProductCacheSchema.ListPrefix}:related:{productId}:limit:{limit}";
         
         var products = await _cacheService.GetOrSetAsync(cacheKey, async token =>
         {
@@ -631,17 +679,17 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
             }
 
             return results.Take(limit).ToList();
-        }, ttl: ProductCacheConfig.ListTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: ProductCacheSchema.ListTtl, prefix: cachePrefix, cancellationToken: ct);
 
         rsp.SetData(products, "Get related products successfully", 200);
         return rsp;
     }
 
-    public async Task<BaseResponse> GetProductDescriptionByIdAsync(int id, CancellationToken ct = default)
+    public async Task<BaseResponse> GetDescriptionByIdAsync(int id, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
-        var cachePrefix = ProductCacheConfig.DetailPrefix;
-        var cacheKey = ProductCacheConfig.BuildDetailKeyById(id) + ":description";
+        var cachePrefix = ProductCacheSchema.DetailPrefix;
+        var cacheKey = ProductCacheSchema.BuildDetailKeyById(id) + ":description";
         var description = await _cacheService.GetOrSetAsync(cacheKey, async token =>
         {
             var product = await ReadAsync(id, token);
@@ -649,7 +697,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
                 return null;
 
             return _mapper.Map<ProductDescriptionRes>(product);
-        }, ttl: ProductCacheConfig.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: ProductCacheSchema.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
 
         if (description == null)
         {
@@ -661,7 +709,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
         return rsp;
     }
 
-    public async Task<BaseResponse> GetProductDescriptionBySlugAsync(string slug, CancellationToken ct = default)
+    public async Task<BaseResponse> GetDescriptionBySlugAsync(string slug, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
         if (string.IsNullOrWhiteSpace(slug))
@@ -670,8 +718,8 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
             return rsp;
         }
 
-        var cachePrefix = ProductCacheConfig.DetailPrefix;
-        var cacheKey = ProductCacheConfig.BuildDetailKeyBySlug(slug) + ":description";
+        var cachePrefix = ProductCacheSchema.DetailPrefix;
+        var cacheKey = ProductCacheSchema.BuildDetailKeyBySlug(slug) + ":description";
         var description = await _cacheService.GetOrSetAsync(cacheKey, async token =>
         {
             var product = await ReadAsync(slug, token);
@@ -679,7 +727,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>
                 return null;
 
             return _mapper.Map<ProductDescriptionRes>(product);
-        }, ttl: ProductCacheConfig.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: ProductCacheSchema.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
 
         if (description == null)
         {

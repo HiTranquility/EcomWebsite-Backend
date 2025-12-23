@@ -8,9 +8,11 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class ProductReviewSvc : GenericSvc<ProductReviewRepo, ProductReview>
+public class ProductReviewSvc : GenericSvc<ProductReviewRepo, ProductReview>, IProductReviewSvc
 {
     private readonly ProductRepo _productRepo;
 

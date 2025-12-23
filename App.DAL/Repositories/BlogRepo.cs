@@ -1,10 +1,11 @@
-﻿using App.DAL.BlogModels;
+﻿using App.DAL.Interfaces;
+using App.DAL.BlogModels;
 using App.UTIL.Abstractions.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.Repositories;
 
-public class BlogRepo : GenericRepo<EcomBlogsContext, Blog>
+public class BlogRepo : GenericRepo<EcomBlogsContext, Blog>, IBlogRepo
 {
     public BlogRepo (EcomBlogsContext context) : base(context)
     {

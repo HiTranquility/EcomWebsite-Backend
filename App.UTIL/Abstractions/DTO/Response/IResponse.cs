@@ -2,16 +2,17 @@
 
 public interface IResponse
 {
-    public interface IResponse
-    {
-        int Status { get; set; }
-        bool Success { get; set; }
-        string Message { get; set; }
+    int Status { get; set; }
+    bool Success { get; set; }
+    string Message { get; set; }
+    object? Error { get; set; }
+    object? Payload { get; set; }
+}
 
-        // ✅ Nên để List<{code,title}> hoặc null
-        object? Error { get; set; }
-
-        // ✅ Payload có thể là object hoặc List tuỳ trường hợp
-        object? Payload { get; set; }
-    }
+/// <summary>
+/// Generic version of IResponse with strongly-typed payload
+/// </summary>
+public interface IResponse<T> : IResponse
+{
+    new T? Payload { get; set; }
 }

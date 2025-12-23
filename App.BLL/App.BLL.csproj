@@ -9,13 +9,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\App.DAL\App.DAL.csproj" />
+    <ProjectReference Include="..\App.INFRA\App.INFRA.csproj" />
     <ProjectReference Include="..\App.UTIL\App.UTIL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="15.1.0" />
-    <PackageReference Include="FluentValidation" Version="12.1.0" />
-    <PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore" Version="9.0.8" />
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Stripe.net" />
   </ItemGroup>
 
 </Project>

@@ -1,21 +1,23 @@
-﻿using App.BLL.Dtos.BlogDto;
+using App.BLL.Dtos.BlogDto;
 using App.BLL.Dtos.BlogDto.Results;
 using App.DAL.BlogModels;
 using App.BLL.Dtos.BlogDto.Shares;
 using App.DAL.Repositories;
 using App.UTIL.Abstractions.BLL;
 using App.UTIL.Abstractions.DTO.Response;
+using App.INFRA.Caching;
 using App.UTIL.Helpers.Cache.Schemas;
-using App.UTIL.Helpers.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper.QueryableExtensions;
 using LinqKit;
 
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class BlogSvc : GenericSvc<BlogRepo, Blog>
+public class BlogSvc : GenericSvc<BlogRepo, Blog>, IBlogSvc
 {
     private readonly ICacheService _cacheService;
 
@@ -27,8 +29,8 @@ public class BlogSvc : GenericSvc<BlogRepo, Blog>
     public async Task<BaseResponse> GetBlogDetailAsync(int id, CancellationToken ct = default)
     {
         var rsp = new BaseResponse();
-        var cachePrefix = BlogCacheConfig.DetailPrefix;
-        var cacheKey = BlogCacheConfig.BuildDetailKey(id);
+        var cachePrefix = BlogCacheSchema.DetailPrefix;
+        var cacheKey = BlogCacheSchema.BuildDetailKey(id);
         var blog = await _cacheService.GetOrSetAsync(cacheKey, async token =>
         {
             var blogs = await _repo.All
@@ -79,7 +81,7 @@ public class BlogSvc : GenericSvc<BlogRepo, Blog>
             });
 
 
-        }, ttl: BlogCacheConfig.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: BlogCacheSchema.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
         if (blog == null)
         {
             rsp.SetError("BLOG_NOT_FOUND", "Blog not found", "Blog not found", 404);
@@ -99,8 +101,8 @@ public class BlogSvc : GenericSvc<BlogRepo, Blog>
             return rsp;
         }
 
-        var cachePrefix = BlogCacheConfig.DetailPrefix;
-        var cacheKey = BlogCacheConfig.BuildDetailKey(0) + $":slug:{slug}"; // Use slug in cache key
+        var cachePrefix = BlogCacheSchema.DetailPrefix;
+        var cacheKey = BlogCacheSchema.BuildDetailKey(0) + $":slug:{slug}"; // Use slug in cache key
         var blog = await _cacheService.GetOrSetAsync(cacheKey, async token =>
         {
             var detail = await _repo.All
@@ -152,7 +154,7 @@ public class BlogSvc : GenericSvc<BlogRepo, Blog>
                 });
             });
 
-        }, ttl: BlogCacheConfig.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: BlogCacheSchema.DetailTtl, prefix: cachePrefix, cancellationToken: ct);
 
         if (blog == null)
         {
@@ -170,8 +172,8 @@ public class BlogSvc : GenericSvc<BlogRepo, Blog>
         filter.Normalize();
 
         //Build Cache Key
-        var cachePrefix = BlogCacheConfig.ListPrefix;
-        var cacheKey = BlogCacheConfig.BuildListKey(
+        var cachePrefix = BlogCacheSchema.ListPrefix;
+        var cacheKey = BlogCacheSchema.BuildListKey(
             filter.Category,
             filter.Tags,
             filter.Sort,
@@ -251,7 +253,7 @@ public class BlogSvc : GenericSvc<BlogRepo, Blog>
                 .ToListAsync(token);
 
             return (total, projectedItems);
-        }, ttl: BlogCacheConfig.ListTtl, prefix: cachePrefix, cancellationToken: ct);
+        }, ttl: BlogCacheSchema.ListTtl, prefix: cachePrefix, cancellationToken: ct);
         rsp.SetData(new
         {
             Total = (int)total,

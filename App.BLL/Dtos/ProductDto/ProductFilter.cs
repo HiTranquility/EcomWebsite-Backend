@@ -24,6 +24,9 @@ public class ProductFilter : BaseFilter
     [FromQuery(Name = "productTag")]
     public string? ProductTag { get; set; }
 
+    [FromQuery(Name = "sort")]
+    public string? Sort { get; set; }
+
     [Range(0, 1000000, ErrorMessage = "PRICE_MIN_INVALID|Minimum price must be positive.")]
     [FromQuery(Name = "priceMin")]
     public decimal? PriceMin { get; set; }
@@ -59,4 +62,18 @@ public class ProductFilter : BaseFilter
 
     [FromQuery(Name = "isDeal")]
     public bool? IsDeal { get; set; }
+
+    public override void Normalize()
+    {
+        base.Normalize();
+
+        if (string.IsNullOrWhiteSpace(Sort))
+        {
+            Sort = null;
+        }
+        else
+        {
+            Sort = Sort.Trim().ToLowerInvariant();
+        }
+    }
 }

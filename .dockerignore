@@ -1,0 +1,48 @@
+# Build outputs - CRITICAL: These contain appsettings.*.json with localhost values
+**/bin/
+**/obj/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Environment files (sensitive - will be loaded via docker-compose env_file)
+**/.env
+**/.env.*
+!**/.env.*.example
+!**/env.*.sample
+
+# Environment-specific appsettings (contain localhost - must NOT be in Docker image!)
+# Only appsettings.json (base with placeholders) should be included
+**/appsettings.Development.json
+**/appsettings.Staging.json
+**/appsettings.Production.json
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Logs and temp
+**/logs/
+*.log
+**/TestResults/
+
+# Certificates (will be mounted separately via volumes)
+**/certs/
+
+# Scripts (not needed in container)
+**/scripts/
+
+# Docker files (not needed in build context)
+**/docker-compose*.yml
+**/Dockerfile
+**/.dockerignore

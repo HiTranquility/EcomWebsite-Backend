@@ -9,9 +9,11 @@ using App.UTIL.Abstractions.DTO.Response;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class ProductTagSvc
+public class ProductTagSvc : IProductTagSvc
 {
     private readonly UserTagRepo _userTagRepo;
     private readonly ProductRepo _productRepo;

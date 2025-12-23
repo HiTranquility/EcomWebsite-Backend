@@ -1,9 +1,11 @@
-﻿using App.UTIL.Abstractions.DAL;
+﻿using App.DAL.Interfaces;
+using App.UTIL.Abstractions.DAL;
 using App.DAL.UserModels;
 using Microsoft.EntityFrameworkCore;
+
 namespace App.DAL.Repositories;
 
-public class RoleRepo : GenericRepo<EcomUsersContext, Role>
+public class RoleRepo : GenericRepo<EcomUsersContext, Role>, IRoleRepo
 {
     public RoleRepo(EcomUsersContext context) : base(context)
     {

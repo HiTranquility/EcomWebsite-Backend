@@ -1,10 +1,11 @@
+using App.DAL.Interfaces;
 using App.DAL.ProductModels;
 using App.UTIL.Abstractions.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.Repositories;
 
-public class ManufacturerRepo : GenericRepo<EcomProductsContext, Manufacturer>
+public class ManufacturerRepo : GenericRepo<EcomProductsContext, Manufacturer>, IManufacturerRepo
 {
     public ManufacturerRepo(EcomProductsContext context) : base(context)
     {

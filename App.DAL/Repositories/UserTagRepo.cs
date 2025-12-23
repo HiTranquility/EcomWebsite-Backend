@@ -1,10 +1,11 @@
+using App.DAL.Interfaces;
 using App.DAL.UserModels;
 using App.UTIL.Abstractions.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.Repositories;
 
-public class UserTagRepo : GenericRepo<EcomUsersContext, UserTag>
+public class UserTagRepo : GenericRepo<EcomUsersContext, UserTag>, IUserTagRepo
 {
     public UserTagRepo(EcomUsersContext context) : base(context)
     {

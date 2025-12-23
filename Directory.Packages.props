@@ -1,0 +1,107 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- ASP.NET Core & Authentication -->
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Facebook" Version="9.0.11" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="9.0.10" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.3.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authorization" Version="9.0.10" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.ResponseCompression" Version="2.3.0" />
+
+    <!-- Entity Framework Core -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9" />
+    <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+    <PackageVersion Include="LinqKit.Microsoft.EntityFrameworkCore" Version="9.0.8" />
+
+    <!-- Caching -->
+    <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="9.9.0" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.9" />
+
+    <!-- Messaging -->
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+    <PackageVersion Include="RabbitMQ.Client" Version="6.8.1" />
+    <PackageVersion Include="Confluent.Kafka" Version="2.6.1" />
+
+    <!-- OpenTelemetry -->
+    <PackageVersion Include="OpenTelemetry" Version="1.13.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.13.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.13.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
+
+    <!-- Swagger -->
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
+
+    <!-- Validation & Mapping -->
+    <PackageVersion Include="AutoMapper" Version="15.1.0" />
+    <PackageVersion Include="FluentValidation" Version="12.1.0" />
+    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
+
+    <!-- Utils -->
+    <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageVersion Include="Bogus" Version="35.6.4" />
+    <PackageVersion Include="Google.Apis.Auth" Version="1.69.0" />
+    <PackageVersion Include="Slugify.Core" Version="5.1.1" />
+    <PackageVersion Include="Stripe.net" Version="47.3.0" />
+
+    <!-- Docker & Tools -->
+    <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+
+    <!-- Health Checks -->
+    <PackageVersion Include="AspNetCore.HealthChecks.MySql" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.RabbitMQ" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
+    
+    <!-- Serilog -->
+    <PackageVersion Include="Serilog" Version="4.2.0" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Seq" Version="9.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Expressions" Version="5.0.0" />
+    
+    <!-- Resilience (Polly) -->
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0" />
+    <PackageVersion Include="Polly" Version="8.5.1" />
+    <PackageVersion Include="Polly.Extensions" Version="8.5.1" />
+    
+    <!-- MediatR -->
+    <PackageVersion Include="MediatR" Version="12.4.1" />
+    
+    <!-- Background Jobs (Hangfire) -->
+    <PackageVersion Include="Hangfire.Core" Version="1.8.18" />
+    <PackageVersion Include="Hangfire.AspNetCore" Version="1.8.18" />
+    <PackageVersion Include="Hangfire.InMemory" Version="1.0.0" />
+    <PackageVersion Include="Hangfire.MySqlStorage" Version="2.0.3" />
+    
+    <!-- Scalar (Modern API Docs) -->
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.0.20" />
+    
+    <!-- Swagger Examples -->
+    <PackageVersion Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
+    
+    <!-- Testing -->
+    <PackageVersion Include="Testcontainers" Version="4.3.0" />
+    <PackageVersion Include="Testcontainers.MySql" Version="4.3.0" />
+    <PackageVersion Include="Testcontainers.Redis" Version="4.3.0" />
+  </ItemGroup>
+</Project>

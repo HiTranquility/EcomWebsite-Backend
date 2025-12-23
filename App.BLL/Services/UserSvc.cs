@@ -8,9 +8,11 @@ using App.UTIL.Extensions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
+using App.BLL.Interfaces;
+
 namespace App.BLL.Services;
 
-public class UserSvc : GenericSvc<UserRepo, User>
+public class UserSvc : GenericSvc<UserRepo, User>, IUserSvc
 {
     public UserSvc(UserRepo repo, IMapper mapper) : base(repo, mapper)
     {

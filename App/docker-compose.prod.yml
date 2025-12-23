@@ -16,6 +16,7 @@ services:
     
     # Production-specific environment variables
     environment:
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path: /https/prodcert.pfx
     
     # Standard HTTP/HTTPS ports for production

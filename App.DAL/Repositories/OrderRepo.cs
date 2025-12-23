@@ -1,34 +1,50 @@
+using App.DAL.Interfaces;
 using App.DAL.OrderModels;
 using App.UTIL.Abstractions.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.Repositories;
 
-public class OrderRepo : GenericRepo<EcomOrdersContext, Order>
+public class OrderRepo : GenericRepo<EcomOrdersContext, Order>, IOrderRepo
 {
     public OrderRepo(EcomOrdersContext context) : base(context)
     {
     }
 
-    public async Task<Order> CreateOrderWithItemsAsync(Order order, List<OrderItem> items, CancellationToken ct = default)
+    public async Task<Order> CreateOrderWithItemsAsync(Order order, List<OrderItem> items, OrderDelivery? delivery = null, CancellationToken ct = default)
     {
-        await using var tx = await _context.Database.BeginTransactionAsync(ct);
-
-        await _context.Orders.AddAsync(order, ct);
-        await _context.SaveChangesAsync(ct);
-
-        if (items.Count > 0)
+        // When using MySqlRetryingExecutionStrategy, transactions must be wrapped in execution strategy
+        var strategy = _context.Database.CreateExecutionStrategy();
+        
+        await strategy.ExecuteAsync(async () =>
         {
-            foreach (var item in items)
+            await using var tx = await _context.Database.BeginTransactionAsync(ct);
+
+            await _context.Orders.AddAsync(order, ct);
+            await _context.SaveChangesAsync(ct);
+
+            if (items.Count > 0)
             {
-                item.OrderId = order.Id;
+                foreach (var item in items)
+                {
+                    item.OrderId = order.Id;
+                }
+
+                await _context.OrderItems.AddRangeAsync(items, ct);
+                await _context.SaveChangesAsync(ct);
             }
 
-            await _context.OrderItems.AddRangeAsync(items, ct);
-            await _context.SaveChangesAsync(ct);
-        }
+            // Create OrderDelivery if provided
+            if (delivery != null)
+            {
+                delivery.OrderId = order.Id;
+                await _context.OrderDeliveries.AddAsync(delivery, ct);
+                await _context.SaveChangesAsync(ct);
+            }
 
-        await tx.CommitAsync(ct);
+            await tx.CommitAsync(ct);
+        });
+        
         return order;
     }
 
