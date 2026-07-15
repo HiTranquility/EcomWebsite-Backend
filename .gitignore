@@ -427,3 +427,10 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Global ignore for bin and obj
+[Bb]in/
+[Oo]bj/
+bin/
+obj/
+
