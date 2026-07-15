@@ -2091,6 +2091,7 @@
           "AspNetCore.HealthChecks.UI.Client": "9.0.0",
           "AspNetCore.HealthChecks.Uris": "9.0.0",
           "AutoMapper": "15.1.0",
+          "AWSSDK.SecretsManager": "4.0.100.4",
           "BCrypt.Net-Next": "4.0.3",
           "Bogus": "35.6.4",
           "Confluent.Kafka": "2.6.1",

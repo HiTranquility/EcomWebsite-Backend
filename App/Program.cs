@@ -1,13 +1,17 @@
-// ============================================================================
+﻿// ============================================================================
 // Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
 // This source code is proprietary and confidential.
 // Unauthorized copying, modification, or distribution is strictly prohibited.
-// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// Contact: HiTranquility
 // ============================================================================
 using App.Middlewares;
 using App.Configurations;
 using App.INFRA.BackgroundJobs;
 using Serilog;
+using Amazon;
+using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
+using System.Text.Json;
 
 // ============================================
 // Application Builder
@@ -71,6 +75,19 @@ builder.Services.ConfigureAuditLogging();
 // ============================================
 // Application Pipeline
 // ============================================
+
+// ============================================
+// AWS Secrets Manager Integration
+// ============================================
+if (builder.Environment.IsDevelopment())
+{
+    var client = new AmazonSecretsManagerClient(RegionEndpoint.USEast1);
+    var resp = client.GetSecretValueAsync(
+        new GetSecretValueRequest { SecretId = "eshop/dev" }).GetAwaiter().GetResult();
+    var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(resp.SecretString);
+    builder.Configuration.AddInMemoryCollection(dict!);
+    Console.WriteLine("Fetched secret eshop/dev from AWS Secrets Manager successfully.");
+}
 
 var app = builder.Build();
 
@@ -148,3 +165,4 @@ finally
 {
     Log.CloseAndFlush();
 }
+

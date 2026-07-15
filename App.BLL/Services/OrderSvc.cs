@@ -1,8 +1,8 @@
-// ============================================================================
+﻿// ============================================================================
 // Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
 // This source code is proprietary and confidential.
 // Unauthorized copying, modification, or distribution is strictly prohibited.
-// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// Contact: HiTranquility
 // ============================================================================
 using App.BLL.Dtos.OrderDto;
 using App.BLL.Dtos.OrderDto.Requests;
@@ -159,5 +159,6 @@ public class OrderSvc : GenericSvc<OrderRepo, Order>, IOrderSvc
         return rsp;
     }
 }
+
 
 

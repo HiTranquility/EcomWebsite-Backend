@@ -1,4 +1,4 @@
-# Docker Compose Configuration Documentation
+﻿# Docker Compose Configuration Documentation
 
 ## 📋 Table of Contents
 
@@ -169,7 +169,7 @@ DOCKER_COMPOSE_NETWORK=EcomNetwork
 DOCKER_COMPOSE_PROFILE=App
 
 # API Configuration
-API_IMAGE_NAME=ecom-website-api
+API_IMAGE_NAME=ecom-api
 API_IMAGE_TAG=dev
 API_HTTP_PORT=5095
 API_HTTPS_PORT=5096
@@ -576,4 +576,5 @@ For issues or questions:
 
 **Last Updated**: 2025-01-XX
 **Maintained By**: EcomWebsite Team
+
 

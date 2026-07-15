@@ -106,8 +106,8 @@ docker tag ecom-api:latest hitranquility/ecom-api:v1.0.0
 docker tag ecom-api:latest hitranquility/ecom-api:staging
 
 # For GitHub Container Registry (GHCR)
-docker tag ecom-api:latest ghcr.io/hitranquility/ecom-website-api:v1.0.0
-docker tag ecom-api:latest ghcr.io/hitranquility/ecom-website-api:staging
+docker tag ecom-api:latest ghcr.io/hitranquility/ecom-api:v1.0.0
+docker tag ecom-api:latest ghcr.io/hitranquility/ecom-api:staging
 ```
 
 ### Login to Registry
@@ -131,8 +131,8 @@ docker push hitranquility/ecom-api:v1.0.0
 docker push hitranquility/ecom-api:staging
 
 # GHCR
-docker push ghcr.io/hitranquility/ecom-website-api:v1.0.0
-docker push ghcr.io/hitranquility/ecom-website-api:staging
+docker push ghcr.io/hitranquility/ecom-api:v1.0.0
+docker push ghcr.io/hitranquility/ecom-api:staging
 ```
 
 ---
@@ -438,17 +438,17 @@ chmod +x ./scripts/compose-*.sh
   cd C:\Users\Admin\Downloads\EcomWebsitev5\EcomWebsite-Backend
 
   # Build image
-  docker build -t ghcr.io/hitranquility/ecom-website-api:v1 -f App/Dockerfile .
+  docker build -t ghcr.io/hitranquility/ecom-api:v1 -f App/Dockerfile .
 
   # Hoặc nếu muốn tag staging
-  docker build -t ghcr.io/hitranquility/ecom-website-api:staging -f App/Dockerfile .
+  docker build -t ghcr.io/hitranquility/ecom-api:staging -f App/Dockerfile .
 
   # Login vào GHCR
   echo $env:GITHUB_TOKEN | docker login ghcr.io -u $env:GITHUB_USERNAME --password-stdin
 
   # Push image
-  docker push ghcr.io/hitranquility/ecom-website-api:v1
-  docker push ghcr.io/hitranquility/ecom-website-api:staging
+  docker push ghcr.io/hitranquility/ecom-api:v1
+  docker push ghcr.io/hitranquility/ecom-api:staging
 
   # or docker push tag only
 
