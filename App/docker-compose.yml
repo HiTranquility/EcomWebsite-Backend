@@ -1,4 +1,4 @@
-﻿# ============================================
+# ============================================
 # Base Docker Compose Configuration
 # ============================================
 # This is the base configuration file shared across all environments.
@@ -7,7 +7,7 @@
 #   - docker-compose.stag.yml (Staging)
 #   - docker-compose.prod.yml (Production)
 
-name: ${DOCKER_PROJECT_NAME:-AppName}
+name: ${DOCKER_PROJECT_NAME:-ecom-website}
 
 services:
   # ============================================
