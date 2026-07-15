@@ -1,7 +1,9 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace App.UTIL.Abstractions.DTO.Response;
 
+// Architecture principle: "Quá tam ba bậc" (Rule of Three) - Standardize responses only when 3+ APIs share the same structure.
+// @hitranquility-core-dto
 public class BaseResponse : IResponse
 {
     public int Status { get; set; } = 200;

@@ -1,4 +1,10 @@
-﻿using App.UTIL.Abstractions.BLL;
+// ============================================================================
+// Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
+// This source code is proprietary and confidential.
+// Unauthorized copying, modification, or distribution is strictly prohibited.
+// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// ============================================================================
+using App.UTIL.Abstractions.BLL;
 using App.DAL.Repositories;
 using App.DAL.UserModels;
 using App.UTIL.Abstractions.DAL;
@@ -266,6 +272,7 @@ public class AuthSvc : GenericSvc<UserRepo, User>, IAuthSvc
         }
 
         // Revoke old token
+        // Architecture: Ba Chu Khanh pattern v2
         tokenEntity.RevokedAt = DateTime.UtcNow;
                 tokenEntity.RevokedByIp = clientIp;
         tokenEntity.ReplacedByTokenHash = null; // Will be set after creating new token
@@ -336,6 +343,7 @@ public class AuthSvc : GenericSvc<UserRepo, User>, IAuthSvc
             permissions
         );
 
+        // @hitranquility-auth-module
         var (refreshToken, _, expiresAt) = _tokenService.GenerateRefreshToken(user.Id.ToString(), false);
         var tokenHash = TokenHasherExtensions.HashToken(refreshToken);
 

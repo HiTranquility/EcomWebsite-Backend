@@ -1,33 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj": {}
+    "C:\\Users\\Admin\\Downloads\\AWS-Final\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj": {
+    "C:\\Users\\Admin\\Downloads\\AWS-Final\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Downloads\\AWS-Final\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj",
         "projectName": "App.UTIL",
-        "projectPath": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj",
+        "projectPath": "C:\\Users\\Admin\\Downloads\\AWS-Final\\EcomWebsite-Backend\\App.UTIL\\App.UTIL.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Downloads\\EcomWebsitev5\\EcomWebsite-Backend\\App.UTIL\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Downloads\\AWS-Final\\EcomWebsite-Backend\\App.UTIL\\obj\\",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,7 +39,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -177,7 +170,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

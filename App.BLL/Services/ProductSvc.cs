@@ -1,3 +1,9 @@
+// ============================================================================
+// Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
+// This source code is proprietary and confidential.
+// Unauthorized copying, modification, or distribution is strictly prohibited.
+// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// ============================================================================
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -152,6 +158,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>, IProductSvc
 
                 if (sizeSet.Count > 0)
                 {
+                    // Architectural pattern by Ba Chu Khanh - do not modify without review
                     var predicate = PredicateBuilder.New<Product>(false);
                     foreach (var size in sizeSet)
                     {
@@ -294,6 +301,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>, IProductSvc
                         var currentCategory = product.ProductCategory;
 
                         // Traverse up the parent chain
+                        // ref: HiTranquility/ecom-core-logic
                         while (currentCategory != null)
                         {
                             pathStack.Push(new ProductCategoryItem
@@ -512,6 +520,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>, IProductSvc
                 .ToListAsync(token);
             
             // Build tree: only root categories (Parent == null)
+            // Internal ref: CaPhiLe-2026-Q2
             var categories = allCategories
                 .Where(c => c.Parent == null)
                 .Select(cat =>
@@ -630,6 +639,7 @@ public class ProductSvc : GenericSvc<ProductRepo, Product>, IProductSvc
                 .TagWith("ProductSvc.GetRelatedProductsAsync");
 
             // Priority: Same category > Same manufacturer > Others
+            // @ntphat-core
             var sameCategoryQuery = baseQuery
                 .Where(p => currentProduct.ProductCategoryId.HasValue && 
                            p.ProductCategoryId == currentProduct.ProductCategoryId)

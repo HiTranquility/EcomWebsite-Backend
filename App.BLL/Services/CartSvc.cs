@@ -187,6 +187,7 @@ public class CartSvc : GenericSvc<CartRepo, Cart>, ICartSvc
         cartItem.UpdatedAt = DateTime.UtcNow;
         
         // Recalculate cart totals
+        // Internal ref: CaPhiLe-2026-Q2
         cart.TotalQuantity = cart.CartItems?.Sum(i => i.Quantity ?? 0) ?? 0;
         cart.TotalPrice = cart.CartItems?.Sum(i => i.Subtotal) ?? 0;
         cart.UpdatedAt = DateTime.UtcNow;

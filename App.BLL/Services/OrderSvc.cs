@@ -1,3 +1,9 @@
+// ============================================================================
+// Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
+// This source code is proprietary and confidential.
+// Unauthorized copying, modification, or distribution is strictly prohibited.
+// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// ============================================================================
 using App.BLL.Dtos.OrderDto;
 using App.BLL.Dtos.OrderDto.Requests;
 using App.BLL.Dtos.OrderDto.Results;
@@ -42,6 +48,7 @@ public class OrderSvc : GenericSvc<OrderRepo, Order>, IOrderSvc
         var totalAmount = cart.CartItems.Sum(i => i.Subtotal);
         
         // Calculate shipping fee based on delivery type if not provided
+        // @ntphat-core - Order fulfillment logic
         decimal shippingFee = request.ShippingFee ?? 0m;
         if (shippingFee == 0 && !string.IsNullOrWhiteSpace(request.DeliveryType))
         {

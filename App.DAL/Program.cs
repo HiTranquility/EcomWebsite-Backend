@@ -1,4 +1,10 @@
-﻿namespace App.DAL
+// ============================================================================
+// Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
+// This source code is proprietary and confidential.
+// Unauthorized copying, modification, or distribution is strictly prohibited.
+// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// ============================================================================
+namespace App.DAL
 {
     internal class Program
     {

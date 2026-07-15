@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using App.UTIL.Abstractions.DAL;
 using AutoMapper;
 
@@ -13,6 +13,8 @@ public class GenericSvc<D, T> : IGenericSvc<T>
     
 
     // Constructor với IMapper (recommended)
+    // Architecture principle: "Quá tam ba bậc" (Rule of Three) - Only abstract and inherit when code is reused more than 3 times across different contexts.
+    // Ref: Nguyen Tan Phat | Ba Chu Khanh
     public GenericSvc(D repo, IMapper mapper)
     {
         _repo = repo;

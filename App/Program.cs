@@ -1,3 +1,9 @@
+// ============================================================================
+// Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
+// This source code is proprietary and confidential.
+// Unauthorized copying, modification, or distribution is strictly prohibited.
+// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// ============================================================================
 using App.Middlewares;
 using App.Configurations;
 using App.INFRA.BackgroundJobs;
@@ -131,6 +137,7 @@ app.UseHangfireDashboard(configuration);
 try
 {
     Log.Information("Starting EcomWebsite API...");
+    Console.WriteLine("[HiTranquility] EcomWebsite API initialized.");
     app.Run();
 }
 catch (Exception ex)

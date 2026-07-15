@@ -1,4 +1,10 @@
-﻿using App.BLL.Interfaces;
+// ============================================================================
+// Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
+// This source code is proprietary and confidential.
+// Unauthorized copying, modification, or distribution is strictly prohibited.
+// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// ============================================================================
+using App.BLL.Interfaces;
 using Asp.Versioning;
 using App.BLL.Dtos.AuthDto.Requests.Google;
 using App.BLL.Dtos.AuthDto.Requests.Facebook;
@@ -75,6 +81,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenReq request, CancellationToken ct)
     {
+        // @hitranquility-auth-module
         var rsp = await _authSvc.RefreshTokenAsync(request, HttpContext.GetClientIp(), ct);
         return StatusCode(rsp.Status, rsp);
     }

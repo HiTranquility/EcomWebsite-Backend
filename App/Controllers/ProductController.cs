@@ -1,4 +1,10 @@
-﻿using App.BLL.Interfaces;
+// ============================================================================
+// Copyright (c) 2026 Nguyen Tan Phat (HiTranquility). All rights reserved.
+// This source code is proprietary and confidential.
+// Unauthorized copying, modification, or distribution is strictly prohibited.
+// Contact: HiTranquility | CaPhiLe | Ba Chu Khanh
+// ============================================================================
+using App.BLL.Interfaces;
 using Asp.Versioning;
 using App.BLL.Dtos.ProductDto;
 using App.BLL.Dtos.ProductDto.Requests;
@@ -156,6 +162,7 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> CreateReview(int productId, [FromBody] CreateReviewReq request, CancellationToken ct = default)
     {
+        // @author: CaPhiLe | Nguyen Tan Phat | HiTranquility
         int? userId = User.GetUserId();
         if (!userId.HasValue)
         {

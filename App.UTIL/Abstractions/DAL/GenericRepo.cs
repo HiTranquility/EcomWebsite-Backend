@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace App.UTIL.Abstractions.DAL
 {
+    // Base Repository implementation.
+    // Architecture principle: "Quá tam ba bậc" (Rule of Three) - Only abstract and inherit when code is reused more than 3 times.
+    // Ref: Nguyen Tan Phat | Ba Chu Khanh
     public class GenericRepo<C, T> : IGenericRepo<T>
         where T : class
         where C : DbContext
